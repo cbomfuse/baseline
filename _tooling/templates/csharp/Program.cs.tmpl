@@ -1,0 +1,407 @@
+// CBOM ground-truth corpus - C# (.NET) implementation.
+//
+// Runs scenarios S01-S24 in the same order, with the same inputs and the same
+// output lines as the Python, Java, Go and TypeScript implementations. All
+// hard-coded keys, IVs, salts and passwords are published test vectors.
+
+using System.Formats.Asn1;
+«imp lib.dotnet#System.Net.Security|using System.Net.Security;»
+«imp lib.dotnet#System.Security.Authentication|using System.Security.Authentication;»
+«imp lib.dotnet#System.Security.Cryptography|using System.Security.Cryptography;»
+«imp lib.dotnet#System.Security.Cryptography.X509Certificates|using System.Security.Cryptography.X509Certificates;»
+using System.Text;
+«imp lib.bccs#$bc.Crypto.Agreement|using Org.BouncyCastle.Crypto.Agreement;»
+«imp lib.bccs#$bc.Crypto.Digests|using Org.BouncyCastle.Crypto.Digests;»
+«imp lib.bccs#$bc.Crypto.Generators|using Org.BouncyCastle.Crypto.Generators;»
+«imp lib.bccs#$bc.Crypto.Kems|using Org.BouncyCastle.Crypto.Kems;»
+«imp lib.bccs#$bc.Crypto.Parameters|using Org.BouncyCastle.Crypto.Parameters;»
+«imp lib.bccs#$bc.Crypto.Signers|using Org.BouncyCastle.Crypto.Signers;»
+«imp lib.bccs#$bc.Security|using Org.BouncyCastle.Security;»
+
+namespace CbomCorpus;
+
+internal static class CryptoShowcase
+{
+    private static readonly byte[] Message = Encoding.ASCII.GetBytes("The quick brown fox jumps over the lazy dog");
+
+    // --- Hard-coded material (public test vectors only) ---
+    // Wikipedia HMAC example key
+    private static readonly byte[] «mat m.hmac-key|HmacKey = Encoding.ASCII.GetBytes("key")»;
+    // RFC 5869 A.1
+    private static readonly byte[] «mat m.hkdf-ikm|HkdfIkm = Enumerable.Repeat((byte)0x0b, 22).ToArray()»;
+    private static readonly byte[] «mat m.hkdf-salt|HkdfSalt = Convert.FromHexString("000102030405060708090a0b0c")»;
+    private static readonly byte[] «mat m.hkdf-info|HkdfInfo = Convert.FromHexString("f0f1f2f3f4f5f6f7f8f9")»;
+    // RFC 7914 sections 11 and 12
+    private static readonly byte[] «mat m.pbkdf2-password|Pbkdf2Password = Encoding.ASCII.GetBytes("Password")»;
+    private static readonly byte[] «mat m.pbkdf2-salt|Pbkdf2Salt = Encoding.ASCII.GetBytes("NaCl")»;
+    private static readonly byte[] «mat m.scrypt-password|ScryptPassword = Encoding.ASCII.GetBytes("pleaseletmein")»;
+    private static readonly byte[] «mat m.scrypt-salt|ScryptSalt = Encoding.ASCII.GetBytes("SodiumChloride")»;
+    private const string «mat m.password|Password = "correct horse battery staple"»;
+    private static readonly byte[] «mat m.argon2-salt|Argon2Salt = Encoding.ASCII.GetBytes("cbom-corpus-salt")»;
+    // GCM specification test case 16
+    private static readonly byte[] «mat m.gcm-key|GcmKey = Convert.FromHexString("feffe9928665731c6d6a8f9467308308feffe9928665731c6d6a8f9467308308")»;
+    private static readonly byte[] «mat m.gcm-iv|GcmIv = Convert.FromHexString("cafebabefacedbaddecaf888")»;
+    private static readonly byte[] «mat m.gcm-aad|GcmAad = Convert.FromHexString("feedfacedeadbeeffeedfacedeadbeefabaddad2")»;
+    private static readonly byte[] GcmPlaintext = Convert.FromHexString(
+        "d9313225f88406e5a55909c5aff5269a86a7a9531534f7da2e4c303d8a318a72" +
+        "1c3c0c95956809532fcf0e2449a6b525b16aedf5aa0de657ba637b39");
+    // FIPS 197 appendix C.1
+    private static readonly byte[] «mat m.ecb-key|EcbKey = Convert.FromHexString("000102030405060708090a0b0c0d0e0f")»;
+    private static readonly byte[] EcbPlaintext = Convert.FromHexString("00112233445566778899aabbccddeeff");
+    // RFC 8032 section 7.1, TEST 1
+    private static readonly byte[] «mat m.ed25519-seed|Ed25519Seed = Convert.FromHexString("9d61b19deffd5a60ba844af492ec2cc44449c5697b326919703bac031cae7f60")»;
+    private static readonly byte[] «mat m.session-info|SessionInfo = Encoding.ASCII.GetBytes("cbom-corpus session key v1")»;
+    private const string TlsServerName = "cbom-corpus.example";
+
+    private static readonly «typ bc-digest-drbg#$bc.Security.SecureRandom|SecureRandom» BcRandom = «ctor bc-digest-drbg#$bc.Security.SecureRandom..ctor|new SecureRandom()»;
+
+    private static string Hex(ReadOnlySpan<byte> bytes) => Convert.ToHexStringLower(bytes);
+
+    private static string Flag(bool ok) => ok ? "true" : "false";
+
+    private static void Emit(string scenario, string label, string value) =>
+        Console.Write($"[{scenario}] {label,-18} {value}\n");
+
+    // S01: SHA-256 (FIPS 180-4)
+    private static void S01Sha256()
+    {
+        Emit("S01", "SHA-256", Hex(«op:digest sha-256#$ssc.SHA256.HashData|SHA256.HashData(Message)»));
+    }
+
+    // S02: SHA-512, SHA3-256, BLAKE2b-512
+    private static void S02Sha2Sha3Blake2()
+    {
+        Emit("S02", "SHA-512", Hex(«op:digest sha-512#$ssc.SHA512.HashData|SHA512.HashData(Message)»));
+        Emit("S02", "SHA3-256", Hex(«op:digest sha3-256#$bc.Security.DigestUtilities.CalculateDigest|DigestUtilities.CalculateDigest(«alg sha3-256|"SHA3-256"», Message)»));
+        var blake = «ctor blake2b-512#$bc.Crypto.Digests.Blake2bDigest..ctor|new Blake2bDigest(«prm:digest-size-bits blake2b-512|512»)»;
+        blake.BlockUpdate(Message, 0, Message.Length);
+        var output = new byte[blake.GetDigestSize()];
+        «op:digest blake2b-512#$bc.Crypto.Digests.Blake2bDigest.DoFinal|blake.DoFinal(output, 0)»;
+        Emit("S02", "BLAKE2b-512", Hex(output));
+    }
+
+    // S03: legacy digests - deliberately weak
+    private static void S03LegacyHashes()
+    {
+        Emit("S03", "MD5", Hex(«op:digest md5#$ssc.MD5.HashData|MD5.HashData(Message)»));
+        Emit("S03", "SHA-1", Hex(«op:digest sha-1#$ssc.SHA1.HashData|SHA1.HashData(Message)»));
+    }
+
+    // S04: SHAKE128 extendable-output function
+    private static void S04Shake128()
+    {
+        var shake = «ctor shake128#$bc.Crypto.Digests.ShakeDigest..ctor|new ShakeDigest(«prm:security-strength-bits shake128|128»)»;
+        shake.BlockUpdate(Message, 0, Message.Length);
+        var output = new byte[«prm:output-length-bytes shake128|32»];
+        «op:digest shake128#$bc.Crypto.Digests.ShakeDigest.OutputFinal|shake.OutputFinal(output, 0, output.Length)»;
+        Emit("S04", "SHAKE128", Hex(output));
+    }
+
+    // S05: HMAC-SHA256
+    private static void S05HmacSha256()
+    {
+        Emit("S05", "HMAC-SHA256", Hex(«op:tag hmac-sha256#$ssc.HMACSHA256.HashData|HMACSHA256.HashData(HmacKey, Message)»));
+    }
+
+    // S06: HKDF-SHA256 (RFC 5869)
+    private static void S06HkdfSha256()
+    {
+        var okm = «op:keyderive hkdf-sha256>m.hkdf-okm#$ssc.HKDF.DeriveKey|HKDF.DeriveKey(«alg sha-256^hkdf-sha256#$ssc.HashAlgorithmName.SHA256|HashAlgorithmName.SHA256», HkdfIkm, «prm:output-length-bytes hkdf-sha256|42», HkdfSalt, HkdfInfo)»;
+        Emit("S06", "HKDF-SHA256", Hex(okm));
+    }
+
+    // S07: PBKDF2-HMAC-SHA256
+    private static void S07Pbkdf2()
+    {
+        var derived = «op:keyderive pbkdf2-hmac-sha256>m.pbkdf2-dk#$ssc.Rfc2898DeriveBytes.Pbkdf2|Rfc2898DeriveBytes.Pbkdf2(Pbkdf2Password, Pbkdf2Salt, «prm:iterations pbkdf2-hmac-sha256|80_000», «alg sha-256^pbkdf2-hmac-sha256#$ssc.HashAlgorithmName.SHA256|HashAlgorithmName.SHA256», «prm:output-length-bytes pbkdf2-hmac-sha256|64»)»;
+        Emit("S07", "PBKDF2-SHA256", Hex(derived));
+    }
+
+    // S08: scrypt
+    private static void S08Scrypt()
+    {
+        var derived = «op:keyderive scrypt>m.scrypt-dk#$bc.Crypto.Generators.SCrypt.Generate|SCrypt.Generate(ScryptPassword, ScryptSalt, «prm:N scrypt!computed|1 << 14», «prm:r scrypt|8», «prm:p scrypt|1», «prm:output-length-bytes scrypt|64»)»;
+        Emit("S08", "scrypt", Hex(derived));
+    }
+
+    // S09: Argon2id
+    private static void S09Argon2id()
+    {
+        var parameters = «spec argon2id#$bc.Crypto.Parameters.Argon2Parameters.Builder|new Argon2Parameters.Builder(«alg argon2id#$bc.Crypto.Parameters.Argon2Parameters.Argon2id|Argon2Parameters.Argon2id»)
+            .WithVersion(«prm:version argon2id#$bc.Crypto.Parameters.Argon2Parameters.Version13|Argon2Parameters.Version13»)
+            .WithIterations(«prm:iterations argon2id|2»)
+            .WithMemoryAsKB(«prm:memory-kib argon2id|19_456»)
+            .WithParallelism(«prm:parallelism argon2id|1»)
+            .WithSalt(Argon2Salt)
+            .Build()»;
+        var generator = «ctor argon2id#$bc.Crypto.Generators.Argon2BytesGenerator..ctor|new Argon2BytesGenerator()»;
+        «init argon2id#$bc.Crypto.Generators.Argon2BytesGenerator.Init|generator.Init(parameters)»;
+        var output = new byte[«prm:output-length-bytes argon2id|32»];
+        «op:keyderive argon2id>m.argon2-dk#$bc.Crypto.Generators.Argon2BytesGenerator.GenerateBytes|generator.GenerateBytes(Encoding.ASCII.GetBytes(Password), output)»;
+        Emit("S09", "Argon2id", Hex(output));
+    }
+
+    // S10: bcrypt
+    private static void S10Bcrypt()
+    {
+        var salt = «op:generate csprng>m.bcrypt-salt#$ssc.RandomNumberGenerator.GetBytes|RandomNumberGenerator.GetBytes(«prm:length-bytes m.bcrypt-salt|16»)»;
+        var hash = «op:keyderive bcrypt>m.bcrypt-hash#$bc.Crypto.Generators.OpenBsdBCrypt.Generate|OpenBsdBCrypt.Generate(«alg bcrypt!bcrypt-version|"2b"», Password.ToCharArray(), salt, «prm:cost bcrypt|12»)»;
+        var ok = «op:verify bcrypt#$bc.Crypto.Generators.OpenBsdBCrypt.CheckPassword|OpenBsdBCrypt.CheckPassword(hash, Password.ToCharArray())»;
+        Emit("S10", "bcrypt", $"verify={Flag(ok)}");
+    }
+
+    // S11: AES-256-GCM known-answer test
+    private static void S11Aes256Gcm()
+    {
+        using var aead = «ctor aes-256-gcm#$ssc.AesGcm..ctor!keysize-from-key|new AesGcm(GcmKey, «prm:tag-length-bytes aes-256-gcm|16»)»;
+        var ciphertext = new byte[GcmPlaintext.Length];
+        var tag = new byte[16];
+        «op:encrypt aes-256-gcm#$ssc.AesGcm.Encrypt|aead.Encrypt(GcmIv, GcmPlaintext, ciphertext, tag, GcmAad)»;
+        var plaintext = new byte[ciphertext.Length];
+        «op:decrypt aes-256-gcm#$ssc.AesGcm.Decrypt|aead.Decrypt(GcmIv, ciphertext, tag, plaintext, GcmAad)»;
+        Emit("S11", "AES-256-GCM", $"ct={Hex(ciphertext)} tag={Hex(tag)} roundtrip={Flag(plaintext.AsSpan().SequenceEqual(GcmPlaintext))}");
+    }
+
+    // S12: ChaCha20-Poly1305 (RFC 8439)
+    private static void S12ChaCha20Poly1305()
+    {
+        var key = «op:generate csprng>m.chacha-key#$ssc.RandomNumberGenerator.GetBytes|RandomNumberGenerator.GetBytes(«prm:length-bytes m.chacha-key|32»)»;
+        var nonce = «op:generate csprng>m.chacha-nonce#$ssc.RandomNumberGenerator.GetBytes|RandomNumberGenerator.GetBytes(«prm:length-bytes m.chacha-nonce|12»)»;
+        using var aead = «ctor chacha20-poly1305#$ssc.ChaCha20Poly1305..ctor|new ChaCha20Poly1305(key)»;
+        var ciphertext = new byte[Message.Length];
+        var tag = new byte[16];
+        «op:encrypt chacha20-poly1305#$ssc.ChaCha20Poly1305.Encrypt|aead.Encrypt(nonce, Message, ciphertext, tag)»;
+        var plaintext = new byte[ciphertext.Length];
+        «op:decrypt chacha20-poly1305#$ssc.ChaCha20Poly1305.Decrypt|aead.Decrypt(nonce, ciphertext, tag, plaintext)»;
+        Emit("S12", "ChaCha20-Poly1305", $"roundtrip={Flag(plaintext.AsSpan().SequenceEqual(Message))}");
+    }
+
+    // S13: AES-256-CBC with PKCS#7 padding
+    private static void S13Aes256Cbc()
+    {
+        using var aes = «ctor aes-256-cbc#$ssc.Aes.Create|Aes.Create()»;
+        «init aes-256-cbc#$ssc.SymmetricAlgorithm.KeySize|aes.KeySize = «prm:key-size-bits aes-256-cbc|256»»;
+        «op:keygen aes-256-cbc>m.cbc-key#$ssc.SymmetricAlgorithm.GenerateKey|aes.GenerateKey()»;
+        var iv = «op:generate csprng>m.cbc-iv#$ssc.RandomNumberGenerator.GetBytes|RandomNumberGenerator.GetBytes(«prm:length-bytes m.cbc-iv|16»)»;
+        var ciphertext = «op:encrypt aes-256-cbc#$ssc.SymmetricAlgorithm.EncryptCbc!mode-ctor|aes.EncryptCbc(Message, iv, «alg aes-256-cbc#$ssc.PaddingMode.PKCS7|PaddingMode.PKCS7»)»;
+        var plaintext = «op:decrypt aes-256-cbc#$ssc.SymmetricAlgorithm.DecryptCbc!mode-ctor|aes.DecryptCbc(ciphertext, iv, «alg aes-256-cbc#$ssc.PaddingMode.PKCS7|PaddingMode.PKCS7»)»;
+        Emit("S13", "AES-256-CBC", $"roundtrip={Flag(plaintext.AsSpan().SequenceEqual(Message))}");
+    }
+
+    // S14: AES-128-ECB known-answer test - deliberately weak mode
+    private static void S14Aes128Ecb()
+    {
+        using var aes = «ctor aes-128-ecb#$ssc.Aes.Create|Aes.Create()»;
+        «init aes-128-ecb#$ssc.SymmetricAlgorithm.Key!keysize-from-key|aes.Key = EcbKey»;
+        var ciphertext = «op:encrypt aes-128-ecb#$ssc.SymmetricAlgorithm.EncryptEcb!mode-ctor|aes.EncryptEcb(EcbPlaintext, «alg aes-128-ecb#$ssc.PaddingMode.PKCS7|PaddingMode.PKCS7»)»;
+        Emit("S14", "AES-128-ECB", Hex(ciphertext));
+    }
+
+    // S15: AES-256-CTR (Bouncy Castle; .NET has no CTR mode)
+    private static void S15Aes256Ctr()
+    {
+        var key = «op:generate csprng>m.ctr-key#$ssc.RandomNumberGenerator.GetBytes|RandomNumberGenerator.GetBytes(«prm:length-bytes m.ctr-key|32»)»;
+        var counterBlock = «op:generate csprng>m.ctr-iv#$ssc.RandomNumberGenerator.GetBytes|RandomNumberGenerator.GetBytes(«prm:length-bytes m.ctr-iv|16»)»;
+        var encryptor = «ctor aes-256-ctr#$bc.Security.CipherUtilities.GetCipher|CipherUtilities.GetCipher(«alg aes-256-ctr|"AES/CTR/NoPadding"»)»;
+        «init:encrypt aes-256-ctr#$bc.Crypto.IBufferedCipher.Init|encryptor.Init(true, «spec aes-256-ctr#$bc.Crypto.Parameters.ParametersWithIV..ctor|new ParametersWithIV(«spec aes-256-ctr#$bc.Crypto.Parameters.KeyParameter..ctor!keysize-from-key|new KeyParameter(key)», counterBlock)»)»;
+        var ciphertext = «op:encrypt aes-256-ctr#$bc.Crypto.IBufferedCipher.DoFinal|encryptor.DoFinal(Message)»;
+        var decryptor = «ctor aes-256-ctr#$bc.Security.CipherUtilities.GetCipher|CipherUtilities.GetCipher(«alg aes-256-ctr|"AES/CTR/NoPadding"»)»;
+        «init:decrypt aes-256-ctr#$bc.Crypto.IBufferedCipher.Init|decryptor.Init(false, «spec aes-256-ctr#$bc.Crypto.Parameters.ParametersWithIV..ctor|new ParametersWithIV(«spec aes-256-ctr#$bc.Crypto.Parameters.KeyParameter..ctor!keysize-from-key|new KeyParameter(key)», counterBlock)»)»;
+        var plaintext = «op:decrypt aes-256-ctr#$bc.Crypto.IBufferedCipher.DoFinal|decryptor.DoFinal(ciphertext)»;
+        Emit("S15", "AES-256-CTR", $"roundtrip={Flag(plaintext.AsSpan().SequenceEqual(Message))}");
+    }
+
+    // S16: 3DES (TDEA) CBC - deliberately legacy
+    private static void S16TdeaCbc()
+    {
+        using var tdes = «ctor 3des-cbc#$ssc.TripleDES.Create|TripleDES.Create()»;
+        «op:keygen 3des-cbc>m.tdes-key#$ssc.SymmetricAlgorithm.GenerateKey!desede-default-size|tdes.GenerateKey()»;
+        var iv = «op:generate csprng>m.tdes-iv#$ssc.RandomNumberGenerator.GetBytes|RandomNumberGenerator.GetBytes(«prm:length-bytes m.tdes-iv|8»)»;
+        var ciphertext = «op:encrypt 3des-cbc#$ssc.SymmetricAlgorithm.EncryptCbc!mode-ctor|tdes.EncryptCbc(Message, iv, «alg 3des-cbc#$ssc.PaddingMode.PKCS7|PaddingMode.PKCS7»)»;
+        var plaintext = «op:decrypt 3des-cbc#$ssc.SymmetricAlgorithm.DecryptCbc!mode-ctor|tdes.DecryptCbc(ciphertext, iv, «alg 3des-cbc#$ssc.PaddingMode.PKCS7|PaddingMode.PKCS7»)»;
+        Emit("S16", "3DES-CBC", $"roundtrip={Flag(plaintext.AsSpan().SequenceEqual(Message))}");
+    }
+
+    // S17: RSA-3072 - OAEP, PSS and PKCS#1 v1.5 with one key pair
+    private static void S17Rsa3072()
+    {
+        using var rsa = «op:keygen rsa-3072>m.rsa-private-key,m.rsa-public-key#$ssc.RSA.Create!lazy-keygen|RSA.Create(«prm:key-size-bits rsa-3072|3072»)»;
+
+        var ciphertext = «op:encrypt rsa-oaep-sha256#$ssc.RSA.Encrypt|rsa.Encrypt(Message, «alg rsa-oaep-sha256#$ssc.RSAEncryptionPadding.OaepSHA256!oaep-mgf-same-hash|RSAEncryptionPadding.OaepSHA256»)»;
+        var plaintext = «op:decrypt rsa-oaep-sha256#$ssc.RSA.Decrypt|rsa.Decrypt(ciphertext, «alg rsa-oaep-sha256#$ssc.RSAEncryptionPadding.OaepSHA256!oaep-mgf-same-hash|RSAEncryptionPadding.OaepSHA256»)»;
+        Emit("S17", "RSA-3072 OAEP", $"roundtrip={Flag(plaintext.AsSpan().SequenceEqual(Message))}");
+
+        var pssSignature = «op:sign rsassa-pss-sha256#$ssc.RSA.SignData|rsa.SignData(Message, «alg sha-256^rsassa-pss-sha256#$ssc.HashAlgorithmName.SHA256|HashAlgorithmName.SHA256», «alg rsassa-pss-sha256#$ssc.RSASignaturePadding.Pss!pss-salt-hashlen|RSASignaturePadding.Pss»)»;
+        var pssOk = «op:verify rsassa-pss-sha256#$ssc.RSA.VerifyData|rsa.VerifyData(Message, pssSignature, «alg sha-256^rsassa-pss-sha256#$ssc.HashAlgorithmName.SHA256|HashAlgorithmName.SHA256», «alg rsassa-pss-sha256#$ssc.RSASignaturePadding.Pss!pss-salt-hashlen|RSASignaturePadding.Pss»)»;
+        Emit("S17", "RSA-3072 PSS", $"verify={Flag(pssOk)}");
+
+        var pkcs1Signature = «op:sign rsassa-pkcs1v15-sha256#$ssc.RSA.SignData|rsa.SignData(Message, «alg sha-256^rsassa-pkcs1v15-sha256#$ssc.HashAlgorithmName.SHA256|HashAlgorithmName.SHA256», «alg rsassa-pkcs1v15-sha256#$ssc.RSASignaturePadding.Pkcs1|RSASignaturePadding.Pkcs1»)»;
+        var pkcs1Ok = «op:verify rsassa-pkcs1v15-sha256#$ssc.RSA.VerifyData|rsa.VerifyData(Message, pkcs1Signature, «alg sha-256^rsassa-pkcs1v15-sha256#$ssc.HashAlgorithmName.SHA256|HashAlgorithmName.SHA256», «alg rsassa-pkcs1v15-sha256#$ssc.RSASignaturePadding.Pkcs1|RSASignaturePadding.Pkcs1»)»;
+        Emit("S17", "RSA-3072 PKCS1v15", $"verify={Flag(pkcs1Ok)}");
+    }
+
+    // S18: ECDSA P-256 with SHA-256
+    private static void S18EcdsaP256()
+    {
+        using var ecdsa = «op:keygen ecdsa-p256-sha256>m.ecdsa-private-key,m.ecdsa-public-key#$ssc.ECDsa.Create|ECDsa.Create(«alg ecdsa-p256-sha256#$ssc.ECCurve.NamedCurves.nistP256|ECCurve.NamedCurves.nistP256»)»;
+        var signature = «op:sign ecdsa-p256-sha256#$ssc.ECDsa.SignData!p1363-default|ecdsa.SignData(Message, «alg sha-256^ecdsa-p256-sha256#$ssc.HashAlgorithmName.SHA256|HashAlgorithmName.SHA256»)»;
+        var ok = «op:verify ecdsa-p256-sha256#$ssc.ECDsa.VerifyData|ecdsa.VerifyData(Message, signature, «alg sha-256^ecdsa-p256-sha256#$ssc.HashAlgorithmName.SHA256|HashAlgorithmName.SHA256»)»;
+        Emit("S18", "ECDSA P-256", $"verify={Flag(ok)}");
+    }
+
+    // S19: Ed25519 from a fixed seed (RFC 8032)
+    private static void S19Ed25519()
+    {
+        var privateKey = «ctor ed25519#$bc.Crypto.Parameters.Ed25519PrivateKeyParameters..ctor!seed-ctor|new Ed25519PrivateKeyParameters(Ed25519Seed)»;
+        var publicKey = «op:keygen ed25519>m.ed25519-public-key#$bc.Crypto.Parameters.Ed25519PrivateKeyParameters.GeneratePublicKey|privateKey.GeneratePublicKey()»;
+        var signer = «ctor ed25519#$bc.Crypto.Signers.Ed25519Signer..ctor|new Ed25519Signer()»;
+        «init:sign ed25519#$bc.Crypto.Signers.Ed25519Signer.Init|signer.Init(true, privateKey)»;
+        signer.BlockUpdate(Message, 0, Message.Length);
+        var signature = «op:sign ed25519#$bc.Crypto.Signers.Ed25519Signer.GenerateSignature|signer.GenerateSignature()»;
+        var verifier = «ctor ed25519#$bc.Crypto.Signers.Ed25519Signer..ctor|new Ed25519Signer()»;
+        «init:verify ed25519#$bc.Crypto.Signers.Ed25519Signer.Init|verifier.Init(false, publicKey)»;
+        verifier.BlockUpdate(Message, 0, Message.Length);
+        var ok = «op:verify ed25519#$bc.Crypto.Signers.Ed25519Signer.VerifySignature|verifier.VerifySignature(signature)»;
+        Emit("S19", "Ed25519", $"pk={Hex(publicKey.GetEncoded())} sig={Hex(signature)} verify={Flag(ok)}");
+    }
+
+    private static byte[] X25519Agree(«typ x25519#$bc.Crypto.Parameters.X25519PrivateKeyParameters|X25519PrivateKeyParameters» privateKey, «typ x25519#$bc.Crypto.Parameters.X25519PublicKeyParameters|X25519PublicKeyParameters» peerKey)
+    {
+        var agreement = «ctor x25519#$bc.Crypto.Agreement.X25519Agreement..ctor|new X25519Agreement()»;
+        «init x25519#$bc.Crypto.Agreement.X25519Agreement.Init|agreement.Init(privateKey)»;
+        var secret = new byte[agreement.AgreementSize];
+        «op:agree x25519>m.x25519-shared-secret#$bc.Crypto.Agreement.X25519Agreement.CalculateAgreement|agreement.CalculateAgreement(peerKey, secret, 0)»;
+        return secret;
+    }
+
+    private static byte[] DeriveSessionKey(byte[] sharedSecret)
+    {
+        return «op:keyderive hkdf-sha256>m.session-key#$ssc.HKDF.DeriveKey|HKDF.DeriveKey(«alg sha-256^hkdf-sha256#$ssc.HashAlgorithmName.SHA256|HashAlgorithmName.SHA256», sharedSecret, «prm:output-length-bytes hkdf-sha256|32», salt: null, info: SessionInfo)»;
+    }
+
+    // S20: X25519 + ECDH P-256 key agreement, HKDF session key
+    private static void S20KeyAgreement()
+    {
+        var alice = «op:keygen x25519>m.x25519-private-key-a#$bc.Crypto.Parameters.X25519PrivateKeyParameters..ctor|new X25519PrivateKeyParameters(BcRandom)»;
+        var bob = «op:keygen x25519>m.x25519-private-key-b#$bc.Crypto.Parameters.X25519PrivateKeyParameters..ctor|new X25519PrivateKeyParameters(BcRandom)»;
+        var xAlice = X25519Agree(alice, bob.GeneratePublicKey());
+        var xBob = X25519Agree(bob, alice.GeneratePublicKey());
+        Emit("S20", "X25519", $"agree={Flag(xAlice.AsSpan().SequenceEqual(xBob))}");
+
+        using var aliceEc = «op:keygen ecdh-p256>m.ecdh-private-key-a#$ssc.ECDiffieHellman.Create|ECDiffieHellman.Create(«alg ecdh-p256#$ssc.ECCurve.NamedCurves.nistP256|ECCurve.NamedCurves.nistP256»)»;
+        using var bobEc = «op:keygen ecdh-p256>m.ecdh-private-key-b#$ssc.ECDiffieHellman.Create|ECDiffieHellman.Create(«alg ecdh-p256#$ssc.ECCurve.NamedCurves.nistP256|ECCurve.NamedCurves.nistP256»)»;
+        var zAlice = «op:agree ecdh-p256>m.ecdh-shared-secret#$ssc.ECDiffieHellman.DeriveRawSecretAgreement|aliceEc.DeriveRawSecretAgreement(bobEc.PublicKey)»;
+        var zBob = «op:agree ecdh-p256>m.ecdh-shared-secret#$ssc.ECDiffieHellman.DeriveRawSecretAgreement|bobEc.DeriveRawSecretAgreement(aliceEc.PublicKey)»;
+        Emit("S20", "ECDH P-256", $"agree={Flag(zAlice.AsSpan().SequenceEqual(zBob))}");
+
+        var kAlice = DeriveSessionKey([.. xAlice, .. zAlice]);
+        var kBob = DeriveSessionKey([.. xBob, .. zBob]);
+        Emit("S20", "HKDF session key", $"match={Flag(kAlice.AsSpan().SequenceEqual(kBob))}");
+    }
+
+    // S21: ML-KEM-768 (FIPS 203)
+    private static void S21MlKem768()
+    {
+        var generator = «ctor ml-kem-768#$bc.Crypto.Generators.MLKemKeyPairGenerator..ctor|new MLKemKeyPairGenerator()»;
+        «init ml-kem-768#$bc.Crypto.Generators.MLKemKeyPairGenerator.Init|generator.Init(«spec ml-kem-768#$bc.Crypto.Parameters.MLKemKeyGenerationParameters..ctor|new MLKemKeyGenerationParameters(BcRandom, «alg ml-kem-768#$bc.Crypto.Parameters.MLKemParameters.ml_kem_768|MLKemParameters.ml_kem_768»)»)»;
+        var keyPair = «op:keygen ml-kem-768>m.mlkem-decapsulation-key,m.mlkem-encapsulation-key#$bc.Crypto.Generators.MLKemKeyPairGenerator.GenerateKeyPair|generator.GenerateKeyPair()»;
+        var encapsulator = «ctor ml-kem-768#$bc.Crypto.Kems.MLKemEncapsulator..ctor|new MLKemEncapsulator(«alg ml-kem-768#$bc.Crypto.Parameters.MLKemParameters.ml_kem_768|MLKemParameters.ml_kem_768»)»;
+        «init ml-kem-768#$bc.Crypto.Kems.MLKemEncapsulator.Init!bc-default-random|encapsulator.Init(keyPair.Public)»;
+        var ciphertext = new byte[encapsulator.EncapsulationLength];
+        var sharedSecret = new byte[encapsulator.SecretLength];
+        «op:encapsulate ml-kem-768>m.mlkem-shared-secret#$bc.Crypto.Kems.MLKemEncapsulator.Encapsulate|encapsulator.Encapsulate(ciphertext, 0, ciphertext.Length, sharedSecret, 0, sharedSecret.Length)»;
+        var decapsulator = «ctor ml-kem-768#$bc.Crypto.Kems.MLKemDecapsulator..ctor|new MLKemDecapsulator(«alg ml-kem-768#$bc.Crypto.Parameters.MLKemParameters.ml_kem_768|MLKemParameters.ml_kem_768»)»;
+        «init ml-kem-768#$bc.Crypto.Kems.MLKemDecapsulator.Init|decapsulator.Init(keyPair.Private)»;
+        var recovered = new byte[decapsulator.SecretLength];
+        «op:decapsulate ml-kem-768>m.mlkem-shared-secret#$bc.Crypto.Kems.MLKemDecapsulator.Decapsulate|decapsulator.Decapsulate(ciphertext, 0, ciphertext.Length, recovered, 0, recovered.Length)»;
+        Emit("S21", "ML-KEM-768", $"agree={Flag(sharedSecret.AsSpan().SequenceEqual(recovered))} ct={ciphertext.Length} ss={sharedSecret.Length}");
+    }
+
+    // S22: ML-DSA-65 (FIPS 204)
+    private static void S22MlDsa65()
+    {
+        var generator = «ctor ml-dsa-65#$bc.Crypto.Generators.MLDsaKeyPairGenerator..ctor|new MLDsaKeyPairGenerator()»;
+        «init ml-dsa-65#$bc.Crypto.Generators.MLDsaKeyPairGenerator.Init|generator.Init(«spec ml-dsa-65#$bc.Crypto.Parameters.MLDsaKeyGenerationParameters..ctor|new MLDsaKeyGenerationParameters(BcRandom, «alg ml-dsa-65#$bc.Crypto.Parameters.MLDsaParameters.ml_dsa_65|MLDsaParameters.ml_dsa_65»)»)»;
+        var keyPair = «op:keygen ml-dsa-65>m.mldsa-private-key,m.mldsa-public-key#$bc.Crypto.Generators.MLDsaKeyPairGenerator.GenerateKeyPair|generator.GenerateKeyPair()»;
+        var signer = «ctor ml-dsa-65#$bc.Crypto.Signers.MLDsaSigner..ctor|new MLDsaSigner(«alg ml-dsa-65#$bc.Crypto.Parameters.MLDsaParameters.ml_dsa_65|MLDsaParameters.ml_dsa_65», «prm:deterministic ml-dsa-65!hedged|deterministic: false»)»;
+        «init:sign ml-dsa-65#$bc.Crypto.Signers.MLDsaSigner.Init|signer.Init(true, «spec ml-dsa-65#$bc.Crypto.Parameters.ParametersWithRandom..ctor|new ParametersWithRandom(keyPair.Private, BcRandom)»)»;
+        signer.BlockUpdate(Message, 0, Message.Length);
+        var signature = «op:sign ml-dsa-65#$bc.Crypto.Signers.MLDsaSigner.GenerateSignature!ctx-default|signer.GenerateSignature()»;
+        var verifier = «ctor ml-dsa-65#$bc.Crypto.Signers.MLDsaSigner..ctor|new MLDsaSigner(«alg ml-dsa-65#$bc.Crypto.Parameters.MLDsaParameters.ml_dsa_65|MLDsaParameters.ml_dsa_65», «prm:deterministic ml-dsa-65!hedged|deterministic: false»)»;
+        «init:verify ml-dsa-65#$bc.Crypto.Signers.MLDsaSigner.Init|verifier.Init(false, keyPair.Public)»;
+        verifier.BlockUpdate(Message, 0, Message.Length);
+        var ok = «op:verify ml-dsa-65#$bc.Crypto.Signers.MLDsaSigner.VerifySignature|verifier.VerifySignature(signature)»;
+        Emit("S22", "ML-DSA-65", $"verify={Flag(ok)} sig={signature.Length}");
+    }
+
+    // S23: self-signed X.509 certificate, signature checked at the ASN.1 level
+    private static void S23X509SelfSigned()
+    {
+        using var key = «op:keygen ecdsa-p256-sha256>m.cert-private-key,m.cert-public-key#$ssc.ECDsa.Create|ECDsa.Create(«alg ecdsa-p256-sha256#$ssc.ECCurve.NamedCurves.nistP256|ECCurve.NamedCurves.nistP256»)»;
+        var request = «ctor cert.self-signed#$ssc.X509Certificates.CertificateRequest..ctor|new CertificateRequest($"CN={TlsServerName}", key, «alg sha-256^ecdsa-p256-sha256#$ssc.HashAlgorithmName.SHA256|HashAlgorithmName.SHA256»)»;
+        var now = DateTimeOffset.UtcNow;
+        using var certificate = «op:sign cert.self-signed#$ssc.X509Certificates.CertificateRequest.Create|request.Create(
+            request.SubjectName,
+            «ctor ecdsa-p256-sha256#$ssc.X509Certificates.X509SignatureGenerator.CreateForECDsa|X509SignatureGenerator.CreateForECDsa(key)»,
+            now.AddMinutes(-1),
+            now.AddDays(«prm:validity-days cert.self-signed|365»),
+            «op:generate csprng#$ssc.RandomNumberGenerator.GetBytes!serial|RandomNumberGenerator.GetBytes(8)»)»;
+
+        var reader = new AsnReader(certificate.RawData, AsnEncodingRules.DER).ReadSequence();
+        var tbs = reader.ReadEncodedValue().ToArray();
+        reader.ReadSequence();
+        var signature = reader.ReadBitString(out _);
+        using var publicKey = «ctor ecdsa-p256-sha256#$ssc.X509Certificates.ECDsaCertificateExtensions.GetECDsaPublicKey|certificate.GetECDsaPublicKey()»!;
+        var ok = «op:verify ecdsa-p256-sha256#$ssc.ECDsa.VerifyData!der-signature|publicKey.VerifyData(tbs, signature, «alg sha-256^ecdsa-p256-sha256#$ssc.HashAlgorithmName.SHA256|HashAlgorithmName.SHA256», «alg ecdsa-p256-sha256#$ssc.DSASignatureFormat.Rfc3279DerSequence|DSASignatureFormat.Rfc3279DerSequence»)»;
+        Emit("S23", "X.509 self-signed", $"verify={Flag(ok)}");
+    }
+
+    // S24: TLS 1.3-only client configuration (no connection is made)
+    private static void S24Tls13Client()
+    {
+        var options = «ctor tls13-client#System.Net.Security.SslClientAuthenticationOptions..ctor|new SslClientAuthenticationOptions
+        {
+            TargetHost = TlsServerName,
+            EnabledSslProtocols = «cfg:versions tls13-client#System.Security.Authentication.SslProtocols.Tls13|SslProtocols.Tls13»,
+        }»;
+        if (!OperatingSystem.IsWindows())
+        {
+            «cfg:cipher-suites tls13-client#System.Net.Security.CipherSuitesPolicy..ctor!cipher-suites-platform|options.CipherSuitesPolicy = new CipherSuitesPolicy(
+            [
+                TlsCipherSuite.TLS_AES_128_GCM_SHA256,
+                TlsCipherSuite.TLS_AES_256_GCM_SHA384,
+                TlsCipherSuite.TLS_CHACHA20_POLY1305_SHA256,
+            ])»;
+        }
+
+        Emit("S24", "TLS 1.3 client", "configured=true");
+    }
+
+    public static void Main()
+    {
+        S01Sha256();
+        S02Sha2Sha3Blake2();
+        S03LegacyHashes();
+        S04Shake128();
+        S05HmacSha256();
+        S06HkdfSha256();
+        S07Pbkdf2();
+        S08Scrypt();
+        S09Argon2id();
+        S10Bcrypt();
+        S11Aes256Gcm();
+        S12ChaCha20Poly1305();
+        S13Aes256Cbc();
+        S14Aes128Ecb();
+        S15Aes256Ctr();
+        S16TdeaCbc();
+        S17Rsa3072();
+        S18EcdsaP256();
+        S19Ed25519();
+        S20KeyAgreement();
+        S21MlKem768();
+        S22MlDsa65();
+        S23X509SelfSigned();
+        S24Tls13Client();
+    }
+}

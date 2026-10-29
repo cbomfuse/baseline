@@ -1,0 +1,5863 @@
+{
+  "$schema": "http://cyclonedx.org/schema/bom-1.6.schema.json",
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.6",
+  "serialNumber": "urn:uuid:5a755b61-a81f-5169-9880-1d8ca87ec227",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2026-10-29T17:09:05Z",
+    "tools": {
+      "components": [
+        {
+          "type": "application",
+          "name": "cbom-corpus ground-truth generator (_tooling/docs.py)",
+          "version": "1.0.0"
+        }
+      ]
+    },
+    "component": {
+      "type": "application",
+      "bom-ref": "application/cbom-corpus-go",
+      "name": "cbom-corpus-go",
+      "version": "1.0.0",
+      "description": "Ground-truth CBOM for main.go (Go); every occurrence is hand-annotated, not scanner output."
+    }
+  },
+  "components": [
+    {
+      "type": "library",
+      "bom-ref": "pkg:golang/stdlib@1.26.8",
+      "name": "Go standard library",
+      "version": "1.26.8",
+      "scope": "required",
+      "licenses": [
+        {
+          "expression": "BSD-3-Clause"
+        }
+      ],
+      "purl": "pkg:golang/stdlib@1.26.8",
+      "description": "crypto/* packages, including crypto/mlkem, crypto/hkdf, crypto/pbkdf2 and crypto/sha3",
+      "properties": [
+        {
+          "name": "cbom-corpus:library-id",
+          "value": "lib.go-stdlib"
+        },
+        {
+          "name": "cbom-corpus:dependency-scope",
+          "value": "runtime"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:golang/golang.org/x/crypto@v0.58.0",
+      "name": "golang.org/x/crypto",
+      "version": "v0.58.0",
+      "scope": "required",
+      "licenses": [
+        {
+          "expression": "BSD-3-Clause"
+        }
+      ],
+      "purl": "pkg:golang/golang.org/x/crypto@v0.58.0",
+      "description": "argon2, bcrypt, blake2b, chacha20poly1305, scrypt",
+      "properties": [
+        {
+          "name": "cbom-corpus:library-id",
+          "value": "lib.xcrypto"
+        },
+        {
+          "name": "cbom-corpus:dependency-scope",
+          "value": "required"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:golang/github.com/cloudflare/circl@v1.6.5",
+      "name": "Cloudflare CIRCL",
+      "version": "v1.6.5",
+      "scope": "required",
+      "licenses": [
+        {
+          "expression": "BSD-3-Clause"
+        }
+      ],
+      "purl": "pkg:golang/github.com/cloudflare/circl@v1.6.5",
+      "description": "ML-DSA-65 (sign/mldsa/mldsa65)",
+      "properties": [
+        {
+          "name": "cbom-corpus:library-id",
+          "value": "lib.circl"
+        },
+        {
+          "name": "cbom-corpus:dependency-scope",
+          "value": "required"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:golang/golang.org/x/sys@v0.49.0",
+      "name": "golang.org/x/sys",
+      "version": "v0.49.0",
+      "scope": "required",
+      "licenses": [
+        {
+          "expression": "BSD-3-Clause"
+        }
+      ],
+      "purl": "pkg:golang/golang.org/x/sys@v0.49.0",
+      "description": "CPU feature detection for x/crypto and CIRCL; not referenced directly",
+      "properties": [
+        {
+          "name": "cbom-corpus:library-id",
+          "value": "lib.xsys"
+        },
+        {
+          "name": "cbom-corpus:dependency-scope",
+          "value": "transitive"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/algorithm/sha-256",
+      "name": "SHA-256",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "hash",
+          "parameterSetIdentifier": "256",
+          "executionEnvironment": "software-plain-ram",
+          "implementationPlatform": "generic",
+          "certificationLevel": [
+            "none"
+          ],
+          "cryptoFunctions": [
+            "digest"
+          ],
+          "classicalSecurityLevel": 128,
+          "nistQuantumSecurityLevel": 2
+        },
+        "oid": "2.16.840.1.101.3.4.2.1"
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 105,
+            "offset": 11,
+            "symbol": "crypto/sha256.Sum256",
+            "additionalContext": "id=GO-045; relation=direct; role=op:digest; scenario=S01; scope=s01SHA256; end=105:34; charRange=2971-2993; byteRange=2971-2993; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 135,
+            "offset": 17,
+            "symbol": "crypto/sha256.New",
+            "additionalContext": "id=GO-054; relation=direct; role=alg; scenario=S05; scope=s05HMACSHA256; end=135:28; charRange=3884-3894; byteRange=3884-3894; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 142,
+            "offset": 22,
+            "symbol": "crypto/sha256.New",
+            "additionalContext": "id=GO-057; relation=direct; role=alg; scenario=S06; scope=s06HKDFSHA256; end=142:33; charRange=4066-4076; byteRange=4066-4076; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 149,
+            "offset": 28,
+            "symbol": "crypto/sha256.New",
+            "additionalContext": "id=GO-060; relation=direct; role=alg; scenario=S07; scope=s07PBKDF2; end=149:39; charRange=4261-4271; byteRange=4261-4271; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 267,
+            "offset": 36,
+            "symbol": "crypto/sha256.New",
+            "additionalContext": "id=GO-125; relation=direct; role=alg; scenario=S17; scope=s17RSA3072; end=267:49; charRange=8161-8173; byteRange=8161-8173; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 269,
+            "offset": 35,
+            "symbol": "crypto/sha256.New",
+            "additionalContext": "id=GO-127; relation=direct; role=alg; scenario=S17; scope=s17RSA3072; end=269:48; charRange=8260-8272; byteRange=8260-8272; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 273,
+            "offset": 11,
+            "symbol": "crypto/sha256.Sum256",
+            "additionalContext": "id=GO-128; relation=direct; role=op:digest; scenario=S17; scope=s17RSA3072; end=273:34; charRange=8424-8446; byteRange=8424-8446; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 273,
+            "offset": 11,
+            "symbol": "crypto/sha256.Sum256",
+            "additionalContext": "id=GO-129; relation=direct; role=op:digest; scenario=S17; scope=s17RSA3072; end=273:34; charRange=8424-8446; byteRange=8424-8446; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 275,
+            "offset": 59,
+            "symbol": "crypto.SHA256",
+            "additionalContext": "id=GO-133; relation=direct; role=alg; scenario=S17; scope=s17RSA3072; end=275:73; charRange=8578-8591; byteRange=8578-8591; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 277,
+            "offset": 35,
+            "symbol": "crypto.SHA256",
+            "additionalContext": "id=GO-135; relation=direct; role=alg; scenario=S17; scope=s17RSA3072; end=277:49; charRange=8663-8676; byteRange=8663-8676; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 280,
+            "offset": 58,
+            "symbol": "crypto.SHA256",
+            "additionalContext": "id=GO-137; relation=direct; role=alg; scenario=S17; scope=s17RSA3072; end=280:72; charRange=8843-8856; byteRange=8843-8856; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 282,
+            "offset": 42,
+            "symbol": "crypto.SHA256",
+            "additionalContext": "id=GO-139; relation=direct; role=alg; scenario=S17; scope=s17RSA3072; end=282:56; charRange=8923-8936; byteRange=8923-8936; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 290,
+            "offset": 11,
+            "symbol": "crypto/sha256.Sum256",
+            "additionalContext": "id=GO-142; relation=direct; role=op:digest; scenario=S18; scope=s18ECDSAP256; end=290:34; charRange=9190-9212; byteRange=9190-9212; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 307,
+            "offset": 22,
+            "symbol": "crypto/sha256.New",
+            "additionalContext": "id=GO-150; relation=direct; role=alg; scenario=S20; scope=deriveSessionKey; end=307:33; charRange=9870-9880; byteRange=9870-9880; library=lib.go-stdlib"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "sha-256"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "14"
+        },
+        {
+          "name": "cbom-corpus:family",
+          "value": "SHA-2"
+        },
+        {
+          "name": "cbom-corpus:standards",
+          "value": "FIPS 180-4"
+        },
+        {
+          "name": "cbom-corpus:nist-status",
+          "value": "Approved"
+        },
+        {
+          "name": "cbom-corpus:cnsa-2.0",
+          "value": "Not CNSA 2.0 (requires SHA-384/SHA-512)"
+        },
+        {
+          "name": "cbom-corpus:quantum",
+          "value": "Generic quantum speed-up only (Grover/BHT)"
+        },
+        {
+          "name": "cbom-corpus:note",
+          "value": "Collision resistance 128 bits; reference point of NIST PQ category 2."
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/algorithm/sha-384",
+      "name": "SHA-384",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "hash",
+          "parameterSetIdentifier": "384",
+          "executionEnvironment": "software-plain-ram",
+          "implementationPlatform": "generic",
+          "certificationLevel": [
+            "none"
+          ],
+          "classicalSecurityLevel": 192,
+          "nistQuantumSecurityLevel": 4
+        },
+        "oid": "2.16.840.1.101.3.4.2.2"
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "sha-384"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "true"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "0"
+        },
+        {
+          "name": "cbom-corpus:family",
+          "value": "SHA-2"
+        },
+        {
+          "name": "cbom-corpus:standards",
+          "value": "FIPS 180-4"
+        },
+        {
+          "name": "cbom-corpus:nist-status",
+          "value": "Approved"
+        },
+        {
+          "name": "cbom-corpus:cnsa-2.0",
+          "value": "CNSA 2.0 compliant"
+        },
+        {
+          "name": "cbom-corpus:quantum",
+          "value": "Generic quantum speed-up only (Grover/BHT)"
+        },
+        {
+          "name": "cbom-corpus:note",
+          "value": "Only implicit: PRF hash of the TLS_AES_256_GCM_SHA384 cipher suite (S24)."
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/algorithm/sha-512",
+      "name": "SHA-512",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "hash",
+          "parameterSetIdentifier": "512",
+          "executionEnvironment": "software-plain-ram",
+          "implementationPlatform": "generic",
+          "certificationLevel": [
+            "none"
+          ],
+          "cryptoFunctions": [
+            "digest"
+          ],
+          "classicalSecurityLevel": 256,
+          "nistQuantumSecurityLevel": 4
+        },
+        "oid": "2.16.840.1.101.3.4.2.3"
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 111,
+            "offset": 17,
+            "symbol": "crypto/sha512.Sum512",
+            "additionalContext": "id=GO-046; relation=direct; role=op:digest; scenario=S02; scope=s02SHA2SHA3BLAKE2; end=111:40; charRange=3135-3157; byteRange=3135-3157; library=lib.go-stdlib"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "sha-512"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "1"
+        },
+        {
+          "name": "cbom-corpus:family",
+          "value": "SHA-2"
+        },
+        {
+          "name": "cbom-corpus:standards",
+          "value": "FIPS 180-4"
+        },
+        {
+          "name": "cbom-corpus:nist-status",
+          "value": "Approved"
+        },
+        {
+          "name": "cbom-corpus:cnsa-2.0",
+          "value": "CNSA 2.0 compliant"
+        },
+        {
+          "name": "cbom-corpus:quantum",
+          "value": "Generic quantum speed-up only (Grover/BHT)"
+        },
+        {
+          "name": "cbom-corpus:note",
+          "value": "Category >= 4 (SHA-384 collision is the highest hash-based NIST reference point)."
+        },
+        {
+          "name": "cbom-corpus:go-runtime-note",
+          "value": "crypto/ed25519 uses SHA-512 internally."
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/algorithm/sha3-256",
+      "name": "SHA3-256",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "hash",
+          "parameterSetIdentifier": "256",
+          "executionEnvironment": "software-plain-ram",
+          "implementationPlatform": "generic",
+          "certificationLevel": [
+            "none"
+          ],
+          "cryptoFunctions": [
+            "digest"
+          ],
+          "classicalSecurityLevel": 128,
+          "nistQuantumSecurityLevel": 2
+        },
+        "oid": "2.16.840.1.101.3.4.2.8"
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 113,
+            "offset": 15,
+            "symbol": "crypto/sha3.Sum256",
+            "additionalContext": "id=GO-047; relation=direct; role=op:digest; scenario=S02; scope=s02SHA2SHA3BLAKE2; end=113:36; charRange=3234-3254; byteRange=3234-3254; library=lib.go-stdlib"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "sha3-256"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "1"
+        },
+        {
+          "name": "cbom-corpus:family",
+          "value": "SHA-3"
+        },
+        {
+          "name": "cbom-corpus:standards",
+          "value": "FIPS 202"
+        },
+        {
+          "name": "cbom-corpus:nist-status",
+          "value": "Approved"
+        },
+        {
+          "name": "cbom-corpus:cnsa-2.0",
+          "value": "Not CNSA 2.0"
+        },
+        {
+          "name": "cbom-corpus:quantum",
+          "value": "Generic quantum speed-up only (Grover/BHT)"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/algorithm/blake2b-512",
+      "name": "BLAKE2b-512",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "hash",
+          "parameterSetIdentifier": "512",
+          "executionEnvironment": "software-plain-ram",
+          "implementationPlatform": "generic",
+          "certificationLevel": [
+            "none"
+          ],
+          "cryptoFunctions": [
+            "digest"
+          ],
+          "classicalSecurityLevel": 256,
+          "nistQuantumSecurityLevel": 4
+        },
+        "oid": "1.3.6.1.4.1.1722.12.2.1.16"
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 115,
+            "offset": 16,
+            "symbol": "golang.org/x/crypto/blake2b.Sum512",
+            "additionalContext": "id=GO-048; relation=direct; role=op:digest; scenario=S02; scope=s02SHA2SHA3BLAKE2; end=115:40; charRange=3331-3354; byteRange=3331-3354; library=lib.xcrypto"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "blake2b-512"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "1"
+        },
+        {
+          "name": "cbom-corpus:family",
+          "value": "BLAKE2"
+        },
+        {
+          "name": "cbom-corpus:standards",
+          "value": "RFC 7693"
+        },
+        {
+          "name": "cbom-corpus:nist-status",
+          "value": "Not NIST-approved"
+        },
+        {
+          "name": "cbom-corpus:cnsa-2.0",
+          "value": "Not CNSA 2.0"
+        },
+        {
+          "name": "cbom-corpus:quantum",
+          "value": "Generic quantum speed-up only (Grover/BHT)"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/algorithm/md5",
+      "name": "MD5",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "hash",
+          "parameterSetIdentifier": "128",
+          "executionEnvironment": "software-plain-ram",
+          "implementationPlatform": "generic",
+          "certificationLevel": [
+            "none"
+          ],
+          "cryptoFunctions": [
+            "digest"
+          ],
+          "classicalSecurityLevel": 18,
+          "nistQuantumSecurityLevel": 0
+        },
+        "oid": "1.2.840.113549.2.5"
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 121,
+            "offset": 14,
+            "symbol": "crypto/md5.Sum",
+            "additionalContext": "id=GO-049; relation=direct; role=op:digest; scenario=S03; scope=s03LegacyHashes; end=121:31; charRange=3504-3520; byteRange=3504-3520; library=lib.go-stdlib"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "md5"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "1"
+        },
+        {
+          "name": "cbom-corpus:family",
+          "value": "MD5"
+        },
+        {
+          "name": "cbom-corpus:standards",
+          "value": "RFC 1321; RFC 6151"
+        },
+        {
+          "name": "cbom-corpus:nist-status",
+          "value": "Not approved (collisions found in seconds)"
+        },
+        {
+          "name": "cbom-corpus:cnsa-2.0",
+          "value": "Not CNSA 2.0"
+        },
+        {
+          "name": "cbom-corpus:quantum",
+          "value": "Already broken classically"
+        },
+        {
+          "name": "cbom-corpus:note",
+          "value": "classicalSecurityLevel reflects the ~2^18 practical collision attack."
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/algorithm/sha-1",
+      "name": "SHA-1",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "hash",
+          "parameterSetIdentifier": "160",
+          "executionEnvironment": "software-plain-ram",
+          "implementationPlatform": "generic",
+          "certificationLevel": [
+            "none"
+          ],
+          "cryptoFunctions": [
+            "digest"
+          ],
+          "classicalSecurityLevel": 63,
+          "nistQuantumSecurityLevel": 0
+        },
+        "oid": "1.3.14.3.2.26"
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 123,
+            "offset": 15,
+            "symbol": "crypto/sha1.Sum",
+            "additionalContext": "id=GO-050; relation=direct; role=op:digest; scenario=S03; scope=s03LegacyHashes; end=123:33; charRange=3590-3607; byteRange=3590-3607; library=lib.go-stdlib"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "sha-1"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "1"
+        },
+        {
+          "name": "cbom-corpus:family",
+          "value": "SHA-1"
+        },
+        {
+          "name": "cbom-corpus:standards",
+          "value": "FIPS 180-4; RFC 3174"
+        },
+        {
+          "name": "cbom-corpus:nist-status",
+          "value": "Disallowed for signature generation (SP 800-131A r2); NIST retires SHA-1 by 2030-12-31"
+        },
+        {
+          "name": "cbom-corpus:cnsa-2.0",
+          "value": "Not CNSA 2.0"
+        },
+        {
+          "name": "cbom-corpus:quantum",
+          "value": "Already broken classically (chosen-prefix collision ~2^63)"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/algorithm/shake128",
+      "name": "SHAKE128",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "xof",
+          "parameterSetIdentifier": "128",
+          "executionEnvironment": "software-plain-ram",
+          "implementationPlatform": "generic",
+          "certificationLevel": [
+            "none"
+          ],
+          "cryptoFunctions": [
+            "digest"
+          ],
+          "classicalSecurityLevel": 128,
+          "nistQuantumSecurityLevel": 2
+        },
+        "oid": "2.16.840.1.101.3.4.2.11"
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 129,
+            "offset": 8,
+            "symbol": "crypto/sha3.SumSHAKE128",
+            "additionalContext": "id=GO-051; relation=direct; role=op:digest; scenario=S04; scope=s04SHAKE128; end=129:38; charRange=3741-3770; byteRange=3741-3770; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 129,
+            "offset": 34,
+            "additionalContext": "id=GO-052; relation=direct; role=prm:output-length-bytes; scenario=S04; scope=s04SHAKE128; end=129:37; charRange=3767-3769; byteRange=3767-3769; library=lib.go-stdlib"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "shake128"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "2"
+        },
+        {
+          "name": "cbom-corpus:family",
+          "value": "SHA-3"
+        },
+        {
+          "name": "cbom-corpus:standards",
+          "value": "FIPS 202"
+        },
+        {
+          "name": "cbom-corpus:nist-status",
+          "value": "Approved"
+        },
+        {
+          "name": "cbom-corpus:cnsa-2.0",
+          "value": "Not CNSA 2.0"
+        },
+        {
+          "name": "cbom-corpus:quantum",
+          "value": "Generic quantum speed-up only (Grover/BHT)"
+        },
+        {
+          "name": "cbom-corpus:note",
+          "value": "Used with a 256-bit output (min(d/2,128) = 128-bit collision resistance)."
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/algorithm/hmac-sha256",
+      "name": "HMAC-SHA256",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "mac",
+          "parameterSetIdentifier": "256",
+          "executionEnvironment": "software-plain-ram",
+          "implementationPlatform": "generic",
+          "certificationLevel": [
+            "none"
+          ],
+          "cryptoFunctions": [
+            "tag"
+          ],
+          "classicalSecurityLevel": 256,
+          "nistQuantumSecurityLevel": 5
+        },
+        "oid": "1.2.840.113549.2.9"
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 135,
+            "offset": 8,
+            "symbol": "crypto/hmac.New",
+            "additionalContext": "id=GO-053; relation=direct; role=ctor; scenario=S05; scope=s05HMACSHA256; end=135:38; charRange=3875-3904; byteRange=3875-3904; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 135,
+            "offset": 17,
+            "symbol": "crypto/sha256.New",
+            "additionalContext": "id=GO-054; relation=parameter:sha-256; role=alg; scenario=S05; scope=s05HMACSHA256; end=135:28; charRange=3884-3894; byteRange=3884-3894; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 137,
+            "offset": 47,
+            "symbol": "hash.Hash.Sum",
+            "additionalContext": "id=GO-055; relation=direct; role=op:tag; scenario=S05; scope=s05HMACSHA256; end=137:60; charRange=3972-3984; byteRange=3972-3984; library=lib.go-stdlib"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "hmac-sha256"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "3"
+        },
+        {
+          "name": "cbom-corpus:family",
+          "value": "HMAC"
+        },
+        {
+          "name": "cbom-corpus:standards",
+          "value": "FIPS 198-1; RFC 2104"
+        },
+        {
+          "name": "cbom-corpus:nist-status",
+          "value": "Approved (key >= 112 bits required; this corpus uses a 24-bit test key)"
+        },
+        {
+          "name": "cbom-corpus:cnsa-2.0",
+          "value": "Not CNSA 2.0 (SHA-384+ required)"
+        },
+        {
+          "name": "cbom-corpus:quantum",
+          "value": "Generic quantum speed-up only (Grover/BHT)"
+        },
+        {
+          "name": "cbom-corpus:note",
+          "value": "Algorithm-level strength assumes a >=256-bit key; see m.hmac-key for the actual key."
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/algorithm/hkdf-sha256",
+      "name": "HKDF-SHA256",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "kdf",
+          "parameterSetIdentifier": "SHA-256",
+          "executionEnvironment": "software-plain-ram",
+          "implementationPlatform": "generic",
+          "certificationLevel": [
+            "none"
+          ],
+          "cryptoFunctions": [
+            "keyderive"
+          ],
+          "classicalSecurityLevel": 256,
+          "nistQuantumSecurityLevel": 5
+        },
+        "oid": "1.2.840.113549.1.9.16.3.29"
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 142,
+            "offset": 13,
+            "symbol": "crypto/hkdf.Key",
+            "additionalContext": "id=GO-056; relation=direct; role=op:keyderive; scenario=S06; scope=s06HKDFSHA256; end=142:75; charRange=4057-4118; byteRange=4057-4118; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 142,
+            "offset": 22,
+            "symbol": "crypto/sha256.New",
+            "additionalContext": "id=GO-057; relation=parameter:sha-256; role=alg; scenario=S06; scope=s06HKDFSHA256; end=142:33; charRange=4066-4076; byteRange=4066-4076; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 142,
+            "offset": 71,
+            "additionalContext": "id=GO-058; relation=direct; role=prm:output-length-bytes; scenario=S06; scope=s06HKDFSHA256; end=142:74; charRange=4115-4117; byteRange=4115-4117; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 307,
+            "offset": 13,
+            "symbol": "crypto/hkdf.Key",
+            "additionalContext": "id=GO-149; relation=direct; role=op:keyderive; scenario=S20; scope=deriveSessionKey; end=307:70; charRange=9861-9917; byteRange=9861-9917; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 307,
+            "offset": 22,
+            "symbol": "crypto/sha256.New",
+            "additionalContext": "id=GO-150; relation=parameter:sha-256; role=alg; scenario=S20; scope=deriveSessionKey; end=307:33; charRange=9870-9880; byteRange=9870-9880; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 307,
+            "offset": 66,
+            "additionalContext": "id=GO-151; relation=direct; role=prm:output-length-bytes; scenario=S20; scope=deriveSessionKey; end=307:69; charRange=9914-9916; byteRange=9914-9916; library=lib.go-stdlib"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "hkdf-sha256"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "6"
+        },
+        {
+          "name": "cbom-corpus:family",
+          "value": "HKDF"
+        },
+        {
+          "name": "cbom-corpus:standards",
+          "value": "RFC 5869; SP 800-56C r2"
+        },
+        {
+          "name": "cbom-corpus:nist-status",
+          "value": "Approved (two-step KDF, SP 800-56C r2)"
+        },
+        {
+          "name": "cbom-corpus:cnsa-2.0",
+          "value": "Not CNSA 2.0 (SHA-384+ required)"
+        },
+        {
+          "name": "cbom-corpus:quantum",
+          "value": "Generic quantum speed-up only (Grover/BHT)"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/algorithm/pbkdf2-hmac-sha256",
+      "name": "PBKDF2-HMAC-SHA256",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "kdf",
+          "parameterSetIdentifier": "SHA-256",
+          "executionEnvironment": "software-plain-ram",
+          "implementationPlatform": "generic",
+          "certificationLevel": [
+            "none"
+          ],
+          "cryptoFunctions": [
+            "keyderive"
+          ]
+        },
+        "oid": "1.2.840.113549.1.5.12"
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 149,
+            "offset": 17,
+            "symbol": "crypto/pbkdf2.Key",
+            "additionalContext": "id=GO-059; relation=direct; role=op:keyderive; scenario=S07; scope=s07PBKDF2; end=149:80; charRange=4250-4312; byteRange=4250-4312; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 149,
+            "offset": 28,
+            "symbol": "crypto/sha256.New",
+            "additionalContext": "id=GO-060; relation=parameter:sha-256; role=alg; scenario=S07; scope=s07PBKDF2; end=149:39; charRange=4261-4271; byteRange=4261-4271; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 149,
+            "offset": 68,
+            "additionalContext": "id=GO-061; relation=direct; role=prm:iterations; scenario=S07; scope=s07PBKDF2; end=149:75; charRange=4301-4307; byteRange=4301-4307; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 149,
+            "offset": 76,
+            "additionalContext": "id=GO-062; relation=direct; role=prm:output-length-bytes; scenario=S07; scope=s07PBKDF2; end=149:79; charRange=4309-4311; byteRange=4309-4311; library=lib.go-stdlib"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "pbkdf2-hmac-sha256"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "4"
+        },
+        {
+          "name": "cbom-corpus:family",
+          "value": "PBKDF2"
+        },
+        {
+          "name": "cbom-corpus:standards",
+          "value": "SP 800-132; RFC 8018"
+        },
+        {
+          "name": "cbom-corpus:nist-status",
+          "value": "Approved (SP 800-132); 80,000 iterations is below the OWASP 2023 figure of 600,000"
+        },
+        {
+          "name": "cbom-corpus:cnsa-2.0",
+          "value": "Not CNSA 2.0"
+        },
+        {
+          "name": "cbom-corpus:quantum",
+          "value": "Generic quantum speed-up only (Grover/BHT)"
+        },
+        {
+          "name": "cbom-corpus:note",
+          "value": "Strength is bounded by password entropy, so no fixed security level is assigned."
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/algorithm/scrypt",
+      "name": "scrypt",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "kdf",
+          "parameterSetIdentifier": "N=16384,r=8,p=1",
+          "executionEnvironment": "software-plain-ram",
+          "implementationPlatform": "generic",
+          "certificationLevel": [
+            "none"
+          ],
+          "cryptoFunctions": [
+            "keyderive"
+          ]
+        },
+        "oid": "1.3.6.1.4.1.11591.4.11"
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 156,
+            "offset": 17,
+            "symbol": "golang.org/x/crypto/scrypt.Key",
+            "additionalContext": "id=GO-063; relation=direct; role=op:keyderive; scenario=S08; scope=s08Scrypt; end=156:73; charRange=4438-4493; byteRange=4438-4493; library=lib.xcrypto"
+          },
+          {
+            "location": "main.go",
+            "line": 156,
+            "offset": 56,
+            "additionalContext": "id=GO-064; relation=direct; role=prm:N; scenario=S08; scope=s08Scrypt; end=156:62; charRange=4477-4482; byteRange=4477-4482; library=lib.xcrypto"
+          },
+          {
+            "location": "main.go",
+            "line": 156,
+            "offset": 63,
+            "additionalContext": "id=GO-065; relation=direct; role=prm:r; scenario=S08; scope=s08Scrypt; end=156:65; charRange=4484-4485; byteRange=4484-4485; library=lib.xcrypto"
+          },
+          {
+            "location": "main.go",
+            "line": 156,
+            "offset": 66,
+            "additionalContext": "id=GO-066; relation=direct; role=prm:p; scenario=S08; scope=s08Scrypt; end=156:68; charRange=4487-4488; byteRange=4487-4488; library=lib.xcrypto"
+          },
+          {
+            "location": "main.go",
+            "line": 156,
+            "offset": 69,
+            "additionalContext": "id=GO-067; relation=direct; role=prm:output-length-bytes; scenario=S08; scope=s08Scrypt; end=156:72; charRange=4490-4492; byteRange=4490-4492; library=lib.xcrypto"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "scrypt"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "5"
+        },
+        {
+          "name": "cbom-corpus:family",
+          "value": "scrypt"
+        },
+        {
+          "name": "cbom-corpus:standards",
+          "value": "RFC 7914"
+        },
+        {
+          "name": "cbom-corpus:nist-status",
+          "value": "Not NIST-approved"
+        },
+        {
+          "name": "cbom-corpus:cnsa-2.0",
+          "value": "Not CNSA 2.0"
+        },
+        {
+          "name": "cbom-corpus:quantum",
+          "value": "Generic quantum speed-up only (Grover/BHT)"
+        },
+        {
+          "name": "cbom-corpus:note",
+          "value": "Memory-hard password KDF (internally PBKDF2-HMAC-SHA256 + Salsa20/8)."
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/algorithm/argon2id",
+      "name": "Argon2id",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "kdf",
+          "parameterSetIdentifier": "t=2,m=19456,p=1,v=0x13",
+          "executionEnvironment": "software-plain-ram",
+          "implementationPlatform": "generic",
+          "certificationLevel": [
+            "none"
+          ],
+          "cryptoFunctions": [
+            "keyderive"
+          ]
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 163,
+            "offset": 8,
+            "symbol": "golang.org/x/crypto/argon2.IDKey",
+            "additionalContext": "id=GO-068; relation=direct; role=op:keyderive; scenario=S09; scope=s09Argon2id; end=163:61; charRange=4607-4659; byteRange=4607-4659; library=lib.xcrypto"
+          },
+          {
+            "location": "main.go",
+            "line": 163,
+            "offset": 43,
+            "additionalContext": "id=GO-069; relation=direct; role=prm:iterations; scenario=S09; scope=s09Argon2id; end=163:45; charRange=4642-4643; byteRange=4642-4643; library=lib.xcrypto"
+          },
+          {
+            "location": "main.go",
+            "line": 163,
+            "offset": 46,
+            "additionalContext": "id=GO-070; relation=direct; role=prm:memory-kib; scenario=S09; scope=s09Argon2id; end=163:53; charRange=4645-4651; byteRange=4645-4651; library=lib.xcrypto"
+          },
+          {
+            "location": "main.go",
+            "line": 163,
+            "offset": 54,
+            "additionalContext": "id=GO-071; relation=direct; role=prm:parallelism; scenario=S09; scope=s09Argon2id; end=163:56; charRange=4653-4654; byteRange=4653-4654; library=lib.xcrypto"
+          },
+          {
+            "location": "main.go",
+            "line": 163,
+            "offset": 57,
+            "additionalContext": "id=GO-072; relation=direct; role=prm:output-length-bytes; scenario=S09; scope=s09Argon2id; end=163:60; charRange=4656-4658; byteRange=4656-4658; library=lib.xcrypto"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "argon2id"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "5"
+        },
+        {
+          "name": "cbom-corpus:family",
+          "value": "Argon2"
+        },
+        {
+          "name": "cbom-corpus:standards",
+          "value": "RFC 9106"
+        },
+        {
+          "name": "cbom-corpus:nist-status",
+          "value": "Not NIST-approved (OWASP first choice for password storage)"
+        },
+        {
+          "name": "cbom-corpus:cnsa-2.0",
+          "value": "Not CNSA 2.0"
+        },
+        {
+          "name": "cbom-corpus:quantum",
+          "value": "Generic quantum speed-up only (Grover/BHT)"
+        },
+        {
+          "name": "cbom-corpus:note",
+          "value": "No standard OID is assigned. Internally uses BLAKE2b."
+        },
+        {
+          "name": "cbom-corpus:go-runtime-note",
+          "value": "argon2.IDKey hard-codes version 0x13; 'Argon2id' is identified only by the function name IDKey."
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/algorithm/bcrypt",
+      "name": "bcrypt",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "kdf",
+          "parameterSetIdentifier": "cost=12",
+          "executionEnvironment": "software-plain-ram",
+          "implementationPlatform": "generic",
+          "certificationLevel": [
+            "none"
+          ],
+          "cryptoFunctions": [
+            "keyderive",
+            "verify"
+          ]
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 169,
+            "offset": 14,
+            "symbol": "golang.org/x/crypto/bcrypt.GenerateFromPassword",
+            "additionalContext": "id=GO-073; relation=direct; role=op:keyderive; scenario=S10; scope=s10Bcrypt; end=169:56; charRange=4761-4802; byteRange=4761-4802; library=lib.xcrypto"
+          },
+          {
+            "location": "main.go",
+            "line": 169,
+            "offset": 52,
+            "additionalContext": "id=GO-074; relation=direct; role=prm:cost; scenario=S10; scope=s10Bcrypt; end=169:55; charRange=4799-4801; byteRange=4799-4801; library=lib.xcrypto"
+          },
+          {
+            "location": "main.go",
+            "line": 171,
+            "offset": 7,
+            "symbol": "golang.org/x/crypto/bcrypt.CompareHashAndPassword",
+            "additionalContext": "id=GO-075; relation=direct; role=op:verify; scenario=S10; scope=s10Bcrypt; end=171:53; charRange=4822-4867; byteRange=4822-4867; library=lib.xcrypto"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "bcrypt"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "3"
+        },
+        {
+          "name": "cbom-corpus:family",
+          "value": "bcrypt"
+        },
+        {
+          "name": "cbom-corpus:standards",
+          "value": "Provos & Mazieres, USENIX 1999"
+        },
+        {
+          "name": "cbom-corpus:nist-status",
+          "value": "Not NIST-approved"
+        },
+        {
+          "name": "cbom-corpus:cnsa-2.0",
+          "value": "Not CNSA 2.0"
+        },
+        {
+          "name": "cbom-corpus:quantum",
+          "value": "Generic quantum speed-up only (Grover/BHT)"
+        },
+        {
+          "name": "cbom-corpus:note",
+          "value": "Eksblowfish-based password hash; passwords truncated at 72 bytes."
+        },
+        {
+          "name": "cbom-corpus:go-runtime-note",
+          "value": "x/crypto/bcrypt always emits the $2a$ prefix and generates its own salt."
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/algorithm/aes-256-gcm",
+      "name": "AES-256-GCM",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "ae",
+          "parameterSetIdentifier": "256",
+          "executionEnvironment": "software-plain-ram",
+          "implementationPlatform": "generic",
+          "certificationLevel": [
+            "none"
+          ],
+          "mode": "gcm",
+          "cryptoFunctions": [
+            "decrypt",
+            "encrypt"
+          ],
+          "classicalSecurityLevel": 256,
+          "nistQuantumSecurityLevel": 5
+        },
+        "oid": "2.16.840.1.101.3.4.1.46"
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 177,
+            "offset": 15,
+            "symbol": "crypto/aes.NewCipher",
+            "additionalContext": "id=GO-076; relation=direct; role=ctor; scenario=S11; scope=s11AES256GCM; end=177:37; charRange=5006-5027; byteRange=5006-5027; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 179,
+            "offset": 14,
+            "symbol": "crypto/cipher.NewGCM",
+            "additionalContext": "id=GO-077; relation=direct; role=ctor; scenario=S11; scope=s11AES256GCM; end=179:35; charRange=5054-5074; byteRange=5054-5074; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 181,
+            "offset": 11,
+            "symbol": "crypto/cipher.AEAD.Seal",
+            "additionalContext": "id=GO-078; relation=direct; role=op:encrypt; scenario=S11; scope=s11AES256GCM; end=181:55; charRange=5098-5141; byteRange=5098-5141; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 182,
+            "offset": 16,
+            "symbol": "crypto/cipher.AEAD.Open",
+            "additionalContext": "id=GO-079; relation=direct; role=op:decrypt; scenario=S11; scope=s11AES256GCM; end=182:54; charRange=5158-5195; byteRange=5158-5195; library=lib.go-stdlib"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "aes-256-gcm"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "4"
+        },
+        {
+          "name": "cbom-corpus:family",
+          "value": "AES"
+        },
+        {
+          "name": "cbom-corpus:standards",
+          "value": "FIPS 197; SP 800-38D"
+        },
+        {
+          "name": "cbom-corpus:nist-status",
+          "value": "Approved"
+        },
+        {
+          "name": "cbom-corpus:cnsa-2.0",
+          "value": "CNSA 2.0 compliant (AES-256)"
+        },
+        {
+          "name": "cbom-corpus:quantum",
+          "value": "Generic quantum speed-up only (Grover/BHT)"
+        },
+        {
+          "name": "cbom-corpus:note",
+          "value": "128-bit tag, 96-bit IV. Hard-coded key/IV in S11 are a published test vector."
+        },
+        {
+          "name": "cbom-corpus:go-runtime-note",
+          "value": "cipher.NewGCM fixes a 16-byte tag and 12-byte nonce (implicit)."
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/algorithm/aes-128-gcm",
+      "name": "AES-128-GCM",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "ae",
+          "parameterSetIdentifier": "128",
+          "executionEnvironment": "software-plain-ram",
+          "implementationPlatform": "generic",
+          "certificationLevel": [
+            "none"
+          ],
+          "mode": "gcm",
+          "classicalSecurityLevel": 128,
+          "nistQuantumSecurityLevel": 1
+        },
+        "oid": "2.16.840.1.101.3.4.1.6"
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "aes-128-gcm"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "true"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "0"
+        },
+        {
+          "name": "cbom-corpus:family",
+          "value": "AES"
+        },
+        {
+          "name": "cbom-corpus:standards",
+          "value": "FIPS 197; SP 800-38D"
+        },
+        {
+          "name": "cbom-corpus:nist-status",
+          "value": "Approved"
+        },
+        {
+          "name": "cbom-corpus:cnsa-2.0",
+          "value": "Not CNSA 2.0 (AES-256 required)"
+        },
+        {
+          "name": "cbom-corpus:quantum",
+          "value": "Generic quantum speed-up only (Grover/BHT)"
+        },
+        {
+          "name": "cbom-corpus:note",
+          "value": "Only implicit: TLS_AES_128_GCM_SHA256 cipher suite (S24)."
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/algorithm/chacha20-poly1305",
+      "name": "ChaCha20-Poly1305",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "ae",
+          "parameterSetIdentifier": "256",
+          "executionEnvironment": "software-plain-ram",
+          "implementationPlatform": "generic",
+          "certificationLevel": [
+            "none"
+          ],
+          "mode": "other",
+          "cryptoFunctions": [
+            "decrypt",
+            "encrypt"
+          ],
+          "classicalSecurityLevel": 256,
+          "nistQuantumSecurityLevel": 5
+        },
+        "oid": "1.2.840.113549.1.9.16.3.18"
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 194,
+            "offset": 14,
+            "symbol": "golang.org/x/crypto/chacha20poly1305.New",
+            "additionalContext": "id=GO-084; relation=direct; role=ctor; scenario=S12; scope=s12ChaCha20Poly1305; end=194:40; charRange=5609-5634; byteRange=5609-5634; library=lib.xcrypto"
+          },
+          {
+            "location": "main.go",
+            "line": 196,
+            "offset": 11,
+            "symbol": "crypto/cipher.AEAD.Seal",
+            "additionalContext": "id=GO-085; relation=direct; role=op:encrypt; scenario=S12; scope=s12ChaCha20Poly1305; end=196:47; charRange=5658-5693; byteRange=5658-5693; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 197,
+            "offset": 16,
+            "symbol": "crypto/cipher.AEAD.Open",
+            "additionalContext": "id=GO-086; relation=direct; role=op:decrypt; scenario=S12; scope=s12ChaCha20Poly1305; end=197:51; charRange=5710-5744; byteRange=5710-5744; library=lib.go-stdlib"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "chacha20-poly1305"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "3"
+        },
+        {
+          "name": "cbom-corpus:family",
+          "value": "ChaCha20"
+        },
+        {
+          "name": "cbom-corpus:standards",
+          "value": "RFC 8439"
+        },
+        {
+          "name": "cbom-corpus:nist-status",
+          "value": "Not NIST-approved"
+        },
+        {
+          "name": "cbom-corpus:cnsa-2.0",
+          "value": "Not CNSA 2.0"
+        },
+        {
+          "name": "cbom-corpus:quantum",
+          "value": "Generic quantum speed-up only (Grover/BHT)"
+        },
+        {
+          "name": "cbom-corpus:note",
+          "value": "Stream-cipher AEAD; mode reported as 'other'."
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/algorithm/aes-256-cbc",
+      "name": "AES-256-CBC-PKCS7",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "block-cipher",
+          "parameterSetIdentifier": "256",
+          "executionEnvironment": "software-plain-ram",
+          "implementationPlatform": "generic",
+          "certificationLevel": [
+            "none"
+          ],
+          "mode": "cbc",
+          "padding": "pkcs7",
+          "cryptoFunctions": [
+            "decrypt",
+            "encrypt"
+          ],
+          "classicalSecurityLevel": 256,
+          "nistQuantumSecurityLevel": 5
+        },
+        "oid": "2.16.840.1.101.3.4.1.42"
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 208,
+            "offset": 15,
+            "symbol": "crypto/aes.NewCipher",
+            "additionalContext": "id=GO-091; relation=direct; role=ctor; scenario=S13; scope=s13AES256CBC; end=208:34; charRange=6021-6039; byteRange=6021-6039; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 210,
+            "offset": 11,
+            "additionalContext": "id=GO-092; relation=direct; role=alg; scenario=S13; scope=s13AES256CBC; end=210:44; charRange=6063-6095; byteRange=6063-6095; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 212,
+            "offset": 1,
+            "symbol": "crypto/cipher.BlockMode.CryptBlocks",
+            "additionalContext": "id=GO-093; relation=direct; role=op:encrypt; scenario=S13; scope=s13AES256CBC; end=212:67; charRange=6138-6203; byteRange=6138-6203; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 212,
+            "offset": 1,
+            "symbol": "crypto/cipher.NewCBCEncrypter",
+            "additionalContext": "id=GO-094; relation=direct; role=ctor:encrypt; scenario=S13; scope=s13AES256CBC; end=212:35; charRange=6138-6171; byteRange=6138-6171; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 214,
+            "offset": 1,
+            "symbol": "crypto/cipher.BlockMode.CryptBlocks",
+            "additionalContext": "id=GO-095; relation=direct; role=op:decrypt; scenario=S13; scope=s13AES256CBC; end=214:70; charRange=6249-6317; byteRange=6249-6317; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 214,
+            "offset": 1,
+            "symbol": "crypto/cipher.NewCBCDecrypter",
+            "additionalContext": "id=GO-096; relation=direct; role=ctor:decrypt; scenario=S13; scope=s13AES256CBC; end=214:35; charRange=6249-6282; byteRange=6249-6282; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 215,
+            "offset": 68,
+            "additionalContext": "id=GO-097; relation=direct; role=alg; scenario=S13; scope=s13AES256CBC; end=215:90; charRange=6386-6407; byteRange=6386-6407; library=lib.go-stdlib"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "aes-256-cbc"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "7"
+        },
+        {
+          "name": "cbom-corpus:family",
+          "value": "AES"
+        },
+        {
+          "name": "cbom-corpus:standards",
+          "value": "FIPS 197; SP 800-38A"
+        },
+        {
+          "name": "cbom-corpus:nist-status",
+          "value": "Approved mode; unauthenticated (padding-oracle risk without a MAC)"
+        },
+        {
+          "name": "cbom-corpus:cnsa-2.0",
+          "value": "AES-256 meets CNSA 2.0 key size"
+        },
+        {
+          "name": "cbom-corpus:quantum",
+          "value": "Generic quantum speed-up only (Grover/BHT)"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/algorithm/aes-128-ecb",
+      "name": "AES-128-ECB-PKCS7",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "block-cipher",
+          "parameterSetIdentifier": "128",
+          "executionEnvironment": "software-plain-ram",
+          "implementationPlatform": "generic",
+          "certificationLevel": [
+            "none"
+          ],
+          "mode": "ecb",
+          "padding": "pkcs7",
+          "cryptoFunctions": [
+            "encrypt"
+          ],
+          "classicalSecurityLevel": 128,
+          "nistQuantumSecurityLevel": 1
+        },
+        "oid": "2.16.840.1.101.3.4.1.1"
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 220,
+            "offset": 15,
+            "symbol": "crypto/aes.NewCipher",
+            "additionalContext": "id=GO-098; relation=direct; role=ctor; scenario=S14; scope=s14AES128ECB; end=220:37; charRange=6523-6544; byteRange=6523-6544; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 222,
+            "offset": 11,
+            "additionalContext": "id=GO-099; relation=direct; role=alg; scenario=S14; scope=s14AES128ECB; end=222:49; charRange=6568-6605; byteRange=6568-6605; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 224,
+            "offset": 35,
+            "symbol": "crypto/aes.BlockSize",
+            "additionalContext": "id=GO-100; relation=direct; role=prm:block-size-bytes; scenario=S14; scope=s14AES128ECB; end=224:49; charRange=6682-6695; byteRange=6682-6695; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 225,
+            "offset": 2,
+            "symbol": "crypto/cipher.Block.Encrypt",
+            "additionalContext": "id=GO-101; relation=direct; role=op:encrypt; scenario=S14; scope=s14AES128ECB; end=225:74; charRange=6700-6771; byteRange=6700-6771; library=lib.go-stdlib"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "aes-128-ecb"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "4"
+        },
+        {
+          "name": "cbom-corpus:family",
+          "value": "AES"
+        },
+        {
+          "name": "cbom-corpus:standards",
+          "value": "FIPS 197; SP 800-38A"
+        },
+        {
+          "name": "cbom-corpus:nist-status",
+          "value": "Approved block cipher, but ECB leaks plaintext block equality - flag as weak mode"
+        },
+        {
+          "name": "cbom-corpus:cnsa-2.0",
+          "value": "Not CNSA 2.0 (AES-256 required)"
+        },
+        {
+          "name": "cbom-corpus:quantum",
+          "value": "Generic quantum speed-up only (Grover/BHT)"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/algorithm/aes-256-ctr",
+      "name": "AES-256-CTR",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "block-cipher",
+          "parameterSetIdentifier": "256",
+          "executionEnvironment": "software-plain-ram",
+          "implementationPlatform": "generic",
+          "certificationLevel": [
+            "none"
+          ],
+          "mode": "ctr",
+          "cryptoFunctions": [
+            "decrypt",
+            "encrypt"
+          ],
+          "classicalSecurityLevel": 256,
+          "nistQuantumSecurityLevel": 5
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 236,
+            "offset": 15,
+            "symbol": "crypto/aes.NewCipher",
+            "additionalContext": "id=GO-106; relation=direct; role=ctor; scenario=S15; scope=s15AES256CTR; end=236:34; charRange=7006-7024; byteRange=7006-7024; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 239,
+            "offset": 1,
+            "symbol": "crypto/cipher.Stream.XORKeyStream",
+            "additionalContext": "id=GO-107; relation=direct; role=op:encrypt; scenario=S15; scope=s15AES256CTR; end=239:70; charRange=7080-7148; byteRange=7080-7148; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 239,
+            "offset": 1,
+            "symbol": "crypto/cipher.NewCTR",
+            "additionalContext": "id=GO-108; relation=direct; role=ctor:encrypt; scenario=S15; scope=s15AES256CTR; end=239:36; charRange=7080-7114; byteRange=7080-7114; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 241,
+            "offset": 1,
+            "symbol": "crypto/cipher.Stream.XORKeyStream",
+            "additionalContext": "id=GO-109; relation=direct; role=op:decrypt; scenario=S15; scope=s15AES256CTR; end=241:72; charRange=7194-7264; byteRange=7194-7264; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 241,
+            "offset": 1,
+            "symbol": "crypto/cipher.NewCTR",
+            "additionalContext": "id=GO-110; relation=direct; role=ctor:decrypt; scenario=S15; scope=s15AES256CTR; end=241:36; charRange=7194-7228; byteRange=7194-7228; library=lib.go-stdlib"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "aes-256-ctr"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "5"
+        },
+        {
+          "name": "cbom-corpus:family",
+          "value": "AES"
+        },
+        {
+          "name": "cbom-corpus:standards",
+          "value": "FIPS 197; SP 800-38A"
+        },
+        {
+          "name": "cbom-corpus:nist-status",
+          "value": "Approved mode; unauthenticated"
+        },
+        {
+          "name": "cbom-corpus:cnsa-2.0",
+          "value": "AES-256 meets CNSA 2.0 key size"
+        },
+        {
+          "name": "cbom-corpus:quantum",
+          "value": "Generic quantum speed-up only (Grover/BHT)"
+        },
+        {
+          "name": "cbom-corpus:note",
+          "value": "No NIST OID is registered for AES-CTR."
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/algorithm/3des-cbc",
+      "name": "3DES-CBC-PKCS7 (3-key TDEA)",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "block-cipher",
+          "parameterSetIdentifier": "168",
+          "executionEnvironment": "software-plain-ram",
+          "implementationPlatform": "generic",
+          "certificationLevel": [
+            "none"
+          ],
+          "mode": "cbc",
+          "padding": "pkcs7",
+          "cryptoFunctions": [
+            "decrypt",
+            "encrypt"
+          ],
+          "classicalSecurityLevel": 112,
+          "nistQuantumSecurityLevel": 0
+        },
+        "oid": "1.2.840.113549.3.7"
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 251,
+            "offset": 15,
+            "symbol": "crypto/des.NewTripleDESCipher",
+            "additionalContext": "id=GO-115; relation=direct; role=ctor; scenario=S16; scope=s16TDEACBC; end=251:43; charRange=7530-7557; byteRange=7530-7557; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 253,
+            "offset": 11,
+            "additionalContext": "id=GO-116; relation=direct; role=alg; scenario=S16; scope=s16TDEACBC; end=253:44; charRange=7581-7613; byteRange=7581-7613; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 255,
+            "offset": 1,
+            "symbol": "crypto/cipher.BlockMode.CryptBlocks",
+            "additionalContext": "id=GO-117; relation=direct; role=op:encrypt; scenario=S16; scope=s16TDEACBC; end=255:67; charRange=7656-7721; byteRange=7656-7721; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 255,
+            "offset": 1,
+            "symbol": "crypto/cipher.NewCBCEncrypter",
+            "additionalContext": "id=GO-118; relation=direct; role=ctor:encrypt; scenario=S16; scope=s16TDEACBC; end=255:35; charRange=7656-7689; byteRange=7656-7689; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 257,
+            "offset": 1,
+            "symbol": "crypto/cipher.BlockMode.CryptBlocks",
+            "additionalContext": "id=GO-119; relation=direct; role=op:decrypt; scenario=S16; scope=s16TDEACBC; end=257:70; charRange=7767-7835; byteRange=7767-7835; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 257,
+            "offset": 1,
+            "symbol": "crypto/cipher.NewCBCDecrypter",
+            "additionalContext": "id=GO-120; relation=direct; role=ctor:decrypt; scenario=S16; scope=s16TDEACBC; end=257:35; charRange=7767-7800; byteRange=7767-7800; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 258,
+            "offset": 65,
+            "additionalContext": "id=GO-121; relation=direct; role=alg; scenario=S16; scope=s16TDEACBC; end=258:87; charRange=7901-7922; byteRange=7901-7922; library=lib.go-stdlib"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "3des-cbc"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "7"
+        },
+        {
+          "name": "cbom-corpus:family",
+          "value": "3DES"
+        },
+        {
+          "name": "cbom-corpus:standards",
+          "value": "SP 800-67 r2 (withdrawn 2024-01-01); SP 800-38A"
+        },
+        {
+          "name": "cbom-corpus:nist-status",
+          "value": "Disallowed for encryption after 2023-12-31 (SP 800-131A r2); decryption legacy-use only"
+        },
+        {
+          "name": "cbom-corpus:cnsa-2.0",
+          "value": "Not CNSA 2.0"
+        },
+        {
+          "name": "cbom-corpus:quantum",
+          "value": "Below NIST category 1 (112-bit classical)"
+        },
+        {
+          "name": "cbom-corpus:note",
+          "value": "64-bit block size (Sweet32 birthday bound)."
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/algorithm/rsa-3072",
+      "name": "RSA-3072 key pair",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "pke",
+          "parameterSetIdentifier": "3072",
+          "executionEnvironment": "software-plain-ram",
+          "implementationPlatform": "generic",
+          "certificationLevel": [
+            "none"
+          ],
+          "cryptoFunctions": [
+            "keygen"
+          ],
+          "classicalSecurityLevel": 128,
+          "nistQuantumSecurityLevel": 0
+        },
+        "oid": "1.2.840.113549.1.1.1"
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 263,
+            "offset": 20,
+            "symbol": "crypto/rsa.GenerateKey",
+            "additionalContext": "id=GO-122; relation=direct; role=op:keygen; scenario=S17; scope=s17RSA3072; end=263:55; charRange=8041-8075; byteRange=8041-8075; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 263,
+            "offset": 49,
+            "additionalContext": "id=GO-123; relation=direct; role=prm:key-size-bits; scenario=S17; scope=s17RSA3072; end=263:54; charRange=8070-8074; byteRange=8070-8074; library=lib.go-stdlib"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "rsa-3072"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "2"
+        },
+        {
+          "name": "cbom-corpus:family",
+          "value": "RSA"
+        },
+        {
+          "name": "cbom-corpus:standards",
+          "value": "FIPS 186-5; RFC 8017"
+        },
+        {
+          "name": "cbom-corpus:nist-status",
+          "value": "Acceptable; quantum-vulnerable - disallowed after 2035 (NIST IR 8547)"
+        },
+        {
+          "name": "cbom-corpus:cnsa-2.0",
+          "value": "CNSA 1.0 only (>=3072); not CNSA 2.0"
+        },
+        {
+          "name": "cbom-corpus:quantum",
+          "value": "Broken by Shor's algorithm on a CRQC"
+        },
+        {
+          "name": "cbom-corpus:note",
+          "value": "The same key pair is used for encryption (OAEP) and two signature schemes - a key-separation finding (SP 800-57 Pt 1 section 5.2)."
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/algorithm/mgf1-sha256",
+      "name": "MGF1-SHA256",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "other",
+          "parameterSetIdentifier": "SHA-256",
+          "executionEnvironment": "software-plain-ram",
+          "implementationPlatform": "generic",
+          "certificationLevel": [
+            "none"
+          ]
+        },
+        "oid": "1.2.840.113549.1.1.8"
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "mgf1-sha256"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "true"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "0"
+        },
+        {
+          "name": "cbom-corpus:family",
+          "value": "MGF1"
+        },
+        {
+          "name": "cbom-corpus:standards",
+          "value": "RFC 8017"
+        },
+        {
+          "name": "cbom-corpus:nist-status",
+          "value": "Approved (as part of OAEP/PSS)"
+        },
+        {
+          "name": "cbom-corpus:cnsa-2.0",
+          "value": "Not CNSA 2.0"
+        },
+        {
+          "name": "cbom-corpus:quantum",
+          "value": "Generic quantum speed-up only (Grover/BHT)"
+        },
+        {
+          "name": "cbom-corpus:go-runtime-note",
+          "value": "rsa.EncryptOAEP and rsa.SignPSS use the OAEP/PSS hash for MGF1 implicitly."
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/algorithm/rsa-oaep-sha256",
+      "name": "RSAES-OAEP-SHA256 (RSA-3072)",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "pke",
+          "parameterSetIdentifier": "3072",
+          "executionEnvironment": "software-plain-ram",
+          "implementationPlatform": "generic",
+          "certificationLevel": [
+            "none"
+          ],
+          "padding": "oaep",
+          "cryptoFunctions": [
+            "decrypt",
+            "encrypt"
+          ],
+          "classicalSecurityLevel": 128,
+          "nistQuantumSecurityLevel": 0
+        },
+        "oid": "1.2.840.113549.1.1.7"
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 267,
+            "offset": 20,
+            "symbol": "crypto/rsa.EncryptOAEP",
+            "additionalContext": "id=GO-124; relation=direct; role=op:encrypt; scenario=S17; scope=s17RSA3072; end=267:88; charRange=8145-8212; byteRange=8145-8212; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 267,
+            "offset": 36,
+            "symbol": "crypto/sha256.New",
+            "additionalContext": "id=GO-125; relation=parameter:sha-256; role=alg; scenario=S17; scope=s17RSA3072; end=267:49; charRange=8161-8173; byteRange=8161-8173; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 269,
+            "offset": 19,
+            "symbol": "crypto/rsa.DecryptOAEP",
+            "additionalContext": "id=GO-126; relation=direct; role=op:decrypt; scenario=S17; scope=s17RSA3072; end=269:83; charRange=8244-8307; byteRange=8244-8307; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 269,
+            "offset": 35,
+            "symbol": "crypto/sha256.New",
+            "additionalContext": "id=GO-127; relation=parameter:sha-256; role=alg; scenario=S17; scope=s17RSA3072; end=269:48; charRange=8260-8272; byteRange=8260-8272; library=lib.go-stdlib"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "rsa-oaep-sha256"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "4"
+        },
+        {
+          "name": "cbom-corpus:family",
+          "value": "RSA"
+        },
+        {
+          "name": "cbom-corpus:standards",
+          "value": "RFC 8017; SP 800-56B r2"
+        },
+        {
+          "name": "cbom-corpus:nist-status",
+          "value": "Approved; quantum-vulnerable (IR 8547)"
+        },
+        {
+          "name": "cbom-corpus:cnsa-2.0",
+          "value": "CNSA 1.0 only"
+        },
+        {
+          "name": "cbom-corpus:quantum",
+          "value": "Broken by Shor's algorithm on a CRQC"
+        },
+        {
+          "name": "cbom-corpus:note",
+          "value": "Label hash SHA-256 and MGF1 hash SHA-256, empty label."
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/algorithm/rsassa-pss-sha256",
+      "name": "RSASSA-PSS-SHA256 (RSA-3072)",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "signature",
+          "parameterSetIdentifier": "3072",
+          "executionEnvironment": "software-plain-ram",
+          "implementationPlatform": "generic",
+          "certificationLevel": [
+            "none"
+          ],
+          "padding": "other",
+          "cryptoFunctions": [
+            "sign",
+            "verify"
+          ],
+          "classicalSecurityLevel": 128,
+          "nistQuantumSecurityLevel": 0
+        },
+        "oid": "1.2.840.113549.1.1.10"
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 273,
+            "offset": 11,
+            "symbol": "crypto/sha256.Sum256",
+            "additionalContext": "id=GO-128; relation=parameter:sha-256; role=op:digest; scenario=S17; scope=s17RSA3072; end=273:34; charRange=8424-8446; byteRange=8424-8446; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 274,
+            "offset": 15,
+            "symbol": "crypto/rsa.PSSOptions",
+            "additionalContext": "id=GO-130; relation=direct; role=spec; scenario=S17; scope=s17RSA3072; end=274:72; charRange=8462-8518; byteRange=8462-8518; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 274,
+            "offset": 43,
+            "symbol": "crypto/rsa.PSSSaltLengthEqualsHash",
+            "additionalContext": "id=GO-131; relation=direct; role=prm:salt-length-bytes; scenario=S17; scope=s17RSA3072; end=274:71; charRange=8490-8517; byteRange=8490-8517; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 275,
+            "offset": 22,
+            "symbol": "crypto/rsa.SignPSS",
+            "additionalContext": "id=GO-132; relation=direct; role=op:sign; scenario=S17; scope=s17RSA3072; end=275:97; charRange=8541-8615; byteRange=8541-8615; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 275,
+            "offset": 59,
+            "symbol": "crypto.SHA256",
+            "additionalContext": "id=GO-133; relation=parameter:sha-256; role=alg; scenario=S17; scope=s17RSA3072; end=275:73; charRange=8578-8591; byteRange=8578-8591; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 277,
+            "offset": 10,
+            "symbol": "crypto/rsa.VerifyPSS",
+            "additionalContext": "id=GO-134; relation=direct; role=op:verify; scenario=S17; scope=s17RSA3072; end=277:87; charRange=8638-8714; byteRange=8638-8714; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 277,
+            "offset": 35,
+            "symbol": "crypto.SHA256",
+            "additionalContext": "id=GO-135; relation=parameter:sha-256; role=alg; scenario=S17; scope=s17RSA3072; end=277:49; charRange=8663-8676; byteRange=8663-8676; library=lib.go-stdlib"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "rsassa-pss-sha256"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "7"
+        },
+        {
+          "name": "cbom-corpus:family",
+          "value": "RSA"
+        },
+        {
+          "name": "cbom-corpus:standards",
+          "value": "RFC 8017; FIPS 186-5"
+        },
+        {
+          "name": "cbom-corpus:nist-status",
+          "value": "Approved; quantum-vulnerable (IR 8547)"
+        },
+        {
+          "name": "cbom-corpus:cnsa-2.0",
+          "value": "CNSA 1.0 only"
+        },
+        {
+          "name": "cbom-corpus:quantum",
+          "value": "Broken by Shor's algorithm on a CRQC"
+        },
+        {
+          "name": "cbom-corpus:note",
+          "value": "CycloneDX has no 'pss' padding value, so padding='other'. Salt length 32, trailer 0xBC."
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/algorithm/rsassa-pkcs1v15-sha256",
+      "name": "RSASSA-PKCS1-v1_5-SHA256 (RSA-3072)",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "signature",
+          "parameterSetIdentifier": "3072",
+          "executionEnvironment": "software-plain-ram",
+          "implementationPlatform": "generic",
+          "certificationLevel": [
+            "none"
+          ],
+          "padding": "pkcs1v15",
+          "cryptoFunctions": [
+            "sign",
+            "verify"
+          ],
+          "classicalSecurityLevel": 128,
+          "nistQuantumSecurityLevel": 0
+        },
+        "oid": "1.2.840.113549.1.1.11"
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 273,
+            "offset": 11,
+            "symbol": "crypto/sha256.Sum256",
+            "additionalContext": "id=GO-129; relation=parameter:sha-256; role=op:digest; scenario=S17; scope=s17RSA3072; end=273:34; charRange=8424-8446; byteRange=8424-8446; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 280,
+            "offset": 24,
+            "symbol": "crypto/rsa.SignPKCS1v15",
+            "additionalContext": "id=GO-136; relation=direct; role=op:sign; scenario=S17; scope=s17RSA3072; end=280:84; charRange=8809-8868; byteRange=8809-8868; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 280,
+            "offset": 58,
+            "symbol": "crypto.SHA256",
+            "additionalContext": "id=GO-137; relation=parameter:sha-256; role=alg; scenario=S17; scope=s17RSA3072; end=280:72; charRange=8843-8856; byteRange=8843-8856; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 282,
+            "offset": 12,
+            "symbol": "crypto/rsa.VerifyPKCS1v15",
+            "additionalContext": "id=GO-138; relation=direct; role=op:verify; scenario=S17; scope=s17RSA3072; end=282:84; charRange=8893-8964; byteRange=8893-8964; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 282,
+            "offset": 42,
+            "symbol": "crypto.SHA256",
+            "additionalContext": "id=GO-139; relation=parameter:sha-256; role=alg; scenario=S17; scope=s17RSA3072; end=282:56; charRange=8923-8936; byteRange=8923-8936; library=lib.go-stdlib"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "rsassa-pkcs1v15-sha256"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "5"
+        },
+        {
+          "name": "cbom-corpus:family",
+          "value": "RSA"
+        },
+        {
+          "name": "cbom-corpus:standards",
+          "value": "RFC 8017; FIPS 186-5"
+        },
+        {
+          "name": "cbom-corpus:nist-status",
+          "value": "Approved; quantum-vulnerable (IR 8547)"
+        },
+        {
+          "name": "cbom-corpus:cnsa-2.0",
+          "value": "CNSA 1.0 only"
+        },
+        {
+          "name": "cbom-corpus:quantum",
+          "value": "Broken by Shor's algorithm on a CRQC"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/algorithm/ecdsa-p256-sha256",
+      "name": "ECDSA P-256 with SHA-256",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "signature",
+          "parameterSetIdentifier": "P-256",
+          "curve": "secp256r1",
+          "executionEnvironment": "software-plain-ram",
+          "implementationPlatform": "generic",
+          "certificationLevel": [
+            "none"
+          ],
+          "cryptoFunctions": [
+            "keygen",
+            "sign",
+            "verify"
+          ],
+          "classicalSecurityLevel": 128,
+          "nistQuantumSecurityLevel": 0
+        },
+        "oid": "1.2.840.10045.4.3.2"
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 288,
+            "offset": 20,
+            "symbol": "crypto/ecdsa.GenerateKey",
+            "additionalContext": "id=GO-140; relation=direct; role=op:keygen; scenario=S18; scope=s18ECDSAP256; end=288:68; charRange=9119-9166; byteRange=9119-9166; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 288,
+            "offset": 38,
+            "symbol": "crypto/elliptic.P256",
+            "additionalContext": "id=GO-141; relation=direct; role=alg; scenario=S18; scope=s18ECDSAP256; end=288:54; charRange=9137-9152; byteRange=9137-9152; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 290,
+            "offset": 11,
+            "symbol": "crypto/sha256.Sum256",
+            "additionalContext": "id=GO-142; relation=parameter:sha-256; role=op:digest; scenario=S18; scope=s18ECDSAP256; end=290:34; charRange=9190-9212; byteRange=9190-9212; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 291,
+            "offset": 19,
+            "symbol": "crypto/ecdsa.SignASN1",
+            "additionalContext": "id=GO-143; relation=direct; role=op:sign; scenario=S18; scope=s18ECDSAP256; end=291:70; charRange=9232-9282; byteRange=9232-9282; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 293,
+            "offset": 7,
+            "symbol": "crypto/ecdsa.VerifyASN1",
+            "additionalContext": "id=GO-144; relation=direct; role=op:verify; scenario=S18; scope=s18ECDSAP256; end=293:69; charRange=9302-9363; byteRange=9302-9363; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 363,
+            "offset": 13,
+            "symbol": "crypto/ecdsa.GenerateKey",
+            "additionalContext": "id=GO-170; relation=direct; role=op:keygen; scenario=S23; scope=s23X509SelfSigned; end=363:61; charRange=11773-11820; byteRange=11773-11820; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 363,
+            "offset": 31,
+            "symbol": "crypto/elliptic.P256",
+            "additionalContext": "id=GO-171; relation=direct; role=alg; scenario=S23; scope=s23X509SelfSigned; end=363:47; charRange=11791-11806; byteRange=11791-11806; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 373,
+            "offset": 22,
+            "symbol": "crypto/x509.ECDSAWithSHA256",
+            "additionalContext": "id=GO-175; relation=direct; role=alg; scenario=S23; scope=s23X509SelfSigned; end=373:43; charRange=12181-12201; byteRange=12181-12201; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 379,
+            "offset": 7,
+            "symbol": "crypto/x509.Certificate.CheckSignature",
+            "additionalContext": "id=GO-178; relation=direct; role=op:verify; scenario=S23; scope=s23X509SelfSigned; end=379:120; charRange=12375-12487; byteRange=12375-12487; library=lib.go-stdlib"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "ecdsa-p256-sha256"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "9"
+        },
+        {
+          "name": "cbom-corpus:family",
+          "value": "ECDSA"
+        },
+        {
+          "name": "cbom-corpus:standards",
+          "value": "FIPS 186-5; SP 800-186"
+        },
+        {
+          "name": "cbom-corpus:nist-status",
+          "value": "Approved; quantum-vulnerable (IR 8547)"
+        },
+        {
+          "name": "cbom-corpus:cnsa-2.0",
+          "value": "Not CNSA (P-384 required)"
+        },
+        {
+          "name": "cbom-corpus:quantum",
+          "value": "Broken by Shor's algorithm on a CRQC"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/algorithm/ecdh-p256",
+      "name": "ECDH P-256",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "key-agree",
+          "parameterSetIdentifier": "P-256",
+          "curve": "secp256r1",
+          "executionEnvironment": "software-plain-ram",
+          "implementationPlatform": "generic",
+          "certificationLevel": [
+            "none"
+          ],
+          "cryptoFunctions": [
+            "keyderive",
+            "keygen"
+          ],
+          "classicalSecurityLevel": 128,
+          "nistQuantumSecurityLevel": 0
+        },
+        "oid": "1.3.132.1.12"
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 325,
+            "offset": 9,
+            "symbol": "crypto/ecdh.P256",
+            "additionalContext": "id=GO-157; relation=direct; role=alg; scenario=S20; scope=s20KeyAgreement; end=325:21; charRange=10366-10377; byteRange=10366-10377; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 326,
+            "offset": 17,
+            "symbol": "crypto/ecdh.Curve.GenerateKey",
+            "additionalContext": "id=GO-158; relation=direct; role=op:keygen; scenario=S20; scope=s20KeyAgreement; end=326:47; charRange=10395-10424; byteRange=10395-10424; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 328,
+            "offset": 15,
+            "symbol": "crypto/ecdh.Curve.GenerateKey",
+            "additionalContext": "id=GO-159; relation=direct; role=op:keygen; scenario=S20; scope=s20KeyAgreement; end=328:45; charRange=10452-10481; byteRange=10452-10481; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 330,
+            "offset": 16,
+            "symbol": "crypto/ecdh.PrivateKey.ECDH",
+            "additionalContext": "id=GO-160; relation=direct; role=op:agree; scenario=S20; scope=s20KeyAgreement; end=330:48; charRange=10510-10541; byteRange=10510-10541; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 332,
+            "offset": 14,
+            "symbol": "crypto/ecdh.PrivateKey.ECDH",
+            "additionalContext": "id=GO-161; relation=direct; role=op:agree; scenario=S20; scope=s20KeyAgreement; end=332:46; charRange=10568-10599; byteRange=10568-10599; library=lib.go-stdlib"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "ecdh-p256"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "5"
+        },
+        {
+          "name": "cbom-corpus:family",
+          "value": "ECDH"
+        },
+        {
+          "name": "cbom-corpus:standards",
+          "value": "SP 800-56A r3; SP 800-186"
+        },
+        {
+          "name": "cbom-corpus:nist-status",
+          "value": "Approved; quantum-vulnerable (IR 8547)"
+        },
+        {
+          "name": "cbom-corpus:cnsa-2.0",
+          "value": "Not CNSA (P-384 required)"
+        },
+        {
+          "name": "cbom-corpus:quantum",
+          "value": "Broken by Shor's algorithm on a CRQC"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/algorithm/x25519",
+      "name": "X25519",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "key-agree",
+          "parameterSetIdentifier": "Curve25519",
+          "curve": "curve25519",
+          "executionEnvironment": "software-plain-ram",
+          "implementationPlatform": "generic",
+          "certificationLevel": [
+            "none"
+          ],
+          "cryptoFunctions": [
+            "keyderive",
+            "keygen"
+          ],
+          "classicalSecurityLevel": 128,
+          "nistQuantumSecurityLevel": 0
+        },
+        "oid": "1.3.101.110"
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 314,
+            "offset": 11,
+            "symbol": "crypto/ecdh.X25519",
+            "additionalContext": "id=GO-152; relation=direct; role=alg; scenario=S20; scope=s20KeyAgreement; end=314:25; charRange=10041-10054; byteRange=10041-10054; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 315,
+            "offset": 15,
+            "symbol": "crypto/ecdh.Curve.GenerateKey",
+            "additionalContext": "id=GO-153; relation=direct; role=op:keygen; scenario=S20; scope=s20KeyAgreement; end=315:47; charRange=10070-10101; byteRange=10070-10101; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 317,
+            "offset": 13,
+            "symbol": "crypto/ecdh.Curve.GenerateKey",
+            "additionalContext": "id=GO-154; relation=direct; role=op:keygen; scenario=S20; scope=s20KeyAgreement; end=317:45; charRange=10127-10158; byteRange=10127-10158; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 319,
+            "offset": 16,
+            "symbol": "crypto/ecdh.PrivateKey.ECDH",
+            "additionalContext": "id=GO-155; relation=direct; role=op:agree; scenario=S20; scope=s20KeyAgreement; end=319:44; charRange=10187-10214; byteRange=10187-10214; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 321,
+            "offset": 14,
+            "symbol": "crypto/ecdh.PrivateKey.ECDH",
+            "additionalContext": "id=GO-156; relation=direct; role=op:agree; scenario=S20; scope=s20KeyAgreement; end=321:42; charRange=10241-10268; byteRange=10241-10268; library=lib.go-stdlib"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "x25519"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "5"
+        },
+        {
+          "name": "cbom-corpus:family",
+          "value": "ECDH"
+        },
+        {
+          "name": "cbom-corpus:standards",
+          "value": "RFC 7748"
+        },
+        {
+          "name": "cbom-corpus:nist-status",
+          "value": "Not listed in SP 800-56A r3"
+        },
+        {
+          "name": "cbom-corpus:cnsa-2.0",
+          "value": "Not CNSA"
+        },
+        {
+          "name": "cbom-corpus:quantum",
+          "value": "Broken by Shor's algorithm on a CRQC"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/algorithm/ed25519",
+      "name": "Ed25519",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "signature",
+          "parameterSetIdentifier": "Ed25519",
+          "curve": "edwards25519",
+          "executionEnvironment": "software-plain-ram",
+          "implementationPlatform": "generic",
+          "certificationLevel": [
+            "none"
+          ],
+          "cryptoFunctions": [
+            "keygen",
+            "sign",
+            "verify"
+          ],
+          "classicalSecurityLevel": 128,
+          "nistQuantumSecurityLevel": 0
+        },
+        "oid": "1.3.101.112"
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 299,
+            "offset": 15,
+            "symbol": "crypto/ed25519.NewKeyFromSeed",
+            "additionalContext": "id=GO-145; relation=direct; role=op:keygen; scenario=S19; scope=s19Ed25519; end=299:51; charRange=9505-9540; byteRange=9505-9540; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 300,
+            "offset": 35,
+            "symbol": "crypto/ed25519.PublicKey",
+            "additionalContext": "id=GO-146; relation=direct; role=typ; scenario=S19; scope=s19Ed25519; end=300:53; charRange=9576-9593; byteRange=9576-9593; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 301,
+            "offset": 14,
+            "symbol": "crypto/ed25519.Sign",
+            "additionalContext": "id=GO-147; relation=direct; role=op:sign; scenario=S19; scope=s19Ed25519; end=301:48; charRange=9609-9642; byteRange=9609-9642; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 302,
+            "offset": 7,
+            "symbol": "crypto/ed25519.Verify",
+            "additionalContext": "id=GO-148; relation=direct; role=op:verify; scenario=S19; scope=s19Ed25519; end=302:53; charRange=9650-9695; byteRange=9650-9695; library=lib.go-stdlib"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "ed25519"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "4"
+        },
+        {
+          "name": "cbom-corpus:family",
+          "value": "EdDSA"
+        },
+        {
+          "name": "cbom-corpus:standards",
+          "value": "RFC 8032; FIPS 186-5"
+        },
+        {
+          "name": "cbom-corpus:nist-status",
+          "value": "Approved (FIPS 186-5); quantum-vulnerable (IR 8547)"
+        },
+        {
+          "name": "cbom-corpus:cnsa-2.0",
+          "value": "Not CNSA"
+        },
+        {
+          "name": "cbom-corpus:quantum",
+          "value": "Broken by Shor's algorithm on a CRQC"
+        },
+        {
+          "name": "cbom-corpus:note",
+          "value": "SHA-512 is used internally (implicit)."
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/algorithm/ml-kem-768",
+      "name": "ML-KEM-768",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "kem",
+          "parameterSetIdentifier": "768",
+          "executionEnvironment": "software-plain-ram",
+          "implementationPlatform": "generic",
+          "certificationLevel": [
+            "none"
+          ],
+          "cryptoFunctions": [
+            "decapsulate",
+            "encapsulate",
+            "keygen"
+          ],
+          "classicalSecurityLevel": 192,
+          "nistQuantumSecurityLevel": 3
+        },
+        "oid": "2.16.840.1.101.3.4.4.2"
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 343,
+            "offset": 26,
+            "symbol": "crypto/mlkem.GenerateKey768",
+            "additionalContext": "id=GO-162; relation=direct; role=op:keygen; scenario=S21; scope=s21MLKEM768; end=343:49; charRange=10987-11009; byteRange=10987-11009; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 345,
+            "offset": 29,
+            "symbol": "crypto/mlkem.EncapsulationKey768.Encapsulate",
+            "additionalContext": "id=GO-163; relation=direct; role=op:encapsulate; scenario=S21; scope=s21MLKEM768; end=345:79; charRange=11051-11100; byteRange=11051-11100; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 346,
+            "offset": 19,
+            "symbol": "crypto/mlkem.DecapsulationKey768.Decapsulate",
+            "additionalContext": "id=GO-164; relation=direct; role=op:decapsulate; scenario=S21; scope=s21MLKEM768; end=346:60; charRange=11120-11160; byteRange=11120-11160; library=lib.go-stdlib"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "ml-kem-768"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "3"
+        },
+        {
+          "name": "cbom-corpus:family",
+          "value": "ML-KEM"
+        },
+        {
+          "name": "cbom-corpus:standards",
+          "value": "FIPS 203"
+        },
+        {
+          "name": "cbom-corpus:nist-status",
+          "value": "Approved"
+        },
+        {
+          "name": "cbom-corpus:cnsa-2.0",
+          "value": "Not CNSA 2.0 (ML-KEM-1024 required)"
+        },
+        {
+          "name": "cbom-corpus:quantum",
+          "value": "Designed to resist CRQC"
+        },
+        {
+          "name": "cbom-corpus:note",
+          "value": "Uses SHA3/SHAKE internally (implicit)."
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/algorithm/ml-dsa-65",
+      "name": "ML-DSA-65",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "signature",
+          "parameterSetIdentifier": "65",
+          "executionEnvironment": "software-plain-ram",
+          "implementationPlatform": "generic",
+          "certificationLevel": [
+            "none"
+          ],
+          "cryptoFunctions": [
+            "keygen",
+            "sign",
+            "verify"
+          ],
+          "classicalSecurityLevel": 192,
+          "nistQuantumSecurityLevel": 3
+        },
+        "oid": "2.16.840.1.101.3.4.3.18"
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 353,
+            "offset": 31,
+            "symbol": "github.com/cloudflare/circl/sign/mldsa/mldsa65.GenerateKey",
+            "additionalContext": "id=GO-165; relation=direct; role=op:keygen; scenario=S22; scope=s22MLDSA65; end=353:64; charRange=11394-11426; byteRange=11394-11426; library=lib.circl"
+          },
+          {
+            "location": "main.go",
+            "line": 355,
+            "offset": 27,
+            "symbol": "github.com/cloudflare/circl/sign/mldsa/mldsa65.SignatureSize",
+            "additionalContext": "id=GO-166; relation=direct; role=prm:signature-size-bytes; scenario=S22; scope=s22MLDSA65; end=355:49; charRange=11466-11487; byteRange=11466-11487; library=lib.circl"
+          },
+          {
+            "location": "main.go",
+            "line": 356,
+            "offset": 7,
+            "symbol": "github.com/cloudflare/circl/sign/mldsa/mldsa65.SignTo",
+            "additionalContext": "id=GO-167; relation=direct; role=op:sign; scenario=S22; scope=s22MLDSA65; end=356:65; charRange=11496-11553; byteRange=11496-11553; library=lib.circl"
+          },
+          {
+            "location": "main.go",
+            "line": 356,
+            "offset": 48,
+            "additionalContext": "id=GO-168; relation=direct; role=prm:randomized; scenario=S22; scope=s22MLDSA65; end=356:53; charRange=11537-11541; byteRange=11537-11541; library=lib.circl"
+          },
+          {
+            "location": "main.go",
+            "line": 357,
+            "offset": 7,
+            "symbol": "github.com/cloudflare/circl/sign/mldsa/mldsa65.Verify",
+            "additionalContext": "id=GO-169; relation=direct; role=op:verify; scenario=S22; scope=s22MLDSA65; end=357:58; charRange=11562-11612; byteRange=11562-11612; library=lib.circl"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "ml-dsa-65"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "5"
+        },
+        {
+          "name": "cbom-corpus:family",
+          "value": "ML-DSA"
+        },
+        {
+          "name": "cbom-corpus:standards",
+          "value": "FIPS 204"
+        },
+        {
+          "name": "cbom-corpus:nist-status",
+          "value": "Approved"
+        },
+        {
+          "name": "cbom-corpus:cnsa-2.0",
+          "value": "Not CNSA 2.0 (ML-DSA-87 required)"
+        },
+        {
+          "name": "cbom-corpus:quantum",
+          "value": "Designed to resist CRQC"
+        },
+        {
+          "name": "cbom-corpus:note",
+          "value": "Hedged (randomized) signing, empty context string."
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/algorithm/csprng",
+      "name": "Platform CSPRNG",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "drbg",
+          "executionEnvironment": "software-plain-ram",
+          "implementationPlatform": "generic",
+          "certificationLevel": [
+            "none"
+          ],
+          "cryptoFunctions": [
+            "generate"
+          ]
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 191,
+            "offset": 1,
+            "symbol": "crypto/rand.Read",
+            "additionalContext": "id=GO-081; relation=direct; role=op:generate; scenario=S12; scope=s12ChaCha20Poly1305; end=191:16; charRange=5511-5525; byteRange=5511-5525; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 193,
+            "offset": 1,
+            "symbol": "crypto/rand.Read",
+            "additionalContext": "id=GO-083; relation=direct; role=op:generate; scenario=S12; scope=s12ChaCha20Poly1305; end=193:18; charRange=5578-5594; byteRange=5578-5594; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 205,
+            "offset": 1,
+            "symbol": "crypto/rand.Read",
+            "additionalContext": "id=GO-088; relation=direct; role=op:generate; scenario=S13; scope=s13AES256CBC; end=205:16; charRange=5941-5955; byteRange=5941-5955; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 207,
+            "offset": 1,
+            "symbol": "crypto/rand.Read",
+            "additionalContext": "id=GO-090; relation=direct; role=op:generate; scenario=S13; scope=s13AES256CBC; end=207:15; charRange=5992-6005; byteRange=5992-6005; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 233,
+            "offset": 1,
+            "symbol": "crypto/rand.Read",
+            "additionalContext": "id=GO-103; relation=direct; role=op:generate; scenario=S15; scope=s15AES256CTR; end=233:16; charRange=6906-6920; byteRange=6906-6920; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 235,
+            "offset": 1,
+            "symbol": "crypto/rand.Read",
+            "additionalContext": "id=GO-105; relation=direct; role=op:generate; scenario=S15; scope=s15AES256CTR; end=235:25; charRange=6967-6990; byteRange=6967-6990; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 248,
+            "offset": 1,
+            "symbol": "crypto/rand.Read",
+            "additionalContext": "id=GO-112; relation=direct; role=op:generate; scenario=S16; scope=s16TDEACBC; end=248:16; charRange=7450-7464; byteRange=7450-7464; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 250,
+            "offset": 1,
+            "symbol": "crypto/rand.Read",
+            "additionalContext": "id=GO-114; relation=direct; role=op:generate; scenario=S16; scope=s16TDEACBC; end=250:15; charRange=7501-7514; byteRange=7501-7514; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 365,
+            "offset": 16,
+            "symbol": "crypto/rand.Int",
+            "additionalContext": "id=GO-172; relation=direct; role=op:generate; scenario=S23; scope=s23X509SelfSigned; end=365:75; charRange=11849-11907; byteRange=11849-11907; library=lib.go-stdlib"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "csprng"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "9"
+        },
+        {
+          "name": "cbom-corpus:family",
+          "value": "CSPRNG"
+        },
+        {
+          "name": "cbom-corpus:standards",
+          "value": "SP 800-90A r1 / OS RNG (implementation-specific)"
+        },
+        {
+          "name": "cbom-corpus:nist-status",
+          "value": "Depends on implementation (see per-language notes)"
+        },
+        {
+          "name": "cbom-corpus:cnsa-2.0",
+          "value": "n/a"
+        },
+        {
+          "name": "cbom-corpus:quantum",
+          "value": "Not applicable"
+        },
+        {
+          "name": "cbom-corpus:note",
+          "value": "Implementation differs per runtime; see the language README."
+        },
+        {
+          "name": "cbom-corpus:go-runtime-note",
+          "value": "crypto/rand reads getrandom(2). Since Go 1.26, rsa/ecdsa/ecdh key generation and ECDSA signing ignore the io.Reader they are given and always use this source."
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/certificate/self-signed",
+      "name": "Self-signed X.509 v3 certificate",
+      "cryptoProperties": {
+        "assetType": "certificate",
+        "certificateProperties": {
+          "subjectName": "CN=cbom-corpus.example",
+          "issuerName": "CN=cbom-corpus.example",
+          "signatureAlgorithmRef": "crypto/algorithm/ecdsa-p256-sha256",
+          "subjectPublicKeyRef": "crypto/related-crypto-material/cert-public-key",
+          "certificateFormat": "X.509"
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 368,
+            "offset": 13,
+            "symbol": "crypto/x509.Certificate",
+            "additionalContext": "id=GO-173; relation=direct; role=ctor; scenario=S23; scope=s23X509SelfSigned; end=374:3; charRange=11952-12205; byteRange=11952-12205; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 372,
+            "offset": 30,
+            "additionalContext": "id=GO-174; relation=direct; role=prm:validity-days; scenario=S23; scope=s23X509SelfSigned; end=372:34; charRange=12136-12139; byteRange=12136-12139; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 375,
+            "offset": 13,
+            "symbol": "crypto/x509.CreateCertificate",
+            "additionalContext": "id=GO-176; relation=direct; role=op:sign; scenario=S23; scope=s23X509SelfSigned; end=375:90; charRange=12219-12295; byteRange=12219-12295; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 377,
+            "offset": 21,
+            "symbol": "crypto/x509.ParseCertificate",
+            "additionalContext": "id=GO-177; relation=direct; role=op:encode; scenario=S23; scope=s23X509SelfSigned; end=377:48; charRange=12329-12355; byteRange=12329-12355; library=lib.go-stdlib"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "cert.self-signed"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "4"
+        },
+        {
+          "name": "cbom-corpus:not-valid-before",
+          "value": "runtime: now - 1 minute"
+        },
+        {
+          "name": "cbom-corpus:not-valid-after",
+          "value": "runtime: now + 365 days"
+        },
+        {
+          "name": "cbom-corpus:serial",
+          "value": "64-bit random from the CSPRNG"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/protocol/tls13-client",
+      "name": "TLS 1.3 client configuration",
+      "cryptoProperties": {
+        "assetType": "protocol",
+        "protocolProperties": {
+          "type": "tls",
+          "version": "1.3",
+          "cipherSuites": [
+            {
+              "name": "TLS_AES_128_GCM_SHA256",
+              "algorithms": [
+                "crypto/algorithm/aes-128-gcm",
+                "crypto/algorithm/sha-256"
+              ],
+              "identifiers": [
+                "0x13",
+                "0x01"
+              ]
+            },
+            {
+              "name": "TLS_AES_256_GCM_SHA384",
+              "algorithms": [
+                "crypto/algorithm/aes-256-gcm",
+                "crypto/algorithm/sha-384"
+              ],
+              "identifiers": [
+                "0x13",
+                "0x02"
+              ]
+            },
+            {
+              "name": "TLS_CHACHA20_POLY1305_SHA256",
+              "algorithms": [
+                "crypto/algorithm/chacha20-poly1305",
+                "crypto/algorithm/sha-256"
+              ],
+              "identifiers": [
+                "0x13",
+                "0x03"
+              ]
+            }
+          ]
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 385,
+            "offset": 11,
+            "symbol": "crypto/tls.Config",
+            "additionalContext": "id=GO-179; relation=direct; role=ctor; scenario=S24; scope=s24TLS13Client; end=389:3; charRange=12663-12771; byteRange=12663-12771; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 386,
+            "offset": 14,
+            "symbol": "crypto/tls.VersionTLS13",
+            "additionalContext": "id=GO-180; relation=direct; role=cfg:min-version; scenario=S24; scope=s24TLS13Client; end=386:31; charRange=12690-12706; byteRange=12690-12706; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 387,
+            "offset": 14,
+            "symbol": "crypto/tls.VersionTLS13",
+            "additionalContext": "id=GO-181; relation=direct; role=cfg:max-version; scenario=S24; scope=s24TLS13Client; end=387:31; charRange=12722-12738; byteRange=12722-12738; library=lib.go-stdlib"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "tls13-client"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "3"
+        },
+        {
+          "name": "cbom-corpus:note",
+          "value": "Versions pinned to TLS 1.3. The three RFC 8446 cipher suites are listed explicitly where the API allows it (Java, TypeScript, C# on Linux/macOS) and are the implicit defaults elsewhere (Python, Go). Key-exchange groups are always implicit runtime defaults."
+        },
+        {
+          "name": "cbom-corpus:go-runtime-note",
+          "value": "TLS 1.3 cipher suites are not configurable in crypto/tls; all three RFC 8446 suites are enabled implicitly. Default key-exchange preferences include the X25519MLKEM768 post-quantum hybrid (Go >= 1.24)."
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/related-crypto-material/hmac-key",
+      "name": "HMAC key",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "secret-key",
+          "id": "m.hmac-key",
+          "state": "active",
+          "algorithmRef": "crypto/algorithm/hmac-sha256",
+          "size": 24
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 50,
+            "offset": 4,
+            "additionalContext": "id=GO-029; relation=direct; role=mat; scenario=S05; scope=<package main>; end=50:28; charRange=1238-1261; byteRange=1238-1261; library=lib.go-stdlib"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "m.hmac-key"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "1"
+        },
+        {
+          "name": "cbom-corpus:provenance",
+          "value": "hardcoded"
+        },
+        {
+          "name": "cbom-corpus:test-vector-value",
+          "value": "\"key\" (ASCII)"
+        },
+        {
+          "name": "cbom-corpus:note",
+          "value": "24-bit key - far below the 112-bit minimum; test vector only"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/related-crypto-material/hkdf-ikm",
+      "name": "HKDF input keying material",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "secret-key",
+          "id": "m.hkdf-ikm",
+          "state": "active",
+          "algorithmRef": "crypto/algorithm/hkdf-sha256",
+          "size": 176
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 51,
+            "offset": 4,
+            "additionalContext": "id=GO-030; relation=direct; role=mat; scenario=S06; scope=<package main>; end=51:45; charRange=1266-1306; byteRange=1266-1306; library=lib.go-stdlib"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "m.hkdf-ikm"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "1"
+        },
+        {
+          "name": "cbom-corpus:provenance",
+          "value": "hardcoded"
+        },
+        {
+          "name": "cbom-corpus:test-vector-value",
+          "value": "0x0b * 22"
+        },
+        {
+          "name": "cbom-corpus:note",
+          "value": "RFC 5869 A.1"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/related-crypto-material/hkdf-salt",
+      "name": "HKDF salt",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "salt",
+          "id": "m.hkdf-salt",
+          "state": "active",
+          "algorithmRef": "crypto/algorithm/hkdf-sha256",
+          "size": 104
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 52,
+            "offset": 4,
+            "additionalContext": "id=GO-031; relation=direct; role=mat; scenario=S06; scope=<package main>; end=52:53; charRange=1311-1359; byteRange=1311-1359; library=lib.go-stdlib"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "m.hkdf-salt"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "1"
+        },
+        {
+          "name": "cbom-corpus:provenance",
+          "value": "hardcoded"
+        },
+        {
+          "name": "cbom-corpus:test-vector-value",
+          "value": "000102...0c"
+        },
+        {
+          "name": "cbom-corpus:note",
+          "value": "RFC 5869 A.1"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/related-crypto-material/hkdf-info",
+      "name": "HKDF info",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "additional-data",
+          "id": "m.hkdf-info",
+          "state": "active",
+          "algorithmRef": "crypto/algorithm/hkdf-sha256",
+          "size": 80
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 53,
+            "offset": 4,
+            "additionalContext": "id=GO-032; relation=direct; role=mat; scenario=S06; scope=<package main>; end=53:47; charRange=1364-1406; byteRange=1364-1406; library=lib.go-stdlib"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "m.hkdf-info"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "1"
+        },
+        {
+          "name": "cbom-corpus:provenance",
+          "value": "hardcoded"
+        },
+        {
+          "name": "cbom-corpus:test-vector-value",
+          "value": "f0f1...f9"
+        },
+        {
+          "name": "cbom-corpus:note",
+          "value": "RFC 5869 A.1"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/related-crypto-material/hkdf-okm",
+      "name": "HKDF output keying material",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "secret-key",
+          "id": "m.hkdf-okm",
+          "state": "active",
+          "algorithmRef": "crypto/algorithm/hkdf-sha256",
+          "size": 336
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 142,
+            "offset": 13,
+            "symbol": "crypto/hkdf.Key",
+            "additionalContext": "id=GO-056; relation=produced; role=op:keyderive; scenario=S06; scope=s06HKDFSHA256; end=142:75; charRange=4057-4118; byteRange=4057-4118; library=lib.go-stdlib"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "m.hkdf-okm"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "1"
+        },
+        {
+          "name": "cbom-corpus:provenance",
+          "value": "derived"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/related-crypto-material/pbkdf2-password",
+      "name": "PBKDF2 password",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "password",
+          "id": "m.pbkdf2-password",
+          "state": "active",
+          "algorithmRef": "crypto/algorithm/pbkdf2-hmac-sha256",
+          "size": 64
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 54,
+            "offset": 4,
+            "additionalContext": "id=GO-033; relation=direct; role=mat; scenario=S07; scope=<package main>; end=54:32; charRange=1411-1438; byteRange=1411-1438; library=lib.go-stdlib"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "m.pbkdf2-password"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "1"
+        },
+        {
+          "name": "cbom-corpus:provenance",
+          "value": "hardcoded"
+        },
+        {
+          "name": "cbom-corpus:test-vector-value",
+          "value": "\"Password\""
+        },
+        {
+          "name": "cbom-corpus:note",
+          "value": "RFC 7914 section 11"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/related-crypto-material/pbkdf2-salt",
+      "name": "PBKDF2 salt",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "salt",
+          "id": "m.pbkdf2-salt",
+          "state": "active",
+          "algorithmRef": "crypto/algorithm/pbkdf2-hmac-sha256",
+          "size": 32
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 55,
+            "offset": 4,
+            "additionalContext": "id=GO-034; relation=direct; role=mat; scenario=S07; scope=<package main>; end=55:32; charRange=1443-1470; byteRange=1443-1470; library=lib.go-stdlib"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "m.pbkdf2-salt"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "1"
+        },
+        {
+          "name": "cbom-corpus:provenance",
+          "value": "hardcoded"
+        },
+        {
+          "name": "cbom-corpus:test-vector-value",
+          "value": "\"NaCl\""
+        },
+        {
+          "name": "cbom-corpus:note",
+          "value": "32-bit salt is below the SP 800-132 minimum of 128 bits"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/related-crypto-material/pbkdf2-dk",
+      "name": "PBKDF2 derived key",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "secret-key",
+          "id": "m.pbkdf2-dk",
+          "state": "active",
+          "algorithmRef": "crypto/algorithm/pbkdf2-hmac-sha256",
+          "size": 512
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 149,
+            "offset": 17,
+            "symbol": "crypto/pbkdf2.Key",
+            "additionalContext": "id=GO-059; relation=produced; role=op:keyderive; scenario=S07; scope=s07PBKDF2; end=149:80; charRange=4250-4312; byteRange=4250-4312; library=lib.go-stdlib"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "m.pbkdf2-dk"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "1"
+        },
+        {
+          "name": "cbom-corpus:provenance",
+          "value": "derived"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/related-crypto-material/scrypt-password",
+      "name": "scrypt password",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "password",
+          "id": "m.scrypt-password",
+          "state": "active",
+          "algorithmRef": "crypto/algorithm/scrypt",
+          "size": 104
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 56,
+            "offset": 4,
+            "additionalContext": "id=GO-035; relation=direct; role=mat; scenario=S08; scope=<package main>; end=56:45; charRange=1475-1515; byteRange=1475-1515; library=lib.go-stdlib"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "m.scrypt-password"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "1"
+        },
+        {
+          "name": "cbom-corpus:provenance",
+          "value": "hardcoded"
+        },
+        {
+          "name": "cbom-corpus:test-vector-value",
+          "value": "\"pleaseletmein\""
+        },
+        {
+          "name": "cbom-corpus:note",
+          "value": "RFC 7914 section 12"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/related-crypto-material/scrypt-salt",
+      "name": "scrypt salt",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "salt",
+          "id": "m.scrypt-salt",
+          "state": "active",
+          "algorithmRef": "crypto/algorithm/scrypt",
+          "size": 112
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 57,
+            "offset": 4,
+            "additionalContext": "id=GO-036; relation=direct; role=mat; scenario=S08; scope=<package main>; end=57:42; charRange=1520-1557; byteRange=1520-1557; library=lib.go-stdlib"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "m.scrypt-salt"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "1"
+        },
+        {
+          "name": "cbom-corpus:provenance",
+          "value": "hardcoded"
+        },
+        {
+          "name": "cbom-corpus:test-vector-value",
+          "value": "\"SodiumChloride\""
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/related-crypto-material/scrypt-dk",
+      "name": "scrypt derived key",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "secret-key",
+          "id": "m.scrypt-dk",
+          "state": "active",
+          "algorithmRef": "crypto/algorithm/scrypt",
+          "size": 512
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 156,
+            "offset": 17,
+            "symbol": "golang.org/x/crypto/scrypt.Key",
+            "additionalContext": "id=GO-063; relation=produced; role=op:keyderive; scenario=S08; scope=s08Scrypt; end=156:73; charRange=4438-4493; byteRange=4438-4493; library=lib.xcrypto"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "m.scrypt-dk"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "1"
+        },
+        {
+          "name": "cbom-corpus:provenance",
+          "value": "derived"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/related-crypto-material/password",
+      "name": "Application password",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "password",
+          "id": "m.password",
+          "state": "active",
+          "algorithmRef": "crypto/algorithm/argon2id",
+          "size": 224
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 58,
+            "offset": 4,
+            "additionalContext": "id=GO-037; relation=direct; role=mat; scenario=S09; scope=<package main>; end=58:54; charRange=1562-1611; byteRange=1562-1611; library=lib.go-stdlib"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "m.password"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "1"
+        },
+        {
+          "name": "cbom-corpus:provenance",
+          "value": "hardcoded"
+        },
+        {
+          "name": "cbom-corpus:test-vector-value",
+          "value": "\"correct horse battery staple\""
+        },
+        {
+          "name": "cbom-corpus:note",
+          "value": "Shared by S09 (Argon2id) and S10 (bcrypt)"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/related-crypto-material/argon2-salt",
+      "name": "Argon2id salt",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "salt",
+          "id": "m.argon2-salt",
+          "state": "active",
+          "algorithmRef": "crypto/algorithm/argon2id",
+          "size": 128
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 59,
+            "offset": 4,
+            "additionalContext": "id=GO-038; relation=direct; role=mat; scenario=S09; scope=<package main>; end=59:44; charRange=1616-1655; byteRange=1616-1655; library=lib.go-stdlib"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "m.argon2-salt"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "1"
+        },
+        {
+          "name": "cbom-corpus:provenance",
+          "value": "hardcoded"
+        },
+        {
+          "name": "cbom-corpus:test-vector-value",
+          "value": "\"cbom-corpus-salt\""
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/related-crypto-material/argon2-dk",
+      "name": "Argon2id output",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "secret-key",
+          "id": "m.argon2-dk",
+          "state": "active",
+          "algorithmRef": "crypto/algorithm/argon2id",
+          "size": 256
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 163,
+            "offset": 8,
+            "symbol": "golang.org/x/crypto/argon2.IDKey",
+            "additionalContext": "id=GO-068; relation=produced; role=op:keyderive; scenario=S09; scope=s09Argon2id; end=163:61; charRange=4607-4659; byteRange=4607-4659; library=lib.xcrypto"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "m.argon2-dk"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "1"
+        },
+        {
+          "name": "cbom-corpus:provenance",
+          "value": "derived"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/related-crypto-material/bcrypt-salt",
+      "name": "bcrypt salt",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "salt",
+          "id": "m.bcrypt-salt",
+          "state": "active",
+          "algorithmRef": "crypto/algorithm/bcrypt",
+          "size": 128
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 169,
+            "offset": 14,
+            "symbol": "golang.org/x/crypto/bcrypt.GenerateFromPassword",
+            "additionalContext": "id=GO-073; relation=produced; role=op:keyderive; scenario=S10; scope=s10Bcrypt; end=169:56; charRange=4761-4802; byteRange=4761-4802; library=lib.xcrypto"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "m.bcrypt-salt"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "1"
+        },
+        {
+          "name": "cbom-corpus:provenance",
+          "value": "csprng"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/related-crypto-material/bcrypt-hash",
+      "name": "bcrypt hash string",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "credential",
+          "id": "m.bcrypt-hash",
+          "state": "active",
+          "algorithmRef": "crypto/algorithm/bcrypt",
+          "size": 480
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 169,
+            "offset": 14,
+            "symbol": "golang.org/x/crypto/bcrypt.GenerateFromPassword",
+            "additionalContext": "id=GO-073; relation=produced; role=op:keyderive; scenario=S10; scope=s10Bcrypt; end=169:56; charRange=4761-4802; byteRange=4761-4802; library=lib.xcrypto"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "m.bcrypt-hash"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "1"
+        },
+        {
+          "name": "cbom-corpus:provenance",
+          "value": "derived"
+        },
+        {
+          "name": "cbom-corpus:note",
+          "value": "60-character modular-crypt string ($2a$/$2b$)"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/related-crypto-material/gcm-key",
+      "name": "AES-256-GCM key",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "secret-key",
+          "id": "m.gcm-key",
+          "state": "active",
+          "algorithmRef": "crypto/algorithm/aes-256-gcm",
+          "size": 256
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 60,
+            "offset": 4,
+            "additionalContext": "id=GO-039; relation=direct; role=mat; scenario=S11; scope=<package main>; end=60:89; charRange=1660-1744; byteRange=1660-1744; library=lib.go-stdlib"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "m.gcm-key"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "1"
+        },
+        {
+          "name": "cbom-corpus:provenance",
+          "value": "hardcoded"
+        },
+        {
+          "name": "cbom-corpus:test-vector-value",
+          "value": "feffe992..."
+        },
+        {
+          "name": "cbom-corpus:note",
+          "value": "GCM spec test case 16"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/related-crypto-material/gcm-iv",
+      "name": "AES-GCM IV",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "nonce",
+          "id": "m.gcm-iv",
+          "state": "active",
+          "algorithmRef": "crypto/algorithm/aes-256-gcm",
+          "size": 96
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 61,
+            "offset": 4,
+            "additionalContext": "id=GO-040; relation=direct; role=mat; scenario=S11; scope=<package main>; end=61:48; charRange=1749-1792; byteRange=1749-1792; library=lib.go-stdlib"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "m.gcm-iv"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "1"
+        },
+        {
+          "name": "cbom-corpus:provenance",
+          "value": "hardcoded"
+        },
+        {
+          "name": "cbom-corpus:test-vector-value",
+          "value": "cafebabefacedbaddecaf888"
+        },
+        {
+          "name": "cbom-corpus:note",
+          "value": "Static nonce - reuse with the same key is catastrophic outside a KAT"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/related-crypto-material/gcm-aad",
+      "name": "AES-GCM additional authenticated data",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "additional-data",
+          "id": "m.gcm-aad",
+          "state": "active",
+          "algorithmRef": "crypto/algorithm/aes-256-gcm",
+          "size": 160
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 62,
+            "offset": 4,
+            "additionalContext": "id=GO-041; relation=direct; role=mat; scenario=S11; scope=<package main>; end=62:65; charRange=1797-1857; byteRange=1797-1857; library=lib.go-stdlib"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "m.gcm-aad"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "1"
+        },
+        {
+          "name": "cbom-corpus:provenance",
+          "value": "hardcoded"
+        },
+        {
+          "name": "cbom-corpus:test-vector-value",
+          "value": "feedface..."
+        },
+        {
+          "name": "cbom-corpus:note",
+          "value": "GCM spec test case 16"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/related-crypto-material/chacha-key",
+      "name": "ChaCha20-Poly1305 key",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "secret-key",
+          "id": "m.chacha-key",
+          "state": "active",
+          "algorithmRef": "crypto/algorithm/chacha20-poly1305",
+          "size": 256
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 190,
+            "offset": 21,
+            "symbol": "golang.org/x/crypto/chacha20poly1305.KeySize",
+            "additionalContext": "id=GO-080; relation=direct; role=prm:length-bytes; scenario=S12; scope=s12ChaCha20Poly1305; end=190:46; charRange=5484-5508; byteRange=5484-5508; library=lib.xcrypto"
+          },
+          {
+            "location": "main.go",
+            "line": 191,
+            "offset": 1,
+            "symbol": "crypto/rand.Read",
+            "additionalContext": "id=GO-081; relation=produced; role=op:generate; scenario=S12; scope=s12ChaCha20Poly1305; end=191:16; charRange=5511-5525; byteRange=5511-5525; library=lib.go-stdlib"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "m.chacha-key"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "2"
+        },
+        {
+          "name": "cbom-corpus:provenance",
+          "value": "csprng"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/related-crypto-material/chacha-nonce",
+      "name": "ChaCha20-Poly1305 nonce",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "nonce",
+          "id": "m.chacha-nonce",
+          "state": "active",
+          "algorithmRef": "crypto/algorithm/chacha20-poly1305",
+          "size": 96
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 192,
+            "offset": 23,
+            "symbol": "golang.org/x/crypto/chacha20poly1305.NonceSize",
+            "additionalContext": "id=GO-082; relation=direct; role=prm:length-bytes; scenario=S12; scope=s12ChaCha20Poly1305; end=192:50; charRange=5549-5575; byteRange=5549-5575; library=lib.xcrypto"
+          },
+          {
+            "location": "main.go",
+            "line": 193,
+            "offset": 1,
+            "symbol": "crypto/rand.Read",
+            "additionalContext": "id=GO-083; relation=produced; role=op:generate; scenario=S12; scope=s12ChaCha20Poly1305; end=193:18; charRange=5578-5594; byteRange=5578-5594; library=lib.go-stdlib"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "m.chacha-nonce"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "2"
+        },
+        {
+          "name": "cbom-corpus:provenance",
+          "value": "csprng"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/related-crypto-material/cbc-key",
+      "name": "AES-256-CBC key",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "secret-key",
+          "id": "m.cbc-key",
+          "state": "active",
+          "algorithmRef": "crypto/algorithm/aes-256-cbc",
+          "size": 256
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 204,
+            "offset": 21,
+            "additionalContext": "id=GO-087; relation=direct; role=prm:length-bytes; scenario=S13; scope=s13AES256CBC; end=204:24; charRange=5936-5938; byteRange=5936-5938; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 205,
+            "offset": 1,
+            "symbol": "crypto/rand.Read",
+            "additionalContext": "id=GO-088; relation=produced; role=op:generate; scenario=S13; scope=s13AES256CBC; end=205:16; charRange=5941-5955; byteRange=5941-5955; library=lib.go-stdlib"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "m.cbc-key"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "2"
+        },
+        {
+          "name": "cbom-corpus:provenance",
+          "value": "csprng"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/related-crypto-material/cbc-iv",
+      "name": "AES-CBC IV",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "initialization-vector",
+          "id": "m.cbc-iv",
+          "state": "active",
+          "algorithmRef": "crypto/algorithm/aes-256-cbc",
+          "size": 128
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 206,
+            "offset": 20,
+            "symbol": "crypto/aes.BlockSize",
+            "additionalContext": "id=GO-089; relation=direct; role=prm:length-bytes; scenario=S13; scope=s13AES256CBC; end=206:34; charRange=5976-5989; byteRange=5976-5989; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 207,
+            "offset": 1,
+            "symbol": "crypto/rand.Read",
+            "additionalContext": "id=GO-090; relation=produced; role=op:generate; scenario=S13; scope=s13AES256CBC; end=207:15; charRange=5992-6005; byteRange=5992-6005; library=lib.go-stdlib"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "m.cbc-iv"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "2"
+        },
+        {
+          "name": "cbom-corpus:provenance",
+          "value": "csprng"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/related-crypto-material/ecb-key",
+      "name": "AES-128-ECB key",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "secret-key",
+          "id": "m.ecb-key",
+          "state": "active",
+          "algorithmRef": "crypto/algorithm/aes-128-ecb",
+          "size": 128
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 65,
+            "offset": 4,
+            "additionalContext": "id=GO-042; relation=direct; role=mat; scenario=S14; scope=<package main>; end=65:57; charRange=2019-2071; byteRange=2019-2071; library=lib.go-stdlib"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "m.ecb-key"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "1"
+        },
+        {
+          "name": "cbom-corpus:provenance",
+          "value": "hardcoded"
+        },
+        {
+          "name": "cbom-corpus:test-vector-value",
+          "value": "000102...0f"
+        },
+        {
+          "name": "cbom-corpus:note",
+          "value": "FIPS 197 appendix C.1"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/related-crypto-material/ctr-key",
+      "name": "AES-256-CTR key",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "secret-key",
+          "id": "m.ctr-key",
+          "state": "active",
+          "algorithmRef": "crypto/algorithm/aes-256-ctr",
+          "size": 256
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 232,
+            "offset": 21,
+            "additionalContext": "id=GO-102; relation=direct; role=prm:length-bytes; scenario=S15; scope=s15AES256CTR; end=232:24; charRange=6901-6903; byteRange=6901-6903; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 233,
+            "offset": 1,
+            "symbol": "crypto/rand.Read",
+            "additionalContext": "id=GO-103; relation=produced; role=op:generate; scenario=S15; scope=s15AES256CTR; end=233:16; charRange=6906-6920; byteRange=6906-6920; library=lib.go-stdlib"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "m.ctr-key"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "2"
+        },
+        {
+          "name": "cbom-corpus:provenance",
+          "value": "csprng"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/related-crypto-material/ctr-iv",
+      "name": "AES-CTR initial counter block",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "initialization-vector",
+          "id": "m.ctr-iv",
+          "state": "active",
+          "algorithmRef": "crypto/algorithm/aes-256-ctr",
+          "size": 128
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 234,
+            "offset": 30,
+            "symbol": "crypto/aes.BlockSize",
+            "additionalContext": "id=GO-104; relation=direct; role=prm:length-bytes; scenario=S15; scope=s15AES256CTR; end=234:44; charRange=6951-6964; byteRange=6951-6964; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 235,
+            "offset": 1,
+            "symbol": "crypto/rand.Read",
+            "additionalContext": "id=GO-105; relation=produced; role=op:generate; scenario=S15; scope=s15AES256CTR; end=235:25; charRange=6967-6990; byteRange=6967-6990; library=lib.go-stdlib"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "m.ctr-iv"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "2"
+        },
+        {
+          "name": "cbom-corpus:provenance",
+          "value": "csprng"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/related-crypto-material/tdes-key",
+      "name": "3DES key",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "secret-key",
+          "id": "m.tdes-key",
+          "state": "active",
+          "algorithmRef": "crypto/algorithm/3des-cbc",
+          "size": 192
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 247,
+            "offset": 21,
+            "additionalContext": "id=GO-111; relation=direct; role=prm:length-bytes; scenario=S16; scope=s16TDEACBC; end=247:24; charRange=7445-7447; byteRange=7445-7447; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 248,
+            "offset": 1,
+            "symbol": "crypto/rand.Read",
+            "additionalContext": "id=GO-112; relation=produced; role=op:generate; scenario=S16; scope=s16TDEACBC; end=248:16; charRange=7450-7464; byteRange=7450-7464; library=lib.go-stdlib"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "m.tdes-key"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "2"
+        },
+        {
+          "name": "cbom-corpus:provenance",
+          "value": "csprng"
+        },
+        {
+          "name": "cbom-corpus:note",
+          "value": "192 bits incl. parity = 168 effective"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/related-crypto-material/tdes-iv",
+      "name": "3DES IV",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "initialization-vector",
+          "id": "m.tdes-iv",
+          "state": "active",
+          "algorithmRef": "crypto/algorithm/3des-cbc",
+          "size": 64
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 249,
+            "offset": 20,
+            "symbol": "crypto/des.BlockSize",
+            "additionalContext": "id=GO-113; relation=direct; role=prm:length-bytes; scenario=S16; scope=s16TDEACBC; end=249:34; charRange=7485-7498; byteRange=7485-7498; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 250,
+            "offset": 1,
+            "symbol": "crypto/rand.Read",
+            "additionalContext": "id=GO-114; relation=produced; role=op:generate; scenario=S16; scope=s16TDEACBC; end=250:15; charRange=7501-7514; byteRange=7501-7514; library=lib.go-stdlib"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "m.tdes-iv"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "2"
+        },
+        {
+          "name": "cbom-corpus:provenance",
+          "value": "csprng"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/related-crypto-material/rsa-private-key",
+      "name": "RSA-3072 private key",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "private-key",
+          "id": "m.rsa-private-key",
+          "state": "active",
+          "algorithmRef": "crypto/algorithm/rsa-3072",
+          "size": 3072
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 263,
+            "offset": 20,
+            "symbol": "crypto/rsa.GenerateKey",
+            "additionalContext": "id=GO-122; relation=produced; role=op:keygen; scenario=S17; scope=s17RSA3072; end=263:55; charRange=8041-8075; byteRange=8041-8075; library=lib.go-stdlib"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "m.rsa-private-key"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "1"
+        },
+        {
+          "name": "cbom-corpus:provenance",
+          "value": "keygen"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/related-crypto-material/rsa-public-key",
+      "name": "RSA-3072 public key",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "public-key",
+          "id": "m.rsa-public-key",
+          "state": "active",
+          "algorithmRef": "crypto/algorithm/rsa-3072",
+          "size": 3072
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 263,
+            "offset": 20,
+            "symbol": "crypto/rsa.GenerateKey",
+            "additionalContext": "id=GO-122; relation=produced; role=op:keygen; scenario=S17; scope=s17RSA3072; end=263:55; charRange=8041-8075; byteRange=8041-8075; library=lib.go-stdlib"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "m.rsa-public-key"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "1"
+        },
+        {
+          "name": "cbom-corpus:provenance",
+          "value": "keygen"
+        },
+        {
+          "name": "cbom-corpus:note",
+          "value": "e = 65537"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/related-crypto-material/ecdsa-private-key",
+      "name": "ECDSA P-256 private key",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "private-key",
+          "id": "m.ecdsa-private-key",
+          "state": "active",
+          "algorithmRef": "crypto/algorithm/ecdsa-p256-sha256",
+          "size": 256
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 288,
+            "offset": 20,
+            "symbol": "crypto/ecdsa.GenerateKey",
+            "additionalContext": "id=GO-140; relation=produced; role=op:keygen; scenario=S18; scope=s18ECDSAP256; end=288:68; charRange=9119-9166; byteRange=9119-9166; library=lib.go-stdlib"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "m.ecdsa-private-key"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "1"
+        },
+        {
+          "name": "cbom-corpus:provenance",
+          "value": "keygen"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/related-crypto-material/ecdsa-public-key",
+      "name": "ECDSA P-256 public key",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "public-key",
+          "id": "m.ecdsa-public-key",
+          "state": "active",
+          "algorithmRef": "crypto/algorithm/ecdsa-p256-sha256",
+          "size": 256
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 288,
+            "offset": 20,
+            "symbol": "crypto/ecdsa.GenerateKey",
+            "additionalContext": "id=GO-140; relation=produced; role=op:keygen; scenario=S18; scope=s18ECDSAP256; end=288:68; charRange=9119-9166; byteRange=9119-9166; library=lib.go-stdlib"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "m.ecdsa-public-key"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "1"
+        },
+        {
+          "name": "cbom-corpus:provenance",
+          "value": "keygen"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/related-crypto-material/ed25519-seed",
+      "name": "Ed25519 private key seed",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "private-key",
+          "id": "m.ed25519-seed",
+          "state": "active",
+          "algorithmRef": "crypto/algorithm/ed25519",
+          "size": 256
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 67,
+            "offset": 4,
+            "additionalContext": "id=GO-043; relation=direct; role=mat; scenario=S19; scope=<package main>; end=67:94; charRange=2139-2228; byteRange=2139-2228; library=lib.go-stdlib"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "m.ed25519-seed"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "1"
+        },
+        {
+          "name": "cbom-corpus:provenance",
+          "value": "hardcoded"
+        },
+        {
+          "name": "cbom-corpus:test-vector-value",
+          "value": "9d61b19d..."
+        },
+        {
+          "name": "cbom-corpus:note",
+          "value": "RFC 8032 section 7.1 TEST 1"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/related-crypto-material/ed25519-public-key",
+      "name": "Ed25519 public key",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "public-key",
+          "id": "m.ed25519-public-key",
+          "state": "active",
+          "algorithmRef": "crypto/algorithm/ed25519",
+          "size": 256
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 299,
+            "offset": 15,
+            "symbol": "crypto/ed25519.NewKeyFromSeed",
+            "additionalContext": "id=GO-145; relation=produced; role=op:keygen; scenario=S19; scope=s19Ed25519; end=299:51; charRange=9505-9540; byteRange=9505-9540; library=lib.go-stdlib"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "m.ed25519-public-key"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "1"
+        },
+        {
+          "name": "cbom-corpus:provenance",
+          "value": "derived"
+        },
+        {
+          "name": "cbom-corpus:test-vector-value",
+          "value": "d75a9801..."
+        },
+        {
+          "name": "cbom-corpus:note",
+          "value": "Derived from the seed"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/related-crypto-material/x25519-private-key-a",
+      "name": "X25519 private key (party A)",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "private-key",
+          "id": "m.x25519-private-key-a",
+          "state": "active",
+          "algorithmRef": "crypto/algorithm/x25519",
+          "size": 256
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 315,
+            "offset": 15,
+            "symbol": "crypto/ecdh.Curve.GenerateKey",
+            "additionalContext": "id=GO-153; relation=produced; role=op:keygen; scenario=S20; scope=s20KeyAgreement; end=315:47; charRange=10070-10101; byteRange=10070-10101; library=lib.go-stdlib"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "m.x25519-private-key-a"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "1"
+        },
+        {
+          "name": "cbom-corpus:provenance",
+          "value": "keygen"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/related-crypto-material/x25519-private-key-b",
+      "name": "X25519 private key (party B)",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "private-key",
+          "id": "m.x25519-private-key-b",
+          "state": "active",
+          "algorithmRef": "crypto/algorithm/x25519",
+          "size": 256
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 317,
+            "offset": 13,
+            "symbol": "crypto/ecdh.Curve.GenerateKey",
+            "additionalContext": "id=GO-154; relation=produced; role=op:keygen; scenario=S20; scope=s20KeyAgreement; end=317:45; charRange=10127-10158; byteRange=10127-10158; library=lib.go-stdlib"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "m.x25519-private-key-b"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "1"
+        },
+        {
+          "name": "cbom-corpus:provenance",
+          "value": "keygen"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/related-crypto-material/x25519-shared-secret",
+      "name": "X25519 shared secret",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "shared-secret",
+          "id": "m.x25519-shared-secret",
+          "state": "active",
+          "algorithmRef": "crypto/algorithm/x25519",
+          "size": 256
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 319,
+            "offset": 16,
+            "symbol": "crypto/ecdh.PrivateKey.ECDH",
+            "additionalContext": "id=GO-155; relation=produced; role=op:agree; scenario=S20; scope=s20KeyAgreement; end=319:44; charRange=10187-10214; byteRange=10187-10214; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 321,
+            "offset": 14,
+            "symbol": "crypto/ecdh.PrivateKey.ECDH",
+            "additionalContext": "id=GO-156; relation=produced; role=op:agree; scenario=S20; scope=s20KeyAgreement; end=321:42; charRange=10241-10268; byteRange=10241-10268; library=lib.go-stdlib"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "m.x25519-shared-secret"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "2"
+        },
+        {
+          "name": "cbom-corpus:provenance",
+          "value": "agreed"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/related-crypto-material/ecdh-private-key-a",
+      "name": "ECDH P-256 private key (party A)",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "private-key",
+          "id": "m.ecdh-private-key-a",
+          "state": "active",
+          "algorithmRef": "crypto/algorithm/ecdh-p256",
+          "size": 256
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 326,
+            "offset": 17,
+            "symbol": "crypto/ecdh.Curve.GenerateKey",
+            "additionalContext": "id=GO-158; relation=produced; role=op:keygen; scenario=S20; scope=s20KeyAgreement; end=326:47; charRange=10395-10424; byteRange=10395-10424; library=lib.go-stdlib"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "m.ecdh-private-key-a"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "1"
+        },
+        {
+          "name": "cbom-corpus:provenance",
+          "value": "keygen"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/related-crypto-material/ecdh-private-key-b",
+      "name": "ECDH P-256 private key (party B)",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "private-key",
+          "id": "m.ecdh-private-key-b",
+          "state": "active",
+          "algorithmRef": "crypto/algorithm/ecdh-p256",
+          "size": 256
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 328,
+            "offset": 15,
+            "symbol": "crypto/ecdh.Curve.GenerateKey",
+            "additionalContext": "id=GO-159; relation=produced; role=op:keygen; scenario=S20; scope=s20KeyAgreement; end=328:45; charRange=10452-10481; byteRange=10452-10481; library=lib.go-stdlib"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "m.ecdh-private-key-b"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "1"
+        },
+        {
+          "name": "cbom-corpus:provenance",
+          "value": "keygen"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/related-crypto-material/ecdh-shared-secret",
+      "name": "ECDH P-256 shared secret",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "shared-secret",
+          "id": "m.ecdh-shared-secret",
+          "state": "active",
+          "algorithmRef": "crypto/algorithm/ecdh-p256",
+          "size": 256
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 330,
+            "offset": 16,
+            "symbol": "crypto/ecdh.PrivateKey.ECDH",
+            "additionalContext": "id=GO-160; relation=produced; role=op:agree; scenario=S20; scope=s20KeyAgreement; end=330:48; charRange=10510-10541; byteRange=10510-10541; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 332,
+            "offset": 14,
+            "symbol": "crypto/ecdh.PrivateKey.ECDH",
+            "additionalContext": "id=GO-161; relation=produced; role=op:agree; scenario=S20; scope=s20KeyAgreement; end=332:46; charRange=10568-10599; byteRange=10568-10599; library=lib.go-stdlib"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "m.ecdh-shared-secret"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "2"
+        },
+        {
+          "name": "cbom-corpus:provenance",
+          "value": "agreed"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/related-crypto-material/session-info",
+      "name": "Session-key HKDF info",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "additional-data",
+          "id": "m.session-info",
+          "state": "active",
+          "algorithmRef": "crypto/algorithm/hkdf-sha256",
+          "size": 208
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 68,
+            "offset": 4,
+            "additionalContext": "id=GO-044; relation=direct; role=mat; scenario=S20; scope=<package main>; end=68:47; charRange=2233-2275; byteRange=2233-2275; library=lib.go-stdlib"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "m.session-info"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "1"
+        },
+        {
+          "name": "cbom-corpus:provenance",
+          "value": "hardcoded"
+        },
+        {
+          "name": "cbom-corpus:test-vector-value",
+          "value": "\"cbom-corpus session key v1\""
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/related-crypto-material/session-key",
+      "name": "Session key (HKDF over X25519 || ECDH secrets)",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "secret-key",
+          "id": "m.session-key",
+          "state": "active",
+          "algorithmRef": "crypto/algorithm/hkdf-sha256",
+          "size": 256
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 307,
+            "offset": 13,
+            "symbol": "crypto/hkdf.Key",
+            "additionalContext": "id=GO-149; relation=produced; role=op:keyderive; scenario=S20; scope=deriveSessionKey; end=307:70; charRange=9861-9917; byteRange=9861-9917; library=lib.go-stdlib"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "m.session-key"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "1"
+        },
+        {
+          "name": "cbom-corpus:provenance",
+          "value": "derived"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/related-crypto-material/mlkem-decapsulation-key",
+      "name": "ML-KEM-768 decapsulation key",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "private-key",
+          "id": "m.mlkem-decapsulation-key",
+          "state": "active",
+          "algorithmRef": "crypto/algorithm/ml-kem-768"
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 343,
+            "offset": 26,
+            "symbol": "crypto/mlkem.GenerateKey768",
+            "additionalContext": "id=GO-162; relation=produced; role=op:keygen; scenario=S21; scope=s21MLKEM768; end=343:49; charRange=10987-11009; byteRange=10987-11009; library=lib.go-stdlib"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "m.mlkem-decapsulation-key"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "1"
+        },
+        {
+          "name": "cbom-corpus:provenance",
+          "value": "keygen"
+        },
+        {
+          "name": "cbom-corpus:note",
+          "value": "64-byte seed form or 2400-byte expanded form, library-dependent"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/related-crypto-material/mlkem-encapsulation-key",
+      "name": "ML-KEM-768 encapsulation key",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "public-key",
+          "id": "m.mlkem-encapsulation-key",
+          "state": "active",
+          "algorithmRef": "crypto/algorithm/ml-kem-768",
+          "size": 9472
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 343,
+            "offset": 26,
+            "symbol": "crypto/mlkem.GenerateKey768",
+            "additionalContext": "id=GO-162; relation=produced; role=op:keygen; scenario=S21; scope=s21MLKEM768; end=343:49; charRange=10987-11009; byteRange=10987-11009; library=lib.go-stdlib"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "m.mlkem-encapsulation-key"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "1"
+        },
+        {
+          "name": "cbom-corpus:provenance",
+          "value": "keygen"
+        },
+        {
+          "name": "cbom-corpus:note",
+          "value": "1184 bytes"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/related-crypto-material/mlkem-shared-secret",
+      "name": "ML-KEM-768 shared secret",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "shared-secret",
+          "id": "m.mlkem-shared-secret",
+          "state": "active",
+          "algorithmRef": "crypto/algorithm/ml-kem-768",
+          "size": 256
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 345,
+            "offset": 29,
+            "symbol": "crypto/mlkem.EncapsulationKey768.Encapsulate",
+            "additionalContext": "id=GO-163; relation=produced; role=op:encapsulate; scenario=S21; scope=s21MLKEM768; end=345:79; charRange=11051-11100; byteRange=11051-11100; library=lib.go-stdlib"
+          },
+          {
+            "location": "main.go",
+            "line": 346,
+            "offset": 19,
+            "symbol": "crypto/mlkem.DecapsulationKey768.Decapsulate",
+            "additionalContext": "id=GO-164; relation=produced; role=op:decapsulate; scenario=S21; scope=s21MLKEM768; end=346:60; charRange=11120-11160; byteRange=11120-11160; library=lib.go-stdlib"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "m.mlkem-shared-secret"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "2"
+        },
+        {
+          "name": "cbom-corpus:provenance",
+          "value": "agreed"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/related-crypto-material/mldsa-private-key",
+      "name": "ML-DSA-65 private key",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "private-key",
+          "id": "m.mldsa-private-key",
+          "state": "active",
+          "algorithmRef": "crypto/algorithm/ml-dsa-65"
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 353,
+            "offset": 31,
+            "symbol": "github.com/cloudflare/circl/sign/mldsa/mldsa65.GenerateKey",
+            "additionalContext": "id=GO-165; relation=produced; role=op:keygen; scenario=S22; scope=s22MLDSA65; end=353:64; charRange=11394-11426; byteRange=11394-11426; library=lib.circl"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "m.mldsa-private-key"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "1"
+        },
+        {
+          "name": "cbom-corpus:provenance",
+          "value": "keygen"
+        },
+        {
+          "name": "cbom-corpus:note",
+          "value": "32-byte seed or 4032-byte expanded form, library-dependent"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/related-crypto-material/mldsa-public-key",
+      "name": "ML-DSA-65 public key",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "public-key",
+          "id": "m.mldsa-public-key",
+          "state": "active",
+          "algorithmRef": "crypto/algorithm/ml-dsa-65",
+          "size": 15616
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 353,
+            "offset": 31,
+            "symbol": "github.com/cloudflare/circl/sign/mldsa/mldsa65.GenerateKey",
+            "additionalContext": "id=GO-165; relation=produced; role=op:keygen; scenario=S22; scope=s22MLDSA65; end=353:64; charRange=11394-11426; byteRange=11394-11426; library=lib.circl"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "m.mldsa-public-key"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "1"
+        },
+        {
+          "name": "cbom-corpus:provenance",
+          "value": "keygen"
+        },
+        {
+          "name": "cbom-corpus:note",
+          "value": "1952 bytes"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/related-crypto-material/cert-private-key",
+      "name": "Certificate private key (P-256)",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "private-key",
+          "id": "m.cert-private-key",
+          "state": "active",
+          "algorithmRef": "crypto/algorithm/ecdsa-p256-sha256",
+          "size": 256
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 363,
+            "offset": 13,
+            "symbol": "crypto/ecdsa.GenerateKey",
+            "additionalContext": "id=GO-170; relation=produced; role=op:keygen; scenario=S23; scope=s23X509SelfSigned; end=363:61; charRange=11773-11820; byteRange=11773-11820; library=lib.go-stdlib"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "m.cert-private-key"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "1"
+        },
+        {
+          "name": "cbom-corpus:provenance",
+          "value": "keygen"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/related-crypto-material/cert-public-key",
+      "name": "Certificate subject public key (P-256)",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "public-key",
+          "id": "m.cert-public-key",
+          "state": "active",
+          "algorithmRef": "crypto/algorithm/ecdsa-p256-sha256",
+          "size": 256
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "main.go",
+            "line": 363,
+            "offset": 13,
+            "symbol": "crypto/ecdsa.GenerateKey",
+            "additionalContext": "id=GO-170; relation=produced; role=op:keygen; scenario=S23; scope=s23X509SelfSigned; end=363:61; charRange=11773-11820; byteRange=11773-11820; library=lib.go-stdlib"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "m.cert-public-key"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "1"
+        },
+        {
+          "name": "cbom-corpus:provenance",
+          "value": "keygen"
+        }
+      ]
+    }
+  ],
+  "dependencies": [
+    {
+      "ref": "application/cbom-corpus-go",
+      "dependsOn": [
+        "pkg:golang/stdlib@1.26.8",
+        "pkg:golang/golang.org/x/crypto@v0.58.0",
+        "pkg:golang/github.com/cloudflare/circl@v1.6.5"
+      ]
+    },
+    {
+      "ref": "pkg:golang/golang.org/x/crypto@v0.58.0",
+      "dependsOn": [
+        "pkg:golang/golang.org/x/sys@v0.49.0"
+      ],
+      "provides": [
+        "crypto/algorithm/argon2id",
+        "crypto/algorithm/bcrypt",
+        "crypto/algorithm/blake2b-512",
+        "crypto/algorithm/chacha20-poly1305",
+        "crypto/algorithm/scrypt",
+        "crypto/related-crypto-material/chacha-key",
+        "crypto/related-crypto-material/chacha-nonce"
+      ]
+    },
+    {
+      "ref": "pkg:golang/github.com/cloudflare/circl@v1.6.5",
+      "dependsOn": [
+        "pkg:golang/golang.org/x/sys@v0.49.0"
+      ],
+      "provides": [
+        "crypto/algorithm/ml-dsa-65"
+      ]
+    },
+    {
+      "ref": "pkg:golang/stdlib@1.26.8",
+      "provides": [
+        "crypto/algorithm/3des-cbc",
+        "crypto/algorithm/aes-128-ecb",
+        "crypto/algorithm/aes-256-cbc",
+        "crypto/algorithm/aes-256-ctr",
+        "crypto/algorithm/aes-256-gcm",
+        "crypto/algorithm/chacha20-poly1305",
+        "crypto/algorithm/csprng",
+        "crypto/algorithm/ecdh-p256",
+        "crypto/algorithm/ecdsa-p256-sha256",
+        "crypto/algorithm/ed25519",
+        "crypto/algorithm/hkdf-sha256",
+        "crypto/algorithm/hmac-sha256",
+        "crypto/algorithm/md5",
+        "crypto/algorithm/ml-kem-768",
+        "crypto/algorithm/pbkdf2-hmac-sha256",
+        "crypto/algorithm/rsa-3072",
+        "crypto/algorithm/rsa-oaep-sha256",
+        "crypto/algorithm/rsassa-pkcs1v15-sha256",
+        "crypto/algorithm/rsassa-pss-sha256",
+        "crypto/algorithm/sha-1",
+        "crypto/algorithm/sha-256",
+        "crypto/algorithm/sha-512",
+        "crypto/algorithm/sha3-256",
+        "crypto/algorithm/shake128",
+        "crypto/algorithm/x25519",
+        "crypto/certificate/self-signed",
+        "crypto/protocol/tls13-client",
+        "crypto/related-crypto-material/argon2-salt",
+        "crypto/related-crypto-material/cbc-iv",
+        "crypto/related-crypto-material/cbc-key",
+        "crypto/related-crypto-material/ctr-iv",
+        "crypto/related-crypto-material/ctr-key",
+        "crypto/related-crypto-material/ecb-key",
+        "crypto/related-crypto-material/ed25519-seed",
+        "crypto/related-crypto-material/gcm-aad",
+        "crypto/related-crypto-material/gcm-iv",
+        "crypto/related-crypto-material/gcm-key",
+        "crypto/related-crypto-material/hkdf-ikm",
+        "crypto/related-crypto-material/hkdf-info",
+        "crypto/related-crypto-material/hkdf-salt",
+        "crypto/related-crypto-material/hmac-key",
+        "crypto/related-crypto-material/password",
+        "crypto/related-crypto-material/pbkdf2-password",
+        "crypto/related-crypto-material/pbkdf2-salt",
+        "crypto/related-crypto-material/scrypt-password",
+        "crypto/related-crypto-material/scrypt-salt",
+        "crypto/related-crypto-material/session-info",
+        "crypto/related-crypto-material/tdes-iv",
+        "crypto/related-crypto-material/tdes-key"
+      ]
+    },
+    {
+      "ref": "crypto/algorithm/hmac-sha256",
+      "dependsOn": [
+        "crypto/algorithm/sha-256"
+      ]
+    },
+    {
+      "ref": "crypto/algorithm/hkdf-sha256",
+      "dependsOn": [
+        "crypto/algorithm/hmac-sha256",
+        "crypto/algorithm/sha-256"
+      ]
+    },
+    {
+      "ref": "crypto/algorithm/pbkdf2-hmac-sha256",
+      "dependsOn": [
+        "crypto/algorithm/hmac-sha256",
+        "crypto/algorithm/sha-256"
+      ]
+    },
+    {
+      "ref": "crypto/algorithm/scrypt",
+      "dependsOn": [
+        "crypto/algorithm/pbkdf2-hmac-sha256"
+      ]
+    },
+    {
+      "ref": "crypto/algorithm/mgf1-sha256",
+      "dependsOn": [
+        "crypto/algorithm/sha-256"
+      ]
+    },
+    {
+      "ref": "crypto/algorithm/rsa-oaep-sha256",
+      "dependsOn": [
+        "crypto/algorithm/rsa-3072",
+        "crypto/algorithm/sha-256",
+        "crypto/algorithm/mgf1-sha256"
+      ]
+    },
+    {
+      "ref": "crypto/algorithm/rsassa-pss-sha256",
+      "dependsOn": [
+        "crypto/algorithm/rsa-3072",
+        "crypto/algorithm/sha-256",
+        "crypto/algorithm/mgf1-sha256"
+      ]
+    },
+    {
+      "ref": "crypto/algorithm/rsassa-pkcs1v15-sha256",
+      "dependsOn": [
+        "crypto/algorithm/rsa-3072",
+        "crypto/algorithm/sha-256"
+      ]
+    },
+    {
+      "ref": "crypto/algorithm/ecdsa-p256-sha256",
+      "dependsOn": [
+        "crypto/algorithm/sha-256"
+      ]
+    },
+    {
+      "ref": "crypto/algorithm/ed25519",
+      "dependsOn": [
+        "crypto/algorithm/sha-512"
+      ]
+    },
+    {
+      "ref": "crypto/algorithm/ml-kem-768",
+      "dependsOn": [
+        "crypto/algorithm/sha3-256",
+        "crypto/algorithm/shake128"
+      ]
+    }
+  ]
+}
