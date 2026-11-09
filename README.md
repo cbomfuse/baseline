@@ -1,9 +1,9 @@
 # CBOM ground-truth corpus: one cryptographic program in five languages
 
+## Overview
 The same program is implemented in **Python, Java, Go, TypeScript and C#**. It runs 24 scenarios covering hashing, an XOF, MAC, KDFs and password hashing, AEAD and block-cipher modes, legacy ciphers, RSA, elliptic-curve signatures and key agreement, ML-KEM and ML-DSA, an X.509 certificate and a TLS 1.3 configuration, across 23 library components in total. Each language directory contains the program, its build manifest, and a README.md that records **every occurrence of every cryptographic asset** with exact coordinates, role, API symbol, library, scope, scenario and asset properties, plus a ground-truth CycloneDX 1.6 CBOM and a JSON ledger.
 
 ## Layout
-
 ```text
 .
 ├── README.md               this file
@@ -16,22 +16,12 @@ The same program is implemented in **Python, Java, Go, TypeScript and C#**. It r
 └── _tooling/               annotated templates and the generator that produced the ground truth
 ```
 
-`CSharp/` is spelled out because `#` breaks some shells, URLs and build tools. Scan the five language directories, not the archive root: `_tooling/templates` contains annotated copies of every program (with `.tmpl` extensions) and would double-count.
+Scan the five language directories, not the archive root: `_tooling/templates` contains annotated copies of every program (with `.tmpl` extensions) and would double-count.
 
 ## Verified equivalence
-
-All five programs were built and run; their standard output is byte-identical (31 lines, see `expected_output.txt`). Deterministic scenarios reproduce published test vectors: SHA-256/512, SHA3-256, BLAKE2b-512, MD5, SHA-1, SHAKE128 and HMAC-SHA256 of the 'quick brown fox' message, RFC 5869 A.1 (HKDF), RFC 7914 sections 11 and 12 (PBKDF2, scrypt), GCM test case 16 (AES-256-GCM), FIPS 197 C.1 (first AES-128-ECB block) and the RFC 8032 TEST 1 public key (Ed25519).
-
-| Language | Toolchain | How it was built and run | Result |
-|---|---|---|---|
-| Python | CPython 3.12.3 (Ubuntu 24.04, x86_64) | venv with requirements.txt, python3 crypto_showcase.py | identical |
-| Java | OpenJDK 25.0.4.1 | javac/java against Bouncy Castle 1.86 compiled from the r1rv86 tag (also re-run against the 1.80 jars); javac -Xlint:all reported no warnings | identical |
-| Go | Go 1.26.8 | go build with x/crypto v0.58.0, CIRCL v1.6.5 and x/sys v0.49.0 from tagged sources; gofmt and go vet clean | identical |
-| TypeScript | Node.js 22.22.2 (bundled OpenSSL 3.5.5), TypeScript 7.0.2 | npm install, tsc with 0 diagnostics, node dist/main.js | identical |
-| C# | .NET SDK 10.0.113 (runtime 10.0.13) | dotnet build -c Release against BouncyCastle.Cryptography 2.7.0 compiled from the release-2.7.0 tag; 0 warnings | identical |
+All five programs were built and run; their standard output is byte-identical (31 lines, see `expected_output.txt`). 
 
 ## Corpus statistics
-
 | Language | Program | Lines | Occurrences | Algorithms | Material | Implicit assets | Libraries | Non-asset mentions |
 |---|---|---|---|---|---|---|---|---|
 | Python | `Python/crypto_showcase.py` | 365 | 195 | 33 | 49 | 2 | 6 | 164 |
@@ -41,8 +31,7 @@ All five programs were built and run; their standard output is byte-identical (3
 | C# | `CSharp/Program.cs` | 407 | 212 | 34 | 49 | 3 | 2 | 95 |
 
 ## Scenarios and the APIs that implement them
-
-Each cell lists the operations recorded for that scenario (library ID, then API). The logic is the same everywhere; the APIs, the libraries and the way algorithms are named are deliberately varied.
+Each cell lists the operations recorded for that scenario (library ID, then API). 
 
 | Scenario | Python | Java | Go | TypeScript | C# |
 |---|---|---|---|---|---|
@@ -72,12 +61,4 @@ Each cell lists the operations recorded for that scenario (library ID, then API)
 | **S24** TLS 1.3-only client configuration (no network I/O) | py-stdlib: `ssl.create_default_context`, `SSLContext.minimum_version`, `SSLContext.maximum_version` | jdk: `SSLContext.getInstance`, `SSLParameters.setProtocols`, `SSLParameters.setCipherSuites`, `SSLContext.createSSLEngine`, `SSLEngine.setUseClientMode`, `SSLEngine.setSSLParameters` | go-stdlib: `tls.Config`, `tls.VersionTLS13` | node: `tls.createSecureContext`, `?` | dotnet: `.ctor`, `SslProtocols.Tls13` |
 
 ## How the ground truth was produced
-
 Each program was written once as an annotated template in which every cryptographic span is wrapped in a marker carrying its role, asset, parent asset, produced material, API symbol and a note key (`«ROLE ASSET^PARENT>PRODUCED#SYMBOL!NOTE|code»`). `_tooling/build_sources.py` strips the markers to produce the delivered source and `_tooling/docs.py` computes positions on the stripped text, so coordinates are exact by construction rather than found by searching. Asset properties live in one shared registry (`_tooling/spec.py`), so the same asset ID means the same thing in every language. To change a program, edit its template and run `python3 build_sources.py && python3 docs.py` inside `_tooling/`.
-
-## Caveats
-
-- The build sandbox could not reach Maven Central, NuGet or the Go module proxy. Java was compiled and run against Bouncy Castle 1.86 built from the `r1rv86` source tag (and re-run against the 1.80 jars), C# against BouncyCastle.Cryptography 2.7.0 built from the `release-2.7.0` tag, and Go against x/crypto v0.58.0, CIRCL v1.6.5 and x/sys v0.49.0 from their tagged sources. `pom.xml` and `CryptoShowcase.csproj` pin those same versions but were not themselves exercised through Maven or NuGet.
-- `Go/` ships without `go.sum`; run `go mod tidy` once to record checksums.
-- Asset-level security levels and compliance statements (`_tooling/spec.py`) are analyst judgements with stated sources (FIPS, SP 800-131A Rev. 2, NIST IR 8547, CNSA 2.0); review them against your own policy baseline.
-- 'Implicit' assets (for example the TLS 1.3 cipher suites in Python and Go, or MGF1 in Go, TypeScript and C#) are part of the runtime CBOM but have no source occurrence by design.
