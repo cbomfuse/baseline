@@ -1,8 +1,6 @@
 # Ground-truth tooling
 
-These files produced every program, README, CBOM and ledger in this corpus. Nothing here is needed to build or run
-the five programs.
-
+## Overview
 | File | Role |
 |---|---|
 | `spec.py` | Canonical registry shared by all languages: scenarios, algorithm assets (CycloneDX properties, OIDs, security levels, NIST / CNSA 2.0 status), related crypto material, the certificate, the TLS protocol asset, marker roles and the non-asset lexicon |
@@ -14,7 +12,6 @@ the five programs.
 | `templates/<language>/` | The annotated program template (`*.tmpl`) and static build files |
 
 ## Marker grammar
-
 Every cryptographic span in a template is wrapped like this (the markers never appear in the delivered sources):
 
 ```text
@@ -35,7 +32,6 @@ Coordinates are computed on the stripped text, so they are exact by construction
 four-space indentation, which `build_sources.py` converts to tabs so the output is `gofmt`-clean.
 
 ## Regenerating
-
 ```sh
 cd _tooling
 python3 build_sources.py   # rewrites the five programs and their build manifests
