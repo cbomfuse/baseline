@@ -1,12 +1,10 @@
 #!/usr/bin/env bash
-# build-all.sh: build every compiled component so CodeQL can trace it
 set -euo pipefail
 
-# Java (example: Maven; use ./gradlew build for Gradle)
-mvn -B -DskipTests package
+# The Java project targets release 25
+export JAVA_HOME=/usr/lib/jvm/java-25-openjdk-amd64
+export PATH="$JAVA_HOME/bin:$PATH"
 
-# Go
-go build ./...
-
-# C# (example: .NET)
-dotnet build
+(cd Java   && mvn -B -DskipTests clean package)
+(cd Go     && go build ./...)
+(cd CSharp && dotnet clean && dotnet build --no-incremental -p:UseSharedCompilation=false)
