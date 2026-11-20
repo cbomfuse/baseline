@@ -1,0 +1,418 @@
+// Command cryptoshowcase is the Go implementation of the CBOM ground-truth corpus.
+//
+// It runs scenarios S01-S24 in the same order, with the same inputs and the same
+// output lines as the Python, Java, TypeScript and C# implementations. All
+// hard-coded keys, IVs, salts and passwords are published test vectors.
+package main
+
+import (
+    "bytes"
+    «imp lib.go-stdlib#crypto|"crypto"»
+    «imp lib.go-stdlib#crypto/aes|"crypto/aes"»
+    «imp lib.go-stdlib#crypto/cipher|"crypto/cipher"»
+    «imp lib.go-stdlib#crypto/des|"crypto/des"»
+    «imp lib.go-stdlib#crypto/ecdh|"crypto/ecdh"»
+    «imp lib.go-stdlib#crypto/ecdsa|"crypto/ecdsa"»
+    «imp lib.go-stdlib#crypto/ed25519|"crypto/ed25519"»
+    «imp lib.go-stdlib#crypto/elliptic|"crypto/elliptic"»
+    «imp lib.go-stdlib#crypto/hkdf|"crypto/hkdf"»
+    «imp lib.go-stdlib#crypto/hmac|"crypto/hmac"»
+    «imp lib.go-stdlib#crypto/md5|"crypto/md5"»
+    «imp lib.go-stdlib#crypto/mlkem|"crypto/mlkem"»
+    «imp lib.go-stdlib#crypto/pbkdf2|"crypto/pbkdf2"»
+    «imp lib.go-stdlib#crypto/rand|"crypto/rand"»
+    «imp lib.go-stdlib#crypto/rsa|"crypto/rsa"»
+    «imp lib.go-stdlib#crypto/sha1|"crypto/sha1"»
+    «imp lib.go-stdlib#crypto/sha256|"crypto/sha256"»
+    «imp lib.go-stdlib#crypto/sha3|"crypto/sha3"»
+    «imp lib.go-stdlib#crypto/sha512|"crypto/sha512"»
+    «imp lib.go-stdlib#crypto/tls|"crypto/tls"»
+    «imp lib.go-stdlib#crypto/x509|"crypto/x509"»
+    «imp lib.go-stdlib#crypto/x509/pkix|"crypto/x509/pkix"»
+    "encoding/hex"
+    "fmt"
+    "math/big"
+    "time"
+
+    «imp lib.circl#$circl/sign/mldsa/mldsa65|"github.com/cloudflare/circl/sign/mldsa/mldsa65"»
+    «imp lib.xcrypto#$x/argon2|"golang.org/x/crypto/argon2"»
+    «imp lib.xcrypto#$x/bcrypt|"golang.org/x/crypto/bcrypt"»
+    «imp lib.xcrypto#$x/blake2b|"golang.org/x/crypto/blake2b"»
+    «imp lib.xcrypto#$x/chacha20poly1305|"golang.org/x/crypto/chacha20poly1305"»
+    «imp lib.xcrypto#$x/scrypt|"golang.org/x/crypto/scrypt"»
+)
+
+var message = []byte("The quick brown fox jumps over the lazy dog")
+
+// Hard-coded material (public test vectors only): Wikipedia HMAC example key,
+// RFC 5869 A.1, RFC 7914 sections 11 and 12, GCM specification test case 16,
+// FIPS 197 appendix C.1 and RFC 8032 section 7.1 TEST 1.
+var «mat m.hmac-key|hmacKey = []byte("key")»
+var «mat m.hkdf-ikm|hkdfIKM = bytes.Repeat([]byte{0x0b}, 22)»
+var «mat m.hkdf-salt|hkdfSalt = mustHex("000102030405060708090a0b0c")»
+var «mat m.hkdf-info|hkdfInfo = mustHex("f0f1f2f3f4f5f6f7f8f9")»
+var «mat m.pbkdf2-password|pbkdf2Password = "Password"»
+var «mat m.pbkdf2-salt|pbkdf2Salt = []byte("NaCl")»
+var «mat m.scrypt-password|scryptPassword = []byte("pleaseletmein")»
+var «mat m.scrypt-salt|scryptSalt = []byte("SodiumChloride")»
+var «mat m.password|password = []byte("correct horse battery staple")»
+var «mat m.argon2-salt|argon2Salt = []byte("cbom-corpus-salt")»
+var «mat m.gcm-key|gcmKey = mustHex("feffe9928665731c6d6a8f9467308308feffe9928665731c6d6a8f9467308308")»
+var «mat m.gcm-iv|gcmIV = mustHex("cafebabefacedbaddecaf888")»
+var «mat m.gcm-aad|gcmAAD = mustHex("feedfacedeadbeeffeedfacedeadbeefabaddad2")»
+var gcmPlaintext = mustHex("d9313225f88406e5a55909c5aff5269a86a7a9531534f7da2e4c303d8a318a72" +
+    "1c3c0c95956809532fcf0e2449a6b525b16aedf5aa0de657ba637b39")
+var «mat m.ecb-key|ecbKey = mustHex("000102030405060708090a0b0c0d0e0f")»
+var ecbPlaintext = mustHex("00112233445566778899aabbccddeeff")
+var «mat m.ed25519-seed|ed25519Seed = mustHex("9d61b19deffd5a60ba844af492ec2cc44449c5697b326919703bac031cae7f60")»
+var «mat m.session-info|sessionInfo = "cbom-corpus session key v1"»
+
+const tlsServerName = "cbom-corpus.example"
+
+func mustHex(s string) []byte {
+    b, err := hex.DecodeString(s)
+    if err != nil {
+        panic(err)
+    }
+    return b
+}
+
+func check(err error) {
+    if err != nil {
+        panic(err)
+    }
+}
+
+func emit(scenario, label, value string) {
+    fmt.Printf("[%s] %-18s %s\n", scenario, label, value)
+}
+
+func pkcs7Pad(data []byte, blockSize int) []byte {
+    n := blockSize - len(data)%blockSize
+    return append(bytes.Clone(data), bytes.Repeat([]byte{byte(n)}, n)...)
+}
+
+func pkcs7Unpad(data []byte) []byte {
+    n := int(data[len(data)-1])
+    if n == 0 || n > len(data) {
+        panic("invalid padding")
+    }
+    return data[:len(data)-n]
+}
+
+// S01: SHA-256 (FIPS 180-4)
+func s01SHA256() {
+    digest := «op:digest sha-256#crypto/sha256.Sum256|sha256.Sum256(message)»
+    emit("S01", "SHA-256", hex.EncodeToString(digest[:]))
+}
+
+// S02: SHA-512, SHA3-256, BLAKE2b-512
+func s02SHA2SHA3BLAKE2() {
+    sha512Digest := «op:digest sha-512#crypto/sha512.Sum512|sha512.Sum512(message)»
+    emit("S02", "SHA-512", hex.EncodeToString(sha512Digest[:]))
+    sha3Digest := «op:digest sha3-256#crypto/sha3.Sum256|sha3.Sum256(message)»
+    emit("S02", "SHA3-256", hex.EncodeToString(sha3Digest[:]))
+    blakeDigest := «op:digest blake2b-512#$x/blake2b.Sum512|blake2b.Sum512(message)»
+    emit("S02", "BLAKE2b-512", hex.EncodeToString(blakeDigest[:]))
+}
+
+// S03: legacy digests - deliberately weak
+func s03LegacyHashes() {
+    md5Digest := «op:digest md5#crypto/md5.Sum|md5.Sum(message)»
+    emit("S03", "MD5", hex.EncodeToString(md5Digest[:]))
+    sha1Digest := «op:digest sha-1#crypto/sha1.Sum|sha1.Sum(message)»
+    emit("S03", "SHA-1", hex.EncodeToString(sha1Digest[:]))
+}
+
+// S04: SHAKE128 extendable-output function
+func s04SHAKE128() {
+    out := «op:digest shake128#crypto/sha3.SumSHAKE128|sha3.SumSHAKE128(message, «prm:output-length-bytes shake128|32»)»
+    emit("S04", "SHAKE128", hex.EncodeToString(out))
+}
+
+// S05: HMAC-SHA256
+func s05HMACSHA256() {
+    mac := «ctor hmac-sha256#crypto/hmac.New|hmac.New(«alg sha-256^hmac-sha256#crypto/sha256.New!hash-constructor|sha256.New», hmacKey)»
+    mac.Write(message)
+    emit("S05", "HMAC-SHA256", hex.EncodeToString(«op:tag hmac-sha256#hash.Hash.Sum|mac.Sum(nil)»))
+}
+
+// S06: HKDF-SHA256 (RFC 5869)
+func s06HKDFSHA256() {
+    okm, err := «op:keyderive hkdf-sha256>m.hkdf-okm#crypto/hkdf.Key|hkdf.Key(«alg sha-256^hkdf-sha256#crypto/sha256.New!hash-constructor|sha256.New», hkdfIKM, hkdfSalt, string(hkdfInfo), «prm:output-length-bytes hkdf-sha256|42»)»
+    check(err)
+    emit("S06", "HKDF-SHA256", hex.EncodeToString(okm))
+}
+
+// S07: PBKDF2-HMAC-SHA256
+func s07PBKDF2() {
+    derived, err := «op:keyderive pbkdf2-hmac-sha256>m.pbkdf2-dk#crypto/pbkdf2.Key|pbkdf2.Key(«alg sha-256^pbkdf2-hmac-sha256#crypto/sha256.New!hash-constructor|sha256.New», pbkdf2Password, pbkdf2Salt, «prm:iterations pbkdf2-hmac-sha256|80_000», «prm:output-length-bytes pbkdf2-hmac-sha256|64»)»
+    check(err)
+    emit("S07", "PBKDF2-SHA256", hex.EncodeToString(derived))
+}
+
+// S08: scrypt
+func s08Scrypt() {
+    derived, err := «op:keyderive scrypt>m.scrypt-dk#$x/scrypt.Key|scrypt.Key(scryptPassword, scryptSalt, «prm:N scrypt!computed|1<<14», «prm:r scrypt|8», «prm:p scrypt|1», «prm:output-length-bytes scrypt|64»)»
+    check(err)
+    emit("S08", "scrypt", hex.EncodeToString(derived))
+}
+
+// S09: Argon2id
+func s09Argon2id() {
+    raw := «op:keyderive argon2id>m.argon2-dk#$x/argon2.IDKey!mode-ctor|argon2.IDKey(password, argon2Salt, «prm:iterations argon2id|2», «prm:memory-kib argon2id|19_456», «prm:parallelism argon2id|1», «prm:output-length-bytes argon2id|32»)»
+    emit("S09", "Argon2id", hex.EncodeToString(raw))
+}
+
+// S10: bcrypt
+func s10Bcrypt() {
+    hash, err := «op:keyderive bcrypt>m.bcrypt-hash,m.bcrypt-salt#$x/bcrypt.GenerateFromPassword!bcrypt-internal-salt|bcrypt.GenerateFromPassword(password, «prm:cost bcrypt|12»)»
+    check(err)
+    ok := «op:verify bcrypt#$x/bcrypt.CompareHashAndPassword|bcrypt.CompareHashAndPassword(hash, password)» == nil
+    emit("S10", "bcrypt", fmt.Sprintf("verify=%t", ok))
+}
+
+// S11: AES-256-GCM known-answer test
+func s11AES256GCM() {
+    block, err := «ctor aes-256-gcm#crypto/aes.NewCipher!keysize-from-key|aes.NewCipher(gcmKey)»
+    check(err)
+    aead, err := «ctor aes-256-gcm#crypto/cipher.NewGCM!mode-ctor|cipher.NewGCM(block)»
+    check(err)
+    sealed := «op:encrypt aes-256-gcm#crypto/cipher.AEAD.Seal|aead.Seal(nil, gcmIV, gcmPlaintext, gcmAAD)»
+    opened, err := «op:decrypt aes-256-gcm#crypto/cipher.AEAD.Open|aead.Open(nil, gcmIV, sealed, gcmAAD)»
+    check(err)
+    tagStart := len(sealed) - aead.Overhead()
+    emit("S11", "AES-256-GCM", fmt.Sprintf("ct=%x tag=%x roundtrip=%t", sealed[:tagStart], sealed[tagStart:], bytes.Equal(opened, gcmPlaintext)))
+}
+
+// S12: ChaCha20-Poly1305 (RFC 8439)
+func s12ChaCha20Poly1305() {
+    key := make([]byte, «prm:length-bytes m.chacha-key#$x/chacha20poly1305.KeySize|chacha20poly1305.KeySize»)
+    «op:generate csprng>m.chacha-key#crypto/rand.Read|rand.Read(key)»
+    nonce := make([]byte, «prm:length-bytes m.chacha-nonce#$x/chacha20poly1305.NonceSize|chacha20poly1305.NonceSize»)
+    «op:generate csprng>m.chacha-nonce#crypto/rand.Read|rand.Read(nonce)»
+    aead, err := «ctor chacha20-poly1305#$x/chacha20poly1305.New|chacha20poly1305.New(key)»
+    check(err)
+    sealed := «op:encrypt chacha20-poly1305#crypto/cipher.AEAD.Seal|aead.Seal(nil, nonce, message, nil)»
+    opened, err := «op:decrypt chacha20-poly1305#crypto/cipher.AEAD.Open|aead.Open(nil, nonce, sealed, nil)»
+    check(err)
+    emit("S12", "ChaCha20-Poly1305", fmt.Sprintf("roundtrip=%t", bytes.Equal(opened, message)))
+}
+
+// S13: AES-256-CBC with PKCS#7 padding
+func s13AES256CBC() {
+    key := make([]byte, «prm:length-bytes m.cbc-key|32»)
+    «op:generate csprng>m.cbc-key#crypto/rand.Read|rand.Read(key)»
+    iv := make([]byte, «prm:length-bytes m.cbc-iv#crypto/aes.BlockSize|aes.BlockSize»)
+    «op:generate csprng>m.cbc-iv#crypto/rand.Read|rand.Read(iv)»
+    block, err := «ctor aes-256-cbc#crypto/aes.NewCipher!keysize-from-key|aes.NewCipher(key)»
+    check(err)
+    padded := «alg aes-256-cbc!manual-pkcs7|pkcs7Pad(message, aes.BlockSize)»
+    ciphertext := make([]byte, len(padded))
+    «op:encrypt aes-256-cbc#crypto/cipher.BlockMode.CryptBlocks|«ctor:encrypt aes-256-cbc#crypto/cipher.NewCBCEncrypter!mode-ctor|cipher.NewCBCEncrypter(block, iv)».CryptBlocks(ciphertext, padded)»
+    plaintext := make([]byte, len(ciphertext))
+    «op:decrypt aes-256-cbc#crypto/cipher.BlockMode.CryptBlocks|«ctor:decrypt aes-256-cbc#crypto/cipher.NewCBCDecrypter!mode-ctor|cipher.NewCBCDecrypter(block, iv)».CryptBlocks(plaintext, ciphertext)»
+    emit("S13", "AES-256-CBC", fmt.Sprintf("roundtrip=%t", bytes.Equal(«alg aes-256-cbc!manual-pkcs7|pkcs7Unpad(plaintext)», message)))
+}
+
+// S14: AES-128-ECB known-answer test - deliberately weak mode
+func s14AES128ECB() {
+    block, err := «ctor aes-128-ecb#crypto/aes.NewCipher!keysize-from-key|aes.NewCipher(ecbKey)»
+    check(err)
+    padded := «alg aes-128-ecb!manual-pkcs7|pkcs7Pad(ecbPlaintext, aes.BlockSize)»
+    ciphertext := make([]byte, len(padded))
+    for i := 0; i < len(padded); i += «prm:block-size-bytes aes-128-ecb#crypto/aes.BlockSize!manual-ecb|aes.BlockSize» {
+        «op:encrypt aes-128-ecb#crypto/cipher.Block.Encrypt!manual-ecb|block.Encrypt(ciphertext[i:i+aes.BlockSize], padded[i:i+aes.BlockSize])»
+    }
+    emit("S14", "AES-128-ECB", hex.EncodeToString(ciphertext))
+}
+
+// S15: AES-256-CTR
+func s15AES256CTR() {
+    key := make([]byte, «prm:length-bytes m.ctr-key|32»)
+    «op:generate csprng>m.ctr-key#crypto/rand.Read|rand.Read(key)»
+    counterBlock := make([]byte, «prm:length-bytes m.ctr-iv#crypto/aes.BlockSize|aes.BlockSize»)
+    «op:generate csprng>m.ctr-iv#crypto/rand.Read|rand.Read(counterBlock)»
+    block, err := «ctor aes-256-ctr#crypto/aes.NewCipher!keysize-from-key|aes.NewCipher(key)»
+    check(err)
+    ciphertext := make([]byte, len(message))
+    «op:encrypt aes-256-ctr#crypto/cipher.Stream.XORKeyStream|«ctor:encrypt aes-256-ctr#crypto/cipher.NewCTR!mode-ctor|cipher.NewCTR(block, counterBlock)».XORKeyStream(ciphertext, message)»
+    plaintext := make([]byte, len(ciphertext))
+    «op:decrypt aes-256-ctr#crypto/cipher.Stream.XORKeyStream|«ctor:decrypt aes-256-ctr#crypto/cipher.NewCTR!mode-ctor|cipher.NewCTR(block, counterBlock)».XORKeyStream(plaintext, ciphertext)»
+    emit("S15", "AES-256-CTR", fmt.Sprintf("roundtrip=%t", bytes.Equal(plaintext, message)))
+}
+
+// S16: 3DES (TDEA) CBC - deliberately legacy
+func s16TDEACBC() {
+    key := make([]byte, «prm:length-bytes m.tdes-key|24»)
+    «op:generate csprng>m.tdes-key#crypto/rand.Read|rand.Read(key)»
+    iv := make([]byte, «prm:length-bytes m.tdes-iv#crypto/des.BlockSize|des.BlockSize»)
+    «op:generate csprng>m.tdes-iv#crypto/rand.Read|rand.Read(iv)»
+    block, err := «ctor 3des-cbc#crypto/des.NewTripleDESCipher|des.NewTripleDESCipher(key)»
+    check(err)
+    padded := «alg 3des-cbc!manual-pkcs7|pkcs7Pad(message, des.BlockSize)»
+    ciphertext := make([]byte, len(padded))
+    «op:encrypt 3des-cbc#crypto/cipher.BlockMode.CryptBlocks|«ctor:encrypt 3des-cbc#crypto/cipher.NewCBCEncrypter!mode-ctor|cipher.NewCBCEncrypter(block, iv)».CryptBlocks(ciphertext, padded)»
+    plaintext := make([]byte, len(ciphertext))
+    «op:decrypt 3des-cbc#crypto/cipher.BlockMode.CryptBlocks|«ctor:decrypt 3des-cbc#crypto/cipher.NewCBCDecrypter!mode-ctor|cipher.NewCBCDecrypter(block, iv)».CryptBlocks(plaintext, ciphertext)»
+    emit("S16", "3DES-CBC", fmt.Sprintf("roundtrip=%t", bytes.Equal(«alg 3des-cbc!manual-pkcs7|pkcs7Unpad(plaintext)», message)))
+}
+
+// S17: RSA-3072 - OAEP, PSS and PKCS#1 v1.5 with one key pair
+func s17RSA3072() {
+    privateKey, err := «op:keygen rsa-3072>m.rsa-private-key,m.rsa-public-key#crypto/rsa.GenerateKey!go126-rand-ignored|rsa.GenerateKey(rand.Reader, «prm:key-size-bits rsa-3072|3072»)»
+    check(err)
+    publicKey := &privateKey.PublicKey
+
+    ciphertext, err := «op:encrypt rsa-oaep-sha256#crypto/rsa.EncryptOAEP!oaep-mgf-same-hash|rsa.EncryptOAEP(«alg sha-256^rsa-oaep-sha256#crypto/sha256.New|sha256.New()», rand.Reader, publicKey, message, nil)»
+    check(err)
+    plaintext, err := «op:decrypt rsa-oaep-sha256#crypto/rsa.DecryptOAEP|rsa.DecryptOAEP(«alg sha-256^rsa-oaep-sha256#crypto/sha256.New|sha256.New()», nil, privateKey, ciphertext, nil)»
+    check(err)
+    emit("S17", "RSA-3072 OAEP", fmt.Sprintf("roundtrip=%t", bytes.Equal(plaintext, message)))
+
+    digest := «op:digest sha-256^rsassa-pss-sha256#crypto/sha256.Sum256!prehash|«op:digest sha-256^rsassa-pkcs1v15-sha256#crypto/sha256.Sum256!prehash|sha256.Sum256(message)»»
+    pssOptions := «spec rsassa-pss-sha256#crypto/rsa.PSSOptions|&rsa.PSSOptions{SaltLength: «prm:salt-length-bytes rsassa-pss-sha256#crypto/rsa.PSSSaltLengthEqualsHash|rsa.PSSSaltLengthEqualsHash»}»
+    pssSignature, err := «op:sign rsassa-pss-sha256#crypto/rsa.SignPSS|rsa.SignPSS(rand.Reader, privateKey, «alg sha-256^rsassa-pss-sha256#crypto.SHA256|crypto.SHA256», digest[:], pssOptions)»
+    check(err)
+    pssOK := «op:verify rsassa-pss-sha256#crypto/rsa.VerifyPSS|rsa.VerifyPSS(publicKey, «alg sha-256^rsassa-pss-sha256#crypto.SHA256|crypto.SHA256», digest[:], pssSignature, pssOptions)» == nil
+    emit("S17", "RSA-3072 PSS", fmt.Sprintf("verify=%t", pssOK))
+
+    pkcs1Signature, err := «op:sign rsassa-pkcs1v15-sha256#crypto/rsa.SignPKCS1v15|rsa.SignPKCS1v15(nil, privateKey, «alg sha-256^rsassa-pkcs1v15-sha256#crypto.SHA256|crypto.SHA256», digest[:])»
+    check(err)
+    pkcs1OK := «op:verify rsassa-pkcs1v15-sha256#crypto/rsa.VerifyPKCS1v15|rsa.VerifyPKCS1v15(publicKey, «alg sha-256^rsassa-pkcs1v15-sha256#crypto.SHA256|crypto.SHA256», digest[:], pkcs1Signature)» == nil
+    emit("S17", "RSA-3072 PKCS1v15", fmt.Sprintf("verify=%t", pkcs1OK))
+}
+
+// S18: ECDSA P-256 with SHA-256
+func s18ECDSAP256() {
+    privateKey, err := «op:keygen ecdsa-p256-sha256>m.ecdsa-private-key,m.ecdsa-public-key#crypto/ecdsa.GenerateKey!go126-rand-ignored|ecdsa.GenerateKey(«alg ecdsa-p256-sha256#crypto/elliptic.P256|elliptic.P256()», rand.Reader)»
+    check(err)
+    digest := «op:digest sha-256^ecdsa-p256-sha256#crypto/sha256.Sum256!prehash|sha256.Sum256(message)»
+    signature, err := «op:sign ecdsa-p256-sha256#crypto/ecdsa.SignASN1!go126-rand-ignored|ecdsa.SignASN1(rand.Reader, privateKey, digest[:])»
+    check(err)
+    ok := «op:verify ecdsa-p256-sha256#crypto/ecdsa.VerifyASN1|ecdsa.VerifyASN1(&privateKey.PublicKey, digest[:], signature)»
+    emit("S18", "ECDSA P-256", fmt.Sprintf("verify=%t", ok))
+}
+
+// S19: Ed25519 from a fixed seed (RFC 8032)
+func s19Ed25519() {
+    privateKey := «op:keygen ed25519>m.ed25519-public-key#crypto/ed25519.NewKeyFromSeed!seed-ctor|ed25519.NewKeyFromSeed(ed25519Seed)»
+    publicKey := privateKey.Public().(«typ ed25519#crypto/ed25519.PublicKey|ed25519.PublicKey»)
+    signature := «op:sign ed25519#crypto/ed25519.Sign|ed25519.Sign(privateKey, message)»
+    ok := «op:verify ed25519#crypto/ed25519.Verify|ed25519.Verify(publicKey, message, signature)»
+    emit("S19", "Ed25519", fmt.Sprintf("pk=%x sig=%x verify=%t", []byte(publicKey), signature, ok))
+}
+
+func deriveSessionKey(sharedSecret []byte) []byte {
+    key, err := «op:keyderive hkdf-sha256>m.session-key#crypto/hkdf.Key|hkdf.Key(«alg sha-256^hkdf-sha256#crypto/sha256.New!hash-constructor|sha256.New», sharedSecret, nil, sessionInfo, «prm:output-length-bytes hkdf-sha256|32»)»
+    check(err)
+    return key
+}
+
+// S20: X25519 + ECDH P-256 key agreement, HKDF session key
+func s20KeyAgreement() {
+    x25519 := «alg x25519#crypto/ecdh.X25519|ecdh.X25519()»
+    alice, err := «op:keygen x25519>m.x25519-private-key-a#crypto/ecdh.Curve.GenerateKey!go126-rand-ignored|x25519.GenerateKey(rand.Reader)»
+    check(err)
+    bob, err := «op:keygen x25519>m.x25519-private-key-b#crypto/ecdh.Curve.GenerateKey!go126-rand-ignored|x25519.GenerateKey(rand.Reader)»
+    check(err)
+    xAlice, err := «op:agree x25519>m.x25519-shared-secret#crypto/ecdh.PrivateKey.ECDH|alice.ECDH(bob.PublicKey())»
+    check(err)
+    xBob, err := «op:agree x25519>m.x25519-shared-secret#crypto/ecdh.PrivateKey.ECDH|bob.ECDH(alice.PublicKey())»
+    check(err)
+    emit("S20", "X25519", fmt.Sprintf("agree=%t", bytes.Equal(xAlice, xBob)))
+
+    p256 := «alg ecdh-p256#crypto/ecdh.P256|ecdh.P256()»
+    aliceEC, err := «op:keygen ecdh-p256>m.ecdh-private-key-a#crypto/ecdh.Curve.GenerateKey!go126-rand-ignored|p256.GenerateKey(rand.Reader)»
+    check(err)
+    bobEC, err := «op:keygen ecdh-p256>m.ecdh-private-key-b#crypto/ecdh.Curve.GenerateKey!go126-rand-ignored|p256.GenerateKey(rand.Reader)»
+    check(err)
+    zAlice, err := «op:agree ecdh-p256>m.ecdh-shared-secret#crypto/ecdh.PrivateKey.ECDH|aliceEC.ECDH(bobEC.PublicKey())»
+    check(err)
+    zBob, err := «op:agree ecdh-p256>m.ecdh-shared-secret#crypto/ecdh.PrivateKey.ECDH|bobEC.ECDH(aliceEC.PublicKey())»
+    check(err)
+    emit("S20", "ECDH P-256", fmt.Sprintf("agree=%t", bytes.Equal(zAlice, zBob)))
+
+    kAlice := deriveSessionKey(append(bytes.Clone(xAlice), zAlice...))
+    kBob := deriveSessionKey(append(bytes.Clone(xBob), zBob...))
+    emit("S20", "HKDF session key", fmt.Sprintf("match=%t", bytes.Equal(kAlice, kBob)))
+}
+
+// S21: ML-KEM-768 (FIPS 203)
+func s21MLKEM768() {
+    decapsulationKey, err := «op:keygen ml-kem-768>m.mlkem-decapsulation-key,m.mlkem-encapsulation-key#crypto/mlkem.GenerateKey768|mlkem.GenerateKey768()»
+    check(err)
+    sharedSecret, ciphertext := «op:encapsulate ml-kem-768>m.mlkem-shared-secret#crypto/mlkem.EncapsulationKey768.Encapsulate|decapsulationKey.EncapsulationKey().Encapsulate()»
+    recovered, err := «op:decapsulate ml-kem-768>m.mlkem-shared-secret#crypto/mlkem.DecapsulationKey768.Decapsulate|decapsulationKey.Decapsulate(ciphertext)»
+    check(err)
+    emit("S21", "ML-KEM-768", fmt.Sprintf("agree=%t ct=%d ss=%d", bytes.Equal(sharedSecret, recovered), len(ciphertext), len(sharedSecret)))
+}
+
+// S22: ML-DSA-65 (FIPS 204)
+func s22MLDSA65() {
+    publicKey, privateKey, err := «op:keygen ml-dsa-65>m.mldsa-private-key,m.mldsa-public-key#$circl/sign/mldsa/mldsa65.GenerateKey|mldsa65.GenerateKey(rand.Reader)»
+    check(err)
+    signature := make([]byte, «prm:signature-size-bytes ml-dsa-65#$circl/sign/mldsa/mldsa65.SignatureSize|mldsa65.SignatureSize»)
+    check(«op:sign ml-dsa-65#$circl/sign/mldsa/mldsa65.SignTo!ctx-default|mldsa65.SignTo(privateKey, message, nil, «prm:randomized ml-dsa-65!hedged|true», signature)»)
+    ok := «op:verify ml-dsa-65#$circl/sign/mldsa/mldsa65.Verify|mldsa65.Verify(publicKey, message, nil, signature)»
+    emit("S22", "ML-DSA-65", fmt.Sprintf("verify=%t sig=%d", ok, len(signature)))
+}
+
+// S23: self-signed X.509 certificate
+func s23X509SelfSigned() {
+    key, err := «op:keygen ecdsa-p256-sha256>m.cert-private-key,m.cert-public-key#crypto/ecdsa.GenerateKey!go126-rand-ignored|ecdsa.GenerateKey(«alg ecdsa-p256-sha256#crypto/elliptic.P256|elliptic.P256()», rand.Reader)»
+    check(err)
+    serial, err := «op:generate csprng#crypto/rand.Int!serial|rand.Int(rand.Reader, new(big.Int).Lsh(big.NewInt(1), 64))»
+    check(err)
+    now := time.Now()
+    template := «ctor cert.self-signed#crypto/x509.Certificate|&x509.Certificate{
+        SerialNumber:       serial,
+        Subject:            pkix.Name{CommonName: tlsServerName},
+        NotBefore:          now.Add(-time.Minute),
+        NotAfter:           now.Add(«prm:validity-days cert.self-signed|365» * 24 * time.Hour),
+        SignatureAlgorithm: «alg ecdsa-p256-sha256#crypto/x509.ECDSAWithSHA256|x509.ECDSAWithSHA256»,
+    }»
+    der, err := «op:sign cert.self-signed#crypto/x509.CreateCertificate|x509.CreateCertificate(rand.Reader, template, template, &key.PublicKey, key)»
+    check(err)
+    certificate, err := «op:encode cert.self-signed#crypto/x509.ParseCertificate|x509.ParseCertificate(der)»
+    check(err)
+    ok := «op:verify ecdsa-p256-sha256#crypto/x509.Certificate.CheckSignature|certificate.CheckSignature(certificate.SignatureAlgorithm, certificate.RawTBSCertificate, certificate.Signature)» == nil
+    emit("S23", "X.509 self-signed", fmt.Sprintf("verify=%t", ok))
+}
+
+// S24: TLS 1.3-only client configuration (no connection is made)
+func s24TLS13Client() {
+    config := «ctor tls13-client#crypto/tls.Config|&tls.Config{
+        MinVersion: «cfg:min-version tls13-client#crypto/tls.VersionTLS13|tls.VersionTLS13»,
+        MaxVersion: «cfg:max-version tls13-client#crypto/tls.VersionTLS13|tls.VersionTLS13»,
+        ServerName: tlsServerName,
+    }»
+    emit("S24", "TLS 1.3 client", fmt.Sprintf("configured=%t", config != nil))
+}
+
+func main() {
+    s01SHA256()
+    s02SHA2SHA3BLAKE2()
+    s03LegacyHashes()
+    s04SHAKE128()
+    s05HMACSHA256()
+    s06HKDFSHA256()
+    s07PBKDF2()
+    s08Scrypt()
+    s09Argon2id()
+    s10Bcrypt()
+    s11AES256GCM()
+    s12ChaCha20Poly1305()
+    s13AES256CBC()
+    s14AES128ECB()
+    s15AES256CTR()
+    s16TDEACBC()
+    s17RSA3072()
+    s18ECDSAP256()
+    s19Ed25519()
+    s20KeyAgreement()
+    s21MLKEM768()
+    s22MLDSA65()
+    s23X509SelfSigned()
+    s24TLS13Client()
+}

@@ -1,0 +1,365 @@
+#!/usr/bin/env python3
+"""CBOM ground-truth corpus - Python implementation.
+
+Runs scenarios S01-S24. The Java, Go, TypeScript and C# implementations in the
+sibling directories perform the same operations in the same order and print the
+same lines, so their standard output can be diffed byte for byte.
+
+All hard-coded keys, IVs, salts and passwords below are published test vectors.
+They exist so that scanners have something to find - never reuse them.
+"""
+
+from __future__ import annotations
+
+«imp lib.py-stdlib#hashlib|import hashlib»
+«imp lib.py-stdlib#hmac|import hmac»
+import os
+«imp lib.py-stdlib#secrets|import secrets»
+«imp lib.py-stdlib#ssl|import ssl»
+from datetime import datetime, timedelta, timezone
+from typing import Callable
+
+«imp lib.argon2-cffi#argon2.low_level|from argon2.low_level import Type, hash_secret_raw»
+«imp lib.bcrypt#bcrypt|import bcrypt»
+«imp lib.pycryptodome#Crypto.Cipher|from Crypto.Cipher import AES, DES3, ChaCha20_Poly1305»
+«imp lib.pycryptodome#Crypto.Hash|from Crypto.Hash import SHA3_256»
+«imp lib.pycryptodome#Crypto.Random|from Crypto.Random import get_random_bytes»
+«imp lib.pycryptodome#Crypto.Util.Padding|from Crypto.Util.Padding import pad, unpad»
+«imp lib.pyca#cryptography.x509|from cryptography import x509»
+«imp lib.pyca#cryptography.exceptions|from cryptography.exceptions import InvalidSignature»
+«imp lib.pyca#cryptography.hazmat.primitives|from cryptography.hazmat.primitives import hashes, padding»
+«imp lib.pyca#cryptography.hazmat.primitives.asymmetric|from cryptography.hazmat.primitives.asymmetric import ec, mldsa, mlkem, rsa, x25519»
+«imp lib.pyca#cryptography.hazmat.primitives.asymmetric.padding|from cryptography.hazmat.primitives.asymmetric import padding as asym_padding»
+«imp lib.pyca#cryptography.hazmat.primitives.ciphers|from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes»
+«imp lib.pyca#cryptography.hazmat.primitives.ciphers.aead|from cryptography.hazmat.primitives.ciphers.aead import AESGCM»
+«imp lib.pyca#cryptography.hazmat.primitives.kdf.hkdf|from cryptography.hazmat.primitives.kdf.hkdf import HKDF»
+«imp lib.pyca#cryptography.hazmat.primitives.kdf.scrypt|from cryptography.hazmat.primitives.kdf.scrypt import Scrypt»
+«imp lib.pyca#cryptography.x509.oid|from cryptography.x509.oid import NameOID»
+«imp lib.pynacl#nacl.exceptions|from nacl.exceptions import BadSignatureError»
+«imp lib.pynacl#nacl.signing|from nacl.signing import SigningKey»
+
+MESSAGE = b"The quick brown fox jumps over the lazy dog"
+
+# --- Hard-coded material (public test vectors only) ---------------------------
+«mat m.hmac-key|HMAC_KEY = b"key"»  # Wikipedia HMAC example key
+«mat m.hkdf-ikm|HKDF_IKM = bytes.fromhex("0b" * 22)»  # RFC 5869 A.1
+«mat m.hkdf-salt|HKDF_SALT = bytes.fromhex("000102030405060708090a0b0c")»
+«mat m.hkdf-info|HKDF_INFO = bytes.fromhex("f0f1f2f3f4f5f6f7f8f9")»
+«mat m.pbkdf2-password|PBKDF2_PASSWORD = b"Password"»  # RFC 7914 section 11
+«mat m.pbkdf2-salt|PBKDF2_SALT = b"NaCl"»
+«mat m.scrypt-password|SCRYPT_PASSWORD = b"pleaseletmein"»  # RFC 7914 section 12
+«mat m.scrypt-salt|SCRYPT_SALT = b"SodiumChloride"»
+«mat m.password|PASSWORD = b"correct horse battery staple"»
+«mat m.argon2-salt|ARGON2_SALT = b"cbom-corpus-salt"»
+«mat m.gcm-key|GCM_KEY = bytes.fromhex("feffe9928665731c6d6a8f9467308308feffe9928665731c6d6a8f9467308308")»
+«mat m.gcm-iv|GCM_IV = bytes.fromhex("cafebabefacedbaddecaf888")»
+«mat m.gcm-aad|GCM_AAD = bytes.fromhex("feedfacedeadbeeffeedfacedeadbeefabaddad2")»
+GCM_PLAINTEXT = bytes.fromhex(
+    "d9313225f88406e5a55909c5aff5269a86a7a9531534f7da2e4c303d8a318a72"
+    "1c3c0c95956809532fcf0e2449a6b525b16aedf5aa0de657ba637b39"
+)
+«mat m.ecb-key|ECB_KEY = bytes.fromhex("000102030405060708090a0b0c0d0e0f")»  # FIPS 197 appendix C.1
+ECB_PLAINTEXT = bytes.fromhex("00112233445566778899aabbccddeeff")
+«mat m.ed25519-seed|ED25519_SEED = bytes.fromhex("9d61b19deffd5a60ba844af492ec2cc44449c5697b326919703bac031cae7f60")»
+«mat m.session-info|SESSION_INFO = b"cbom-corpus session key v1"»
+TLS_SERVER_NAME = "cbom-corpus.example"
+
+
+def emit(scenario: str, label: str, value: str) -> None:
+    print(f"[{scenario}] {label:<18} {value}")
+
+
+def flag(ok: bool) -> str:
+    return "true" if ok else "false"
+
+
+def verifies(check: Callable[[], object]) -> bool:
+    try:
+        check()
+    except (InvalidSignature, BadSignatureError):
+        return False
+    return True
+
+
+# S01: SHA-256 (FIPS 180-4)
+def s01_sha256() -> None:
+    emit("S01", "SHA-256", «op:digest sha-256#hashlib.sha256|hashlib.sha256(MESSAGE)».hexdigest())
+
+
+# S02: SHA-512, SHA3-256, BLAKE2b-512
+def s02_sha2_sha3_blake2() -> None:
+    emit("S02", "SHA-512", «op:digest sha-512#hashlib.sha512|hashlib.sha512(MESSAGE)».hexdigest())
+    emit("S02", "SHA3-256", «op:digest sha3-256#Crypto.Hash.SHA3_256.new|SHA3_256.new(MESSAGE)».hexdigest())
+    blake = «ctor blake2b-512#~hashes.Hash|hashes.Hash(«alg blake2b-512#~hashes.BLAKE2b|hashes.BLAKE2b(«prm:digest-size-bytes blake2b-512|64»)»)»
+    blake.update(MESSAGE)
+    emit("S02", "BLAKE2b-512", «op:digest blake2b-512#~hashes.Hash.finalize|blake.finalize()».hex())
+
+
+# S03: legacy digests - deliberately weak
+def s03_legacy_hashes() -> None:
+    md5 = «op:digest md5#hashlib.md5|hashlib.md5(MESSAGE, «prm:usedforsecurity md5!usedforsecurity|usedforsecurity=False»)»
+    emit("S03", "MD5", md5.hexdigest())
+    sha1 = «ctor sha-1#~hashes.Hash|hashes.Hash(«alg sha-1#~hashes.SHA1|hashes.SHA1()»)»
+    sha1.update(MESSAGE)
+    emit("S03", "SHA-1", «op:digest sha-1#~hashes.Hash.finalize|sha1.finalize()».hex())
+
+
+# S04: SHAKE128 extendable-output function
+def s04_shake128() -> None:
+    xof = «op:digest shake128#hashlib.shake_128|hashlib.shake_128(MESSAGE)»
+    emit("S04", "SHAKE128", xof.hexdigest(«prm:output-length-bytes shake128|32»))
+
+
+# S05: HMAC-SHA256
+def s05_hmac_sha256() -> None:
+    tag = «op:tag hmac-sha256#hmac.new|hmac.new(HMAC_KEY, MESSAGE, «alg sha-256^hmac-sha256#hashlib.sha256!digestmod|hashlib.sha256»)»
+    emit("S05", "HMAC-SHA256", tag.hexdigest())
+
+
+# S06: HKDF-SHA256 (RFC 5869)
+def s06_hkdf_sha256() -> None:
+    hkdf = «ctor hkdf-sha256#~kdf.hkdf.HKDF|HKDF(
+        algorithm=«alg sha-256^hkdf-sha256#~hashes.SHA256|hashes.SHA256()»,
+        length=«prm:output-length-bytes hkdf-sha256|42»,
+        salt=HKDF_SALT,
+        info=HKDF_INFO,
+    )»
+    emit("S06", "HKDF-SHA256", «op:keyderive hkdf-sha256>m.hkdf-okm#~kdf.hkdf.HKDF.derive|hkdf.derive(HKDF_IKM)».hex())
+
+
+# S07: PBKDF2-HMAC-SHA256
+def s07_pbkdf2() -> None:
+    derived = «op:keyderive pbkdf2-hmac-sha256>m.pbkdf2-dk#hashlib.pbkdf2_hmac|hashlib.pbkdf2_hmac(
+        «alg sha-256^pbkdf2-hmac-sha256!hash-name-string|"sha256"», PBKDF2_PASSWORD, PBKDF2_SALT, «prm:iterations pbkdf2-hmac-sha256|80_000», dklen=«prm:output-length-bytes pbkdf2-hmac-sha256|64»
+    )»
+    emit("S07", "PBKDF2-SHA256", derived.hex())
+
+
+# S08: scrypt
+def s08_scrypt() -> None:
+    kdf = «ctor scrypt#~kdf.scrypt.Scrypt|Scrypt(salt=SCRYPT_SALT, length=«prm:output-length-bytes scrypt|64», n=«prm:N scrypt!computed|2**14», r=«prm:r scrypt|8», p=«prm:p scrypt|1»)»
+    emit("S08", "scrypt", «op:keyderive scrypt>m.scrypt-dk#~kdf.scrypt.Scrypt.derive|kdf.derive(SCRYPT_PASSWORD)».hex())
+
+
+# S09: Argon2id
+def s09_argon2id() -> None:
+    raw = «op:keyderive argon2id>m.argon2-dk#argon2.low_level.hash_secret_raw|hash_secret_raw(
+        secret=PASSWORD,
+        salt=ARGON2_SALT,
+        time_cost=«prm:iterations argon2id|2»,
+        memory_cost=«prm:memory-kib argon2id|19_456»,
+        parallelism=«prm:parallelism argon2id|1»,
+        hash_len=«prm:output-length-bytes argon2id|32»,
+        type=«alg argon2id#argon2.low_level.Type.ID|Type.ID»,
+    )»
+    emit("S09", "Argon2id", raw.hex())
+
+
+# S10: bcrypt
+def s10_bcrypt() -> None:
+    salt = «op:generate csprng>m.bcrypt-salt#bcrypt.gensalt!gensalt|bcrypt.gensalt(rounds=«prm:cost bcrypt!cost-in-gensalt|12»)»
+    hashed = «op:keyderive bcrypt>m.bcrypt-hash#bcrypt.hashpw|bcrypt.hashpw(PASSWORD, salt)»
+    ok = «op:verify bcrypt#bcrypt.checkpw|bcrypt.checkpw(PASSWORD, hashed)»
+    emit("S10", "bcrypt", f"verify={flag(ok)}")
+
+
+# S11: AES-256-GCM known-answer test
+def s11_aes256_gcm() -> None:
+    aead = «ctor aes-256-gcm#~ciphers.aead.AESGCM!keysize-from-key|AESGCM(GCM_KEY)»
+    sealed = «op:encrypt aes-256-gcm#~ciphers.aead.AESGCM.encrypt|aead.encrypt(GCM_IV, GCM_PLAINTEXT, GCM_AAD)»
+    ciphertext, tag = sealed[:-16], sealed[-16:]
+    opened = «op:decrypt aes-256-gcm#~ciphers.aead.AESGCM.decrypt|aead.decrypt(GCM_IV, sealed, GCM_AAD)»
+    emit("S11", "AES-256-GCM", f"ct={ciphertext.hex()} tag={tag.hex()} roundtrip={flag(opened == GCM_PLAINTEXT)}")
+
+
+# S12: ChaCha20-Poly1305 (RFC 8439)
+def s12_chacha20_poly1305() -> None:
+    key = «op:generate csprng>m.chacha-key#Crypto.Random.get_random_bytes|get_random_bytes(«prm:length-bytes m.chacha-key|32»)»
+    nonce = «op:generate csprng>m.chacha-nonce#Crypto.Random.get_random_bytes|get_random_bytes(«prm:length-bytes m.chacha-nonce|12»)»
+    sealer = «ctor:encrypt chacha20-poly1305#Crypto.Cipher.ChaCha20_Poly1305.new|ChaCha20_Poly1305.new(key=key, nonce=nonce)»
+    ciphertext, tag = «op:encrypt chacha20-poly1305#Crypto.Cipher.ChaCha20_Poly1305.ChaCha20Poly1305Cipher.encrypt_and_digest|sealer.encrypt_and_digest(MESSAGE)»
+    opener = «ctor:decrypt chacha20-poly1305#Crypto.Cipher.ChaCha20_Poly1305.new|ChaCha20_Poly1305.new(key=key, nonce=nonce)»
+    plaintext = «op:decrypt chacha20-poly1305#Crypto.Cipher.ChaCha20_Poly1305.ChaCha20Poly1305Cipher.decrypt_and_verify|opener.decrypt_and_verify(ciphertext, tag)»
+    emit("S12", "ChaCha20-Poly1305", f"roundtrip={flag(plaintext == MESSAGE)}")
+
+
+# S13: AES-256-CBC with PKCS#7 padding
+def s13_aes256_cbc() -> None:
+    key = «op:generate csprng>m.cbc-key#os.urandom|os.urandom(«prm:length-bytes m.cbc-key|32»)»
+    iv = «op:generate csprng>m.cbc-iv#os.urandom|os.urandom(«prm:length-bytes m.cbc-iv|16»)»
+    padder = «alg aes-256-cbc#~padding.PKCS7!padding|padding.PKCS7(128)».padder()
+    padded = padder.update(MESSAGE) + padder.finalize()
+    cipher = «ctor aes-256-cbc#~ciphers.Cipher|Cipher(«alg aes-256-cbc#~ciphers.algorithms.AES!keysize-from-key|algorithms.AES(key)», «alg aes-256-cbc#~ciphers.modes.CBC|modes.CBC(iv)»)»
+    encryptor = «op:encrypt aes-256-cbc#~ciphers.Cipher.encryptor|cipher.encryptor()»
+    ciphertext = encryptor.update(padded) + encryptor.finalize()
+    decryptor = «op:decrypt aes-256-cbc#~ciphers.Cipher.decryptor|cipher.decryptor()»
+    unpadder = «alg aes-256-cbc#~padding.PKCS7!padding|padding.PKCS7(128)».unpadder()
+    plaintext = unpadder.update(decryptor.update(ciphertext) + decryptor.finalize()) + unpadder.finalize()
+    emit("S13", "AES-256-CBC", f"roundtrip={flag(plaintext == MESSAGE)}")
+
+
+# S14: AES-128-ECB known-answer test - deliberately weak mode
+def s14_aes128_ecb() -> None:
+    padder = «alg aes-128-ecb#~padding.PKCS7!padding|padding.PKCS7(128)».padder()
+    padded = padder.update(ECB_PLAINTEXT) + padder.finalize()
+    cipher = «ctor aes-128-ecb#~ciphers.Cipher|Cipher(«alg aes-128-ecb#~ciphers.algorithms.AES!keysize-from-key|algorithms.AES(ECB_KEY)», «alg aes-128-ecb#~ciphers.modes.ECB|modes.ECB()»)»
+    encryptor = «op:encrypt aes-128-ecb#~ciphers.Cipher.encryptor|cipher.encryptor()»
+    emit("S14", "AES-128-ECB", (encryptor.update(padded) + encryptor.finalize()).hex())
+
+
+# S15: AES-256-CTR
+def s15_aes256_ctr() -> None:
+    key = «op:generate csprng>m.ctr-key#secrets.token_bytes|secrets.token_bytes(«prm:length-bytes m.ctr-key|32»)»
+    counter_block = «op:generate csprng>m.ctr-iv#secrets.token_bytes|secrets.token_bytes(«prm:length-bytes m.ctr-iv|16»)»
+    encryptor = «ctor:encrypt aes-256-ctr#Crypto.Cipher.AES.new!ctr-full-block|AES.new(key, «alg aes-256-ctr#Crypto.Cipher.AES.MODE_CTR|AES.MODE_CTR», nonce=b"", initial_value=counter_block)»
+    ciphertext = «op:encrypt aes-256-ctr#Crypto.Cipher._mode_ctr.CtrMode.encrypt|encryptor.encrypt(MESSAGE)»
+    decryptor = «ctor:decrypt aes-256-ctr#Crypto.Cipher.AES.new!ctr-full-block|AES.new(key, «alg aes-256-ctr#Crypto.Cipher.AES.MODE_CTR|AES.MODE_CTR», nonce=b"", initial_value=counter_block)»
+    plaintext = «op:decrypt aes-256-ctr#Crypto.Cipher._mode_ctr.CtrMode.decrypt|decryptor.decrypt(ciphertext)»
+    emit("S15", "AES-256-CTR", f"roundtrip={flag(plaintext == MESSAGE)}")
+
+
+# S16: 3DES (TDEA) CBC - deliberately legacy
+def s16_tdea_cbc() -> None:
+    key = «op:keygen 3des-cbc>m.tdes-key#Crypto.Cipher.DES3.adjust_key_parity!parity|DES3.adjust_key_parity(«op:generate csprng#Crypto.Random.get_random_bytes|get_random_bytes(«prm:length-bytes m.tdes-key|24»)»)»
+    iv = «op:generate csprng>m.tdes-iv#Crypto.Random.get_random_bytes|get_random_bytes(«prm:length-bytes m.tdes-iv|8»)»
+    encryptor = «ctor:encrypt 3des-cbc#Crypto.Cipher.DES3.new|DES3.new(key, «alg 3des-cbc#Crypto.Cipher.DES3.MODE_CBC|DES3.MODE_CBC», iv=iv)»
+    ciphertext = «op:encrypt 3des-cbc#Crypto.Cipher._mode_cbc.CbcMode.encrypt|encryptor.encrypt(«alg 3des-cbc#Crypto.Util.Padding.pad!pad-default-pkcs7|pad(MESSAGE, 8)»)»
+    decryptor = «ctor:decrypt 3des-cbc#Crypto.Cipher.DES3.new|DES3.new(key, «alg 3des-cbc#Crypto.Cipher.DES3.MODE_CBC|DES3.MODE_CBC», iv=iv)»
+    plaintext = «alg 3des-cbc#Crypto.Util.Padding.unpad!pad-default-pkcs7|unpad(«op:decrypt 3des-cbc#Crypto.Cipher._mode_cbc.CbcMode.decrypt|decryptor.decrypt(ciphertext)», 8)»
+    emit("S16", "3DES-CBC", f"roundtrip={flag(plaintext == MESSAGE)}")
+
+
+# S17: RSA-3072 - OAEP, PSS and PKCS#1 v1.5 with one key pair
+def s17_rsa3072() -> None:
+    private_key = «op:keygen rsa-3072>m.rsa-private-key,m.rsa-public-key#~asymmetric.rsa.generate_private_key|rsa.generate_private_key(public_exponent=«prm:public-exponent rsa-3072|65537», key_size=«prm:key-size-bits rsa-3072|3072»)»
+    public_key = private_key.public_key()
+
+    oaep = «alg rsa-oaep-sha256#~asymmetric.padding.OAEP|asym_padding.OAEP(
+        mgf=«alg mgf1-sha256^rsa-oaep-sha256#~asymmetric.padding.MGF1|asym_padding.MGF1(«alg sha-256^mgf1-sha256#~hashes.SHA256|hashes.SHA256()»)»,
+        algorithm=«alg sha-256^rsa-oaep-sha256#~hashes.SHA256|hashes.SHA256()»,
+        label=None,
+    )»
+    ciphertext = «op:encrypt rsa-oaep-sha256#~asymmetric.rsa.RSAPublicKey.encrypt|public_key.encrypt(MESSAGE, oaep)»
+    plaintext = «op:decrypt rsa-oaep-sha256#~asymmetric.rsa.RSAPrivateKey.decrypt|private_key.decrypt(ciphertext, oaep)»
+    emit("S17", "RSA-3072 OAEP", f"roundtrip={flag(plaintext == MESSAGE)}")
+
+    pss = «alg rsassa-pss-sha256#~asymmetric.padding.PSS|asym_padding.PSS(
+        mgf=«alg mgf1-sha256^rsassa-pss-sha256#~asymmetric.padding.MGF1|asym_padding.MGF1(«alg sha-256^mgf1-sha256#~hashes.SHA256|hashes.SHA256()»)»,
+        salt_length=«prm:salt-length-bytes rsassa-pss-sha256|32»,
+    )»
+    signature = «op:sign rsassa-pss-sha256#~asymmetric.rsa.RSAPrivateKey.sign|private_key.sign(MESSAGE, pss, «alg sha-256^rsassa-pss-sha256#~hashes.SHA256|hashes.SHA256()»)»
+    ok = verifies(lambda: «op:verify rsassa-pss-sha256#~asymmetric.rsa.RSAPublicKey.verify|public_key.verify(signature, MESSAGE, pss, «alg sha-256^rsassa-pss-sha256#~hashes.SHA256|hashes.SHA256()»)»)
+    emit("S17", "RSA-3072 PSS", f"verify={flag(ok)}")
+
+    pkcs1 = «alg rsassa-pkcs1v15-sha256#~asymmetric.padding.PKCS1v15|asym_padding.PKCS1v15()»
+    signature = «op:sign rsassa-pkcs1v15-sha256#~asymmetric.rsa.RSAPrivateKey.sign|private_key.sign(MESSAGE, pkcs1, «alg sha-256^rsassa-pkcs1v15-sha256#~hashes.SHA256|hashes.SHA256()»)»
+    ok = verifies(lambda: «op:verify rsassa-pkcs1v15-sha256#~asymmetric.rsa.RSAPublicKey.verify|public_key.verify(signature, MESSAGE, pkcs1, «alg sha-256^rsassa-pkcs1v15-sha256#~hashes.SHA256|hashes.SHA256()»)»)
+    emit("S17", "RSA-3072 PKCS1v15", f"verify={flag(ok)}")
+
+
+# S18: ECDSA P-256 with SHA-256
+def s18_ecdsa_p256() -> None:
+    private_key = «op:keygen ecdsa-p256-sha256>m.ecdsa-private-key,m.ecdsa-public-key#~asymmetric.ec.generate_private_key|ec.generate_private_key(«alg ecdsa-p256-sha256#~asymmetric.ec.SECP256R1|ec.SECP256R1()»)»
+    signature = «op:sign ecdsa-p256-sha256#~asymmetric.ec.EllipticCurvePrivateKey.sign|private_key.sign(MESSAGE, «alg ecdsa-p256-sha256#~asymmetric.ec.ECDSA|ec.ECDSA(«alg sha-256^ecdsa-p256-sha256#~hashes.SHA256|hashes.SHA256()»)»)»
+    ok = verifies(lambda: «op:verify ecdsa-p256-sha256#~asymmetric.ec.EllipticCurvePublicKey.verify|private_key.public_key().verify(signature, MESSAGE, «alg ecdsa-p256-sha256#~asymmetric.ec.ECDSA|ec.ECDSA(«alg sha-256^ecdsa-p256-sha256#~hashes.SHA256|hashes.SHA256()»)»)»)
+    emit("S18", "ECDSA P-256", f"verify={flag(ok)}")
+
+
+# S19: Ed25519 from a fixed seed (RFC 8032)
+def s19_ed25519() -> None:
+    signing_key = «ctor ed25519>m.ed25519-public-key#nacl.signing.SigningKey!seed-ctor|SigningKey(ED25519_SEED)»
+    signed = «op:sign ed25519#nacl.signing.SigningKey.sign|signing_key.sign(MESSAGE)»
+    verify_key = signing_key.verify_key
+    ok = verifies(lambda: «op:verify ed25519#nacl.signing.VerifyKey.verify|verify_key.verify(MESSAGE, signed.signature)»)
+    emit("S19", "Ed25519", f"pk={bytes(verify_key).hex()} sig={signed.signature.hex()} verify={flag(ok)}")
+
+
+def derive_session_key(shared_secret: bytes) -> bytes:
+    hkdf = «ctor hkdf-sha256#~kdf.hkdf.HKDF|HKDF(algorithm=«alg sha-256^hkdf-sha256#~hashes.SHA256|hashes.SHA256()», length=«prm:output-length-bytes hkdf-sha256|32», salt=None, info=SESSION_INFO)»
+    return «op:keyderive hkdf-sha256>m.session-key#~kdf.hkdf.HKDF.derive|hkdf.derive(shared_secret)»
+
+
+# S20: X25519 + ECDH P-256 key agreement, HKDF session key
+def s20_key_agreement() -> None:
+    alice = «op:keygen x25519>m.x25519-private-key-a#~asymmetric.x25519.X25519PrivateKey.generate|x25519.X25519PrivateKey.generate()»
+    bob = «op:keygen x25519>m.x25519-private-key-b#~asymmetric.x25519.X25519PrivateKey.generate|x25519.X25519PrivateKey.generate()»
+    x_alice = «op:agree x25519>m.x25519-shared-secret#~asymmetric.x25519.X25519PrivateKey.exchange|alice.exchange(bob.public_key())»
+    x_bob = «op:agree x25519>m.x25519-shared-secret#~asymmetric.x25519.X25519PrivateKey.exchange|bob.exchange(alice.public_key())»
+    emit("S20", "X25519", f"agree={flag(x_alice == x_bob)}")
+
+    alice_ec = «op:keygen ecdh-p256>m.ecdh-private-key-a#~asymmetric.ec.generate_private_key|ec.generate_private_key(«alg ecdh-p256#~asymmetric.ec.SECP256R1|ec.SECP256R1()»)»
+    bob_ec = «op:keygen ecdh-p256>m.ecdh-private-key-b#~asymmetric.ec.generate_private_key|ec.generate_private_key(«alg ecdh-p256#~asymmetric.ec.SECP256R1|ec.SECP256R1()»)»
+    z_alice = «op:agree ecdh-p256>m.ecdh-shared-secret#~asymmetric.ec.EllipticCurvePrivateKey.exchange|alice_ec.exchange(«alg ecdh-p256#~asymmetric.ec.ECDH|ec.ECDH()», bob_ec.public_key())»
+    z_bob = «op:agree ecdh-p256>m.ecdh-shared-secret#~asymmetric.ec.EllipticCurvePrivateKey.exchange|bob_ec.exchange(«alg ecdh-p256#~asymmetric.ec.ECDH|ec.ECDH()», alice_ec.public_key())»
+    emit("S20", "ECDH P-256", f"agree={flag(z_alice == z_bob)}")
+
+    k_alice = derive_session_key(x_alice + z_alice)
+    k_bob = derive_session_key(x_bob + z_bob)
+    emit("S20", "HKDF session key", f"match={flag(k_alice == k_bob)}")
+
+
+# S21: ML-KEM-768 (FIPS 203)
+def s21_ml_kem_768() -> None:
+    decapsulation_key = «op:keygen ml-kem-768>m.mlkem-decapsulation-key,m.mlkem-encapsulation-key#~asymmetric.mlkem.MLKEM768PrivateKey.generate|mlkem.MLKEM768PrivateKey.generate()»
+    encapsulation_key = decapsulation_key.public_key()
+    shared_secret, ciphertext = «op:encapsulate ml-kem-768>m.mlkem-shared-secret#~asymmetric.mlkem.MLKEM768PublicKey.encapsulate|encapsulation_key.encapsulate()»
+    recovered = «op:decapsulate ml-kem-768>m.mlkem-shared-secret#~asymmetric.mlkem.MLKEM768PrivateKey.decapsulate|decapsulation_key.decapsulate(ciphertext)»
+    emit("S21", "ML-KEM-768", f"agree={flag(shared_secret == recovered)} ct={len(ciphertext)} ss={len(shared_secret)}")
+
+
+# S22: ML-DSA-65 (FIPS 204)
+def s22_ml_dsa_65() -> None:
+    private_key = «op:keygen ml-dsa-65>m.mldsa-private-key,m.mldsa-public-key#~asymmetric.mldsa.MLDSA65PrivateKey.generate|mldsa.MLDSA65PrivateKey.generate()»
+    signature = «op:sign ml-dsa-65#~asymmetric.mldsa.MLDSA65PrivateKey.sign|private_key.sign(MESSAGE)»
+    ok = verifies(lambda: «op:verify ml-dsa-65#~asymmetric.mldsa.MLDSA65PublicKey.verify|private_key.public_key().verify(signature, MESSAGE)»)
+    emit("S22", "ML-DSA-65", f"verify={flag(ok)} sig={len(signature)}")
+
+
+# S23: self-signed X.509 certificate
+def s23_x509_self_signed() -> None:
+    key = «op:keygen ecdsa-p256-sha256>m.cert-private-key,m.cert-public-key#~asymmetric.ec.generate_private_key|ec.generate_private_key(«alg ecdsa-p256-sha256#~asymmetric.ec.SECP256R1|ec.SECP256R1()»)»
+    name = x509.Name([x509.NameAttribute(NameOID.COMMON_NAME, TLS_SERVER_NAME)])
+    now = datetime.now(timezone.utc)
+    builder = (
+        «ctor cert.self-signed#cryptography.x509.CertificateBuilder|x509.CertificateBuilder()»
+        .subject_name(name)
+        .issuer_name(name)
+        .public_key(key.public_key())
+        .serial_number(«op:generate csprng#secrets.randbits!serial|secrets.randbits(64)»)
+        .not_valid_before(now - timedelta(minutes=1))
+        .not_valid_after(now + timedelta(days=«prm:validity-days cert.self-signed|365»))
+    )
+    certificate = «op:sign cert.self-signed#cryptography.x509.CertificateBuilder.sign|builder.sign(key, «alg sha-256^ecdsa-p256-sha256#~hashes.SHA256|hashes.SHA256()»)»
+    ok = verifies(
+        lambda: «op:verify ecdsa-p256-sha256#~asymmetric.ec.EllipticCurvePublicKey.verify|certificate.public_key().verify(
+            certificate.signature,
+            certificate.tbs_certificate_bytes,
+            «alg ecdsa-p256-sha256#~asymmetric.ec.ECDSA!hash-from-cert|ec.ECDSA(certificate.signature_hash_algorithm)»,
+        )»
+    )
+    emit("S23", "X.509 self-signed", f"verify={flag(ok)}")
+
+
+# S24: TLS 1.3-only client context (no connection is made)
+def s24_tls13_client() -> None:
+    context = «ctor tls13-client#ssl.create_default_context|ssl.create_default_context()»
+    «cfg:min-version tls13-client#ssl.SSLContext.minimum_version|context.minimum_version = ssl.TLSVersion.TLSv1_3»
+    «cfg:max-version tls13-client#ssl.SSLContext.maximum_version|context.maximum_version = ssl.TLSVersion.TLSv1_3»
+    context.check_hostname = True
+    emit("S24", "TLS 1.3 client", "configured=true")
+
+
+def main() -> None:
+    for scenario in (
+        s01_sha256, s02_sha2_sha3_blake2, s03_legacy_hashes, s04_shake128,
+        s05_hmac_sha256, s06_hkdf_sha256, s07_pbkdf2, s08_scrypt, s09_argon2id,
+        s10_bcrypt, s11_aes256_gcm, s12_chacha20_poly1305, s13_aes256_cbc,
+        s14_aes128_ecb, s15_aes256_ctr, s16_tdea_cbc, s17_rsa3072, s18_ecdsa_p256,
+        s19_ed25519, s20_key_agreement, s21_ml_kem_768, s22_ml_dsa_65,
+        s23_x509_self_signed, s24_tls13_client,
+    ):
+        scenario()
+
+
+if __name__ == "__main__":
+    main()

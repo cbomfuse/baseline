@@ -1,0 +1,494 @@
+package corpus;
+
+import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
+«imp lib.jdk#$js.KeyPairGenerator|import java.security.KeyPairGenerator;»
+«imp lib.jdk#$js.MessageDigest|import java.security.MessageDigest;»
+«imp lib.jdk#$js.PrivateKey|import java.security.PrivateKey;»
+«imp lib.jdk#$js.PublicKey|import java.security.PublicKey;»
+«imp lib.jdk#$js.SecureRandom|import java.security.SecureRandom;»
+«imp lib.jdk#$js.Signature|import java.security.Signature;»
+«imp lib.jdk#$js.spec.ECGenParameterSpec|import java.security.spec.ECGenParameterSpec;»
+«imp lib.jdk#$js.spec.MGF1ParameterSpec|import java.security.spec.MGF1ParameterSpec;»
+«imp lib.jdk#$js.spec.PSSParameterSpec|import java.security.spec.PSSParameterSpec;»
+«imp lib.jdk#$js.spec.RSAKeyGenParameterSpec|import java.security.spec.RSAKeyGenParameterSpec;»
+import java.time.Duration;
+import java.time.Instant;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HexFormat;
+«imp lib.jdk#$jc.Cipher|import javax.crypto.Cipher;»
+«imp lib.jdk#$jc.KDF|import javax.crypto.KDF;»
+«imp lib.jdk#$jc.KEM|import javax.crypto.KEM;»
+«imp lib.jdk#$jc.KeyAgreement|import javax.crypto.KeyAgreement;»
+«imp lib.jdk#$jc.KeyGenerator|import javax.crypto.KeyGenerator;»
+«imp lib.jdk#$jc.Mac|import javax.crypto.Mac;»
+«imp lib.jdk#$jc.SecretKeyFactory|import javax.crypto.SecretKeyFactory;»
+«imp lib.jdk#$jc.spec.GCMParameterSpec|import javax.crypto.spec.GCMParameterSpec;»
+«imp lib.jdk#$jc.spec.HKDFParameterSpec|import javax.crypto.spec.HKDFParameterSpec;»
+«imp lib.jdk#$jc.spec.IvParameterSpec|import javax.crypto.spec.IvParameterSpec;»
+«imp lib.jdk#$jc.spec.OAEPParameterSpec|import javax.crypto.spec.OAEPParameterSpec;»
+«imp lib.jdk#$jc.spec.PBEKeySpec|import javax.crypto.spec.PBEKeySpec;»
+«imp lib.jdk#$jc.spec.PSource|import javax.crypto.spec.PSource;»
+«imp lib.jdk#$jc.spec.SecretKeySpec|import javax.crypto.spec.SecretKeySpec;»
+«imp lib.jdk#$ssl.SSLContext|import javax.net.ssl.SSLContext;»
+«imp lib.jdk#$ssl.SSLParameters|import javax.net.ssl.SSLParameters;»
+«imp lib.bcprov#$bc.asn1.x500.X500Name|import org.bouncycastle.asn1.x500.X500Name;»
+«imp lib.bcpkix#$bc.cert.jcajce.JcaX509CertificateConverter|import org.bouncycastle.cert.jcajce.JcaX509CertificateConverter;»
+«imp lib.bcpkix#$bc.cert.jcajce.JcaX509v3CertificateBuilder|import org.bouncycastle.cert.jcajce.JcaX509v3CertificateBuilder;»
+«imp lib.bcprov#$bc.crypto.digests.Blake2bDigest|import org.bouncycastle.crypto.digests.Blake2bDigest;»
+«imp lib.bcprov#$bc.crypto.digests.SHAKEDigest|import org.bouncycastle.crypto.digests.SHAKEDigest;»
+«imp lib.bcprov#$bc.crypto.generators.Argon2BytesGenerator|import org.bouncycastle.crypto.generators.Argon2BytesGenerator;»
+«imp lib.bcprov#$bc.crypto.generators.OpenBSDBCrypt|import org.bouncycastle.crypto.generators.OpenBSDBCrypt;»
+«imp lib.bcprov#$bc.crypto.generators.SCrypt|import org.bouncycastle.crypto.generators.SCrypt;»
+«imp lib.bcprov#$bc.crypto.params.Argon2Parameters|import org.bouncycastle.crypto.params.Argon2Parameters;»
+«imp lib.bcprov#$bc.crypto.params.Ed25519PrivateKeyParameters|import org.bouncycastle.crypto.params.Ed25519PrivateKeyParameters;»
+«imp lib.bcprov#$bc.crypto.signers.Ed25519Signer|import org.bouncycastle.crypto.signers.Ed25519Signer;»
+«imp lib.bcpkix#$bc.operator.jcajce.JcaContentSignerBuilder|import org.bouncycastle.operator.jcajce.JcaContentSignerBuilder;»
+
+/**
+ * CBOM ground-truth corpus - Java implementation.
+ *
+ * <p>Runs scenarios S01-S24 in the same order, with the same inputs and the same
+ * output lines as the Python, Go, TypeScript and C# implementations. All hard-coded
+ * keys, IVs, salts and passwords are published test vectors - never reuse them.
+ */
+public final class CryptoShowcase {
+
+    private static final byte[] MESSAGE = ascii("The quick brown fox jumps over the lazy dog");
+
+    // --- Hard-coded material (public test vectors only) ---
+    // Wikipedia HMAC example key
+    private static final byte[] «mat m.hmac-key|HMAC_KEY = ascii("key")»;
+    // RFC 5869 A.1
+    private static final byte[] «mat m.hkdf-ikm|HKDF_IKM = fromHex("0b".repeat(22))»;
+    private static final byte[] «mat m.hkdf-salt|HKDF_SALT = fromHex("000102030405060708090a0b0c")»;
+    private static final byte[] «mat m.hkdf-info|HKDF_INFO = fromHex("f0f1f2f3f4f5f6f7f8f9")»;
+    // RFC 7914 sections 11 and 12
+    private static final String «mat m.pbkdf2-password|PBKDF2_PASSWORD = "Password"»;
+    private static final byte[] «mat m.pbkdf2-salt|PBKDF2_SALT = ascii("NaCl")»;
+    private static final byte[] «mat m.scrypt-password|SCRYPT_PASSWORD = ascii("pleaseletmein")»;
+    private static final byte[] «mat m.scrypt-salt|SCRYPT_SALT = ascii("SodiumChloride")»;
+    private static final String «mat m.password|PASSWORD = "correct horse battery staple"»;
+    private static final byte[] «mat m.argon2-salt|ARGON2_SALT = ascii("cbom-corpus-salt")»;
+    // GCM specification test case 16
+    private static final byte[] «mat m.gcm-key|GCM_KEY = fromHex("feffe9928665731c6d6a8f9467308308feffe9928665731c6d6a8f9467308308")»;
+    private static final byte[] «mat m.gcm-iv|GCM_IV = fromHex("cafebabefacedbaddecaf888")»;
+    private static final byte[] «mat m.gcm-aad|GCM_AAD = fromHex("feedfacedeadbeeffeedfacedeadbeefabaddad2")»;
+    private static final byte[] GCM_PLAINTEXT = fromHex(
+            "d9313225f88406e5a55909c5aff5269a86a7a9531534f7da2e4c303d8a318a72"
+                    + "1c3c0c95956809532fcf0e2449a6b525b16aedf5aa0de657ba637b39");
+    // FIPS 197 appendix C.1
+    private static final byte[] «mat m.ecb-key|ECB_KEY = fromHex("000102030405060708090a0b0c0d0e0f")»;
+    private static final byte[] ECB_PLAINTEXT = fromHex("00112233445566778899aabbccddeeff");
+    // RFC 8032 section 7.1, TEST 1
+    private static final byte[] «mat m.ed25519-seed|ED25519_SEED = fromHex("9d61b19deffd5a60ba844af492ec2cc44449c5697b326919703bac031cae7f60")»;
+    private static final byte[] «mat m.session-info|SESSION_INFO = ascii("cbom-corpus session key v1")»;
+    private static final String TLS_SERVER_NAME = "cbom-corpus.example";
+
+    private static final «typ csprng#$js.SecureRandom|SecureRandom» RNG = «ctor csprng#$js.SecureRandom.<init>!securerandom-default|new SecureRandom()»;
+
+    private CryptoShowcase() {
+    }
+
+    private static byte[] ascii(String text) {
+        return text.getBytes(StandardCharsets.US_ASCII);
+    }
+
+    private static byte[] fromHex(String hex) {
+        return HexFormat.of().parseHex(hex);
+    }
+
+    private static String toHex(byte[] bytes) {
+        return HexFormat.of().formatHex(bytes);
+    }
+
+    private static byte[] concat(byte[] first, byte[] second) {
+        byte[] out = Arrays.copyOf(first, first.length + second.length);
+        System.arraycopy(second, 0, out, first.length, second.length);
+        return out;
+    }
+
+    private static void emit(String scenario, String label, String value) {
+        System.out.print(String.format("[%s] %-18s %s", scenario, label, value) + "\n");
+    }
+
+    // S01: SHA-256 (FIPS 180-4)
+    static void s01Sha256() throws Exception {
+        var md = «ctor sha-256#$js.MessageDigest.getInstance|MessageDigest.getInstance(«alg sha-256|"SHA-256"»)»;
+        emit("S01", "SHA-256", toHex(«op:digest sha-256#$js.MessageDigest.digest|md.digest(MESSAGE)»));
+    }
+
+    // S02: SHA-512, SHA3-256, BLAKE2b-512
+    static void s02Sha2Sha3Blake2() throws Exception {
+        var sha512 = «ctor sha-512#$js.MessageDigest.getInstance|MessageDigest.getInstance(«alg sha-512|"SHA-512"»)»;
+        emit("S02", "SHA-512", toHex(«op:digest sha-512#$js.MessageDigest.digest|sha512.digest(MESSAGE)»));
+        var sha3 = «ctor sha3-256#$js.MessageDigest.getInstance|MessageDigest.getInstance(«alg sha3-256|"SHA3-256"»)»;
+        emit("S02", "SHA3-256", toHex(«op:digest sha3-256#$js.MessageDigest.digest|sha3.digest(MESSAGE)»));
+        var blake = «ctor blake2b-512#$bc.crypto.digests.Blake2bDigest.<init>|new Blake2bDigest(«prm:digest-size-bits blake2b-512|512»)»;
+        blake.update(MESSAGE, 0, MESSAGE.length);
+        var out = new byte[blake.getDigestSize()];
+        «op:digest blake2b-512#$bc.crypto.digests.Blake2bDigest.doFinal|blake.doFinal(out, 0)»;
+        emit("S02", "BLAKE2b-512", toHex(out));
+    }
+
+    // S03: legacy digests - deliberately weak
+    static void s03LegacyHashes() throws Exception {
+        var md5 = «ctor md5#$js.MessageDigest.getInstance|MessageDigest.getInstance(«alg md5|"MD5"»)»;
+        emit("S03", "MD5", toHex(«op:digest md5#$js.MessageDigest.digest|md5.digest(MESSAGE)»));
+        var sha1 = «ctor sha-1#$js.MessageDigest.getInstance|MessageDigest.getInstance(«alg sha-1|"SHA-1"»)»;
+        emit("S03", "SHA-1", toHex(«op:digest sha-1#$js.MessageDigest.digest|sha1.digest(MESSAGE)»));
+    }
+
+    // S04: SHAKE128 extendable-output function
+    static void s04Shake128() {
+        var shake = «ctor shake128#$bc.crypto.digests.SHAKEDigest.<init>|new SHAKEDigest(«prm:security-strength-bits shake128|128»)»;
+        shake.update(MESSAGE, 0, MESSAGE.length);
+        var out = new byte[«prm:output-length-bytes shake128|32»];
+        «op:digest shake128#$bc.crypto.digests.SHAKEDigest.doFinal|shake.doFinal(out, 0, out.length)»;
+        emit("S04", "SHAKE128", toHex(out));
+    }
+
+    // S05: HMAC-SHA256
+    static void s05HmacSha256() throws Exception {
+        var mac = «ctor hmac-sha256#$jc.Mac.getInstance|Mac.getInstance(«alg hmac-sha256|"HmacSHA256"»)»;
+        «init hmac-sha256#$jc.Mac.init|mac.init(«spec hmac-sha256#$jc.spec.SecretKeySpec.<init>|new SecretKeySpec(HMAC_KEY, «alg hmac-sha256!key-label|"HmacSHA256"»)»)»;
+        emit("S05", "HMAC-SHA256", toHex(«op:tag hmac-sha256#$jc.Mac.doFinal|mac.doFinal(MESSAGE)»));
+    }
+
+    // S06: HKDF-SHA256 (RFC 5869) through the JDK 25 KDF API
+    static void s06HkdfSha256() throws Exception {
+        var hkdf = «ctor hkdf-sha256#$jc.KDF.getInstance|KDF.getInstance(«alg hkdf-sha256|"HKDF-SHA256"»)»;
+        var params = «spec hkdf-sha256#$jc.spec.HKDFParameterSpec.ofExtract|HKDFParameterSpec.ofExtract()
+                .addIKM(HKDF_IKM)
+                .addSalt(HKDF_SALT)
+                .thenExpand(HKDF_INFO, «prm:output-length-bytes hkdf-sha256|42»)»;
+        emit("S06", "HKDF-SHA256", toHex(«op:keyderive hkdf-sha256>m.hkdf-okm#$jc.KDF.deriveData|hkdf.deriveData(params)»));
+    }
+
+    // S07: PBKDF2-HMAC-SHA256
+    static void s07Pbkdf2() throws Exception {
+        var factory = «ctor pbkdf2-hmac-sha256#$jc.SecretKeyFactory.getInstance|SecretKeyFactory.getInstance(«alg pbkdf2-hmac-sha256|"PBKDF2WithHmacSHA256"»)»;
+        var spec = «spec pbkdf2-hmac-sha256#$jc.spec.PBEKeySpec.<init>|new PBEKeySpec(PBKDF2_PASSWORD.toCharArray(), PBKDF2_SALT, «prm:iterations pbkdf2-hmac-sha256|80_000», «prm:output-length-bits pbkdf2-hmac-sha256|512»)»;
+        var derived = «op:keyderive pbkdf2-hmac-sha256>m.pbkdf2-dk#$jc.SecretKeyFactory.generateSecret|factory.generateSecret(spec)».getEncoded();
+        emit("S07", "PBKDF2-SHA256", toHex(derived));
+    }
+
+    // S08: scrypt
+    static void s08Scrypt() {
+        var derived = «op:keyderive scrypt>m.scrypt-dk#$bc.crypto.generators.SCrypt.generate|SCrypt.generate(SCRYPT_PASSWORD, SCRYPT_SALT, «prm:N scrypt!computed|1 << 14», «prm:r scrypt|8», «prm:p scrypt|1», «prm:output-length-bytes scrypt|64»)»;
+        emit("S08", "scrypt", toHex(derived));
+    }
+
+    // S09: Argon2id
+    static void s09Argon2id() {
+        var params = «spec argon2id#$bc.crypto.params.Argon2Parameters.Builder|new Argon2Parameters.Builder(«alg argon2id#$bc.crypto.params.Argon2Parameters.ARGON2_id|Argon2Parameters.ARGON2_id»)
+                .withVersion(«prm:version argon2id#$bc.crypto.params.Argon2Parameters.ARGON2_VERSION_13|Argon2Parameters.ARGON2_VERSION_13»)
+                .withIterations(«prm:iterations argon2id|2»)
+                .withMemoryAsKB(«prm:memory-kib argon2id|19_456»)
+                .withParallelism(«prm:parallelism argon2id|1»)
+                .withSalt(ARGON2_SALT)
+                .build()»;
+        var generator = «ctor argon2id#$bc.crypto.generators.Argon2BytesGenerator.<init>|new Argon2BytesGenerator()»;
+        «init argon2id#$bc.crypto.generators.Argon2BytesGenerator.init|generator.init(params)»;
+        var out = new byte[«prm:output-length-bytes argon2id|32»];
+        «op:keyderive argon2id>m.argon2-dk#$bc.crypto.generators.Argon2BytesGenerator.generateBytes|generator.generateBytes(ascii(PASSWORD), out)»;
+        emit("S09", "Argon2id", toHex(out));
+    }
+
+    // S10: bcrypt
+    static void s10Bcrypt() {
+        var salt = new byte[«prm:length-bytes m.bcrypt-salt|16»];
+        «op:generate csprng>m.bcrypt-salt#$js.SecureRandom.nextBytes|RNG.nextBytes(salt)»;
+        var hash = «op:keyderive bcrypt>m.bcrypt-hash#$bc.crypto.generators.OpenBSDBCrypt.generate|OpenBSDBCrypt.generate(«alg bcrypt!bcrypt-version|"2b"», PASSWORD.toCharArray(), salt, «prm:cost bcrypt|12»)»;
+        var ok = «op:verify bcrypt#$bc.crypto.generators.OpenBSDBCrypt.checkPassword|OpenBSDBCrypt.checkPassword(hash, PASSWORD.toCharArray())»;
+        emit("S10", "bcrypt", "verify=" + ok);
+    }
+
+    // S11: AES-256-GCM known-answer test
+    static void s11Aes256Gcm() throws Exception {
+        var key = «spec aes-256-gcm#$jc.spec.SecretKeySpec.<init>!keysize-from-key|new SecretKeySpec(GCM_KEY, «alg aes-256-gcm|"AES"»)»;
+        var gcm = «spec aes-256-gcm#$jc.spec.GCMParameterSpec.<init>|new GCMParameterSpec(«prm:tag-length-bits aes-256-gcm|128», GCM_IV)»;
+        var encryptor = «ctor aes-256-gcm#$jc.Cipher.getInstance|Cipher.getInstance(«alg aes-256-gcm|"AES/GCM/NoPadding"»)»;
+        «init:encrypt aes-256-gcm#$jc.Cipher.init|encryptor.init(Cipher.ENCRYPT_MODE, key, gcm)»;
+        encryptor.updateAAD(GCM_AAD);
+        var sealed = «op:encrypt aes-256-gcm#$jc.Cipher.doFinal|encryptor.doFinal(GCM_PLAINTEXT)»;
+        var decryptor = «ctor aes-256-gcm#$jc.Cipher.getInstance|Cipher.getInstance(«alg aes-256-gcm|"AES/GCM/NoPadding"»)»;
+        «init:decrypt aes-256-gcm#$jc.Cipher.init|decryptor.init(Cipher.DECRYPT_MODE, key, gcm)»;
+        decryptor.updateAAD(GCM_AAD);
+        var opened = «op:decrypt aes-256-gcm#$jc.Cipher.doFinal|decryptor.doFinal(sealed)»;
+        var ciphertext = Arrays.copyOfRange(sealed, 0, sealed.length - 16);
+        var tag = Arrays.copyOfRange(sealed, sealed.length - 16, sealed.length);
+        emit("S11", "AES-256-GCM", "ct=" + toHex(ciphertext) + " tag=" + toHex(tag)
+                + " roundtrip=" + Arrays.equals(opened, GCM_PLAINTEXT));
+    }
+
+    // S12: ChaCha20-Poly1305 (RFC 8439)
+    static void s12ChaCha20Poly1305() throws Exception {
+        var keyGenerator = «ctor chacha20-poly1305#$jc.KeyGenerator.getInstance|KeyGenerator.getInstance(«alg chacha20-poly1305|"ChaCha20"»)»;
+        var key = «op:keygen chacha20-poly1305>m.chacha-key#$jc.KeyGenerator.generateKey!keygen-default-random|keyGenerator.generateKey()»;
+        var nonce = new byte[«prm:length-bytes m.chacha-nonce|12»];
+        «op:generate csprng>m.chacha-nonce#$js.SecureRandom.nextBytes|RNG.nextBytes(nonce)»;
+        var encryptor = «ctor chacha20-poly1305#$jc.Cipher.getInstance|Cipher.getInstance(«alg chacha20-poly1305|"ChaCha20-Poly1305"»)»;
+        «init:encrypt chacha20-poly1305#$jc.Cipher.init|encryptor.init(Cipher.ENCRYPT_MODE, key, «spec chacha20-poly1305#$jc.spec.IvParameterSpec.<init>|new IvParameterSpec(nonce)»)»;
+        var sealed = «op:encrypt chacha20-poly1305#$jc.Cipher.doFinal|encryptor.doFinal(MESSAGE)»;
+        var decryptor = «ctor chacha20-poly1305#$jc.Cipher.getInstance|Cipher.getInstance(«alg chacha20-poly1305|"ChaCha20-Poly1305"»)»;
+        «init:decrypt chacha20-poly1305#$jc.Cipher.init|decryptor.init(Cipher.DECRYPT_MODE, key, «spec chacha20-poly1305#$jc.spec.IvParameterSpec.<init>|new IvParameterSpec(nonce)»)»;
+        var opened = «op:decrypt chacha20-poly1305#$jc.Cipher.doFinal|decryptor.doFinal(sealed)»;
+        emit("S12", "ChaCha20-Poly1305", "roundtrip=" + Arrays.equals(opened, MESSAGE));
+    }
+
+    // S13: AES-256-CBC with PKCS#7 padding
+    static void s13Aes256Cbc() throws Exception {
+        var keyGenerator = «ctor aes-256-cbc#$jc.KeyGenerator.getInstance|KeyGenerator.getInstance(«alg aes-256-cbc!aes-keygen-label|"AES"»)»;
+        «init aes-256-cbc#$jc.KeyGenerator.init|keyGenerator.init(«prm:key-size-bits aes-256-cbc|256»)»;
+        var key = «op:keygen aes-256-cbc>m.cbc-key#$jc.KeyGenerator.generateKey!keygen-default-random|keyGenerator.generateKey()»;
+        var iv = new byte[«prm:length-bytes m.cbc-iv|16»];
+        «op:generate csprng>m.cbc-iv#$js.SecureRandom.nextBytes|RNG.nextBytes(iv)»;
+        var encryptor = «ctor aes-256-cbc#$jc.Cipher.getInstance|Cipher.getInstance(«alg aes-256-cbc!pkcs5-is-pkcs7|"AES/CBC/PKCS5Padding"»)»;
+        «init:encrypt aes-256-cbc#$jc.Cipher.init|encryptor.init(Cipher.ENCRYPT_MODE, key, «spec aes-256-cbc#$jc.spec.IvParameterSpec.<init>|new IvParameterSpec(iv)»)»;
+        var ciphertext = «op:encrypt aes-256-cbc#$jc.Cipher.doFinal|encryptor.doFinal(MESSAGE)»;
+        var decryptor = «ctor aes-256-cbc#$jc.Cipher.getInstance|Cipher.getInstance(«alg aes-256-cbc!pkcs5-is-pkcs7|"AES/CBC/PKCS5Padding"»)»;
+        «init:decrypt aes-256-cbc#$jc.Cipher.init|decryptor.init(Cipher.DECRYPT_MODE, key, «spec aes-256-cbc#$jc.spec.IvParameterSpec.<init>|new IvParameterSpec(iv)»)»;
+        var plaintext = «op:decrypt aes-256-cbc#$jc.Cipher.doFinal|decryptor.doFinal(ciphertext)»;
+        emit("S13", "AES-256-CBC", "roundtrip=" + Arrays.equals(plaintext, MESSAGE));
+    }
+
+    // S14: AES-128-ECB known-answer test - deliberately weak mode
+    static void s14Aes128Ecb() throws Exception {
+        var encryptor = «ctor aes-128-ecb#$jc.Cipher.getInstance|Cipher.getInstance(«alg aes-128-ecb!pkcs5-is-pkcs7|"AES/ECB/PKCS5Padding"»)»;
+        «init:encrypt aes-128-ecb#$jc.Cipher.init|encryptor.init(Cipher.ENCRYPT_MODE, «spec aes-128-ecb#$jc.spec.SecretKeySpec.<init>!keysize-from-key|new SecretKeySpec(ECB_KEY, «alg aes-128-ecb|"AES"»)»)»;
+        emit("S14", "AES-128-ECB", toHex(«op:encrypt aes-128-ecb#$jc.Cipher.doFinal|encryptor.doFinal(ECB_PLAINTEXT)»));
+    }
+
+    // S15: AES-256-CTR
+    static void s15Aes256Ctr() throws Exception {
+        var keyGenerator = «ctor aes-256-ctr#$jc.KeyGenerator.getInstance|KeyGenerator.getInstance(«alg aes-256-ctr!aes-keygen-label|"AES"»)»;
+        «init aes-256-ctr#$jc.KeyGenerator.init|keyGenerator.init(«prm:key-size-bits aes-256-ctr|256»)»;
+        var key = «op:keygen aes-256-ctr>m.ctr-key#$jc.KeyGenerator.generateKey!keygen-default-random|keyGenerator.generateKey()»;
+        var counterBlock = new byte[«prm:length-bytes m.ctr-iv|16»];
+        «op:generate csprng>m.ctr-iv#$js.SecureRandom.nextBytes|RNG.nextBytes(counterBlock)»;
+        var encryptor = «ctor aes-256-ctr#$jc.Cipher.getInstance|Cipher.getInstance(«alg aes-256-ctr|"AES/CTR/NoPadding"»)»;
+        «init:encrypt aes-256-ctr#$jc.Cipher.init|encryptor.init(Cipher.ENCRYPT_MODE, key, «spec aes-256-ctr#$jc.spec.IvParameterSpec.<init>|new IvParameterSpec(counterBlock)»)»;
+        var ciphertext = «op:encrypt aes-256-ctr#$jc.Cipher.doFinal|encryptor.doFinal(MESSAGE)»;
+        var decryptor = «ctor aes-256-ctr#$jc.Cipher.getInstance|Cipher.getInstance(«alg aes-256-ctr|"AES/CTR/NoPadding"»)»;
+        «init:decrypt aes-256-ctr#$jc.Cipher.init|decryptor.init(Cipher.DECRYPT_MODE, key, «spec aes-256-ctr#$jc.spec.IvParameterSpec.<init>|new IvParameterSpec(counterBlock)»)»;
+        var plaintext = «op:decrypt aes-256-ctr#$jc.Cipher.doFinal|decryptor.doFinal(ciphertext)»;
+        emit("S15", "AES-256-CTR", "roundtrip=" + Arrays.equals(plaintext, MESSAGE));
+    }
+
+    // S16: 3DES (TDEA) CBC - deliberately legacy
+    static void s16TdeaCbc() throws Exception {
+        var keyGenerator = «ctor 3des-cbc#$jc.KeyGenerator.getInstance|KeyGenerator.getInstance(«alg 3des-cbc|"DESede"»)»;
+        var key = «op:keygen 3des-cbc>m.tdes-key#$jc.KeyGenerator.generateKey!desede-default-size|keyGenerator.generateKey()»;
+        var iv = new byte[«prm:length-bytes m.tdes-iv|8»];
+        «op:generate csprng>m.tdes-iv#$js.SecureRandom.nextBytes|RNG.nextBytes(iv)»;
+        var encryptor = «ctor 3des-cbc#$jc.Cipher.getInstance|Cipher.getInstance(«alg 3des-cbc!pkcs5-is-pkcs7|"DESede/CBC/PKCS5Padding"»)»;
+        «init:encrypt 3des-cbc#$jc.Cipher.init|encryptor.init(Cipher.ENCRYPT_MODE, key, «spec 3des-cbc#$jc.spec.IvParameterSpec.<init>|new IvParameterSpec(iv)»)»;
+        var ciphertext = «op:encrypt 3des-cbc#$jc.Cipher.doFinal|encryptor.doFinal(MESSAGE)»;
+        var decryptor = «ctor 3des-cbc#$jc.Cipher.getInstance|Cipher.getInstance(«alg 3des-cbc!pkcs5-is-pkcs7|"DESede/CBC/PKCS5Padding"»)»;
+        «init:decrypt 3des-cbc#$jc.Cipher.init|decryptor.init(Cipher.DECRYPT_MODE, key, «spec 3des-cbc#$jc.spec.IvParameterSpec.<init>|new IvParameterSpec(iv)»)»;
+        var plaintext = «op:decrypt 3des-cbc#$jc.Cipher.doFinal|decryptor.doFinal(ciphertext)»;
+        emit("S16", "3DES-CBC", "roundtrip=" + Arrays.equals(plaintext, MESSAGE));
+    }
+
+    // S17: RSA-3072 - OAEP, PSS and PKCS#1 v1.5 with one key pair
+    static void s17Rsa3072() throws Exception {
+        var generator = «ctor rsa-3072#$js.KeyPairGenerator.getInstance|KeyPairGenerator.getInstance(«alg rsa-3072|"RSA"»)»;
+        «init rsa-3072#$js.KeyPairGenerator.initialize|generator.initialize(«spec rsa-3072#$js.spec.RSAKeyGenParameterSpec.<init>|new RSAKeyGenParameterSpec(«prm:key-size-bits rsa-3072|3072», «prm:public-exponent rsa-3072#$js.spec.RSAKeyGenParameterSpec.F4|RSAKeyGenParameterSpec.F4»)»)»;
+        var keyPair = «op:keygen rsa-3072>m.rsa-private-key,m.rsa-public-key#$js.KeyPairGenerator.generateKeyPair|generator.generateKeyPair()»;
+
+        var oaep = «spec rsa-oaep-sha256#$jc.spec.OAEPParameterSpec.<init>!oaep-explicit|new OAEPParameterSpec(
+                «alg sha-256^rsa-oaep-sha256|"SHA-256"», «alg mgf1-sha256^rsa-oaep-sha256|"MGF1"», «alg sha-256^mgf1-sha256#$js.spec.MGF1ParameterSpec.SHA256|MGF1ParameterSpec.SHA256», PSource.PSpecified.DEFAULT)»;
+        var encryptor = «ctor rsa-oaep-sha256#$jc.Cipher.getInstance|Cipher.getInstance(«alg rsa-oaep-sha256|"RSA/ECB/OAEPPadding"»)»;
+        «init:encrypt rsa-oaep-sha256#$jc.Cipher.init|encryptor.init(Cipher.ENCRYPT_MODE, keyPair.getPublic(), oaep)»;
+        var ciphertext = «op:encrypt rsa-oaep-sha256#$jc.Cipher.doFinal|encryptor.doFinal(MESSAGE)»;
+        var decryptor = «ctor rsa-oaep-sha256#$jc.Cipher.getInstance|Cipher.getInstance(«alg rsa-oaep-sha256|"RSA/ECB/OAEPPadding"»)»;
+        «init:decrypt rsa-oaep-sha256#$jc.Cipher.init|decryptor.init(Cipher.DECRYPT_MODE, keyPair.getPrivate(), oaep)»;
+        var plaintext = «op:decrypt rsa-oaep-sha256#$jc.Cipher.doFinal|decryptor.doFinal(ciphertext)»;
+        emit("S17", "RSA-3072 OAEP", "roundtrip=" + Arrays.equals(plaintext, MESSAGE));
+
+        var pss = «spec rsassa-pss-sha256#$js.spec.PSSParameterSpec.<init>|new PSSParameterSpec(
+                «alg sha-256^rsassa-pss-sha256|"SHA-256"», «alg mgf1-sha256^rsassa-pss-sha256|"MGF1"», «alg sha-256^mgf1-sha256#$js.spec.MGF1ParameterSpec.SHA256|MGF1ParameterSpec.SHA256»,
+                «prm:salt-length-bytes rsassa-pss-sha256|32», «prm:trailer-field rsassa-pss-sha256#$js.spec.PSSParameterSpec.TRAILER_FIELD_BC|PSSParameterSpec.TRAILER_FIELD_BC»)»;
+        var pssSigner = «ctor rsassa-pss-sha256#$js.Signature.getInstance|Signature.getInstance(«alg rsassa-pss-sha256|"RSASSA-PSS"»)»;
+        «init rsassa-pss-sha256#$js.Signature.setParameter|pssSigner.setParameter(pss)»;
+        «init:sign rsassa-pss-sha256#$js.Signature.initSign|pssSigner.initSign(keyPair.getPrivate())»;
+        pssSigner.update(MESSAGE);
+        var pssSignature = «op:sign rsassa-pss-sha256#$js.Signature.sign|pssSigner.sign()»;
+        var pssVerifier = «ctor rsassa-pss-sha256#$js.Signature.getInstance|Signature.getInstance(«alg rsassa-pss-sha256|"RSASSA-PSS"»)»;
+        «init rsassa-pss-sha256#$js.Signature.setParameter|pssVerifier.setParameter(pss)»;
+        «init:verify rsassa-pss-sha256#$js.Signature.initVerify|pssVerifier.initVerify(keyPair.getPublic())»;
+        pssVerifier.update(MESSAGE);
+        emit("S17", "RSA-3072 PSS", "verify=" + «op:verify rsassa-pss-sha256#$js.Signature.verify|pssVerifier.verify(pssSignature)»);
+
+        var pkcs1Signer = «ctor rsassa-pkcs1v15-sha256#$js.Signature.getInstance|Signature.getInstance(«alg rsassa-pkcs1v15-sha256|"SHA256withRSA"»)»;
+        «init:sign rsassa-pkcs1v15-sha256#$js.Signature.initSign|pkcs1Signer.initSign(keyPair.getPrivate())»;
+        pkcs1Signer.update(MESSAGE);
+        var pkcs1Signature = «op:sign rsassa-pkcs1v15-sha256#$js.Signature.sign|pkcs1Signer.sign()»;
+        var pkcs1Verifier = «ctor rsassa-pkcs1v15-sha256#$js.Signature.getInstance|Signature.getInstance(«alg rsassa-pkcs1v15-sha256|"SHA256withRSA"»)»;
+        «init:verify rsassa-pkcs1v15-sha256#$js.Signature.initVerify|pkcs1Verifier.initVerify(keyPair.getPublic())»;
+        pkcs1Verifier.update(MESSAGE);
+        emit("S17", "RSA-3072 PKCS1v15", "verify=" + «op:verify rsassa-pkcs1v15-sha256#$js.Signature.verify|pkcs1Verifier.verify(pkcs1Signature)»);
+    }
+
+    // S18: ECDSA P-256 with SHA-256
+    static void s18EcdsaP256() throws Exception {
+        var generator = «ctor ecdsa-p256-sha256#$js.KeyPairGenerator.getInstance|KeyPairGenerator.getInstance(«alg ecdsa-p256-sha256!ec-keygen-label|"EC"»)»;
+        «init ecdsa-p256-sha256#$js.KeyPairGenerator.initialize|generator.initialize(«spec ecdsa-p256-sha256#$js.spec.ECGenParameterSpec.<init>|new ECGenParameterSpec(«alg ecdsa-p256-sha256!curve-alias|"secp256r1"»)»)»;
+        var keyPair = «op:keygen ecdsa-p256-sha256>m.ecdsa-private-key,m.ecdsa-public-key#$js.KeyPairGenerator.generateKeyPair|generator.generateKeyPair()»;
+        var signer = «ctor ecdsa-p256-sha256#$js.Signature.getInstance|Signature.getInstance(«alg ecdsa-p256-sha256|"SHA256withECDSA"»)»;
+        «init:sign ecdsa-p256-sha256#$js.Signature.initSign|signer.initSign(keyPair.getPrivate())»;
+        signer.update(MESSAGE);
+        var signature = «op:sign ecdsa-p256-sha256#$js.Signature.sign|signer.sign()»;
+        var verifier = «ctor ecdsa-p256-sha256#$js.Signature.getInstance|Signature.getInstance(«alg ecdsa-p256-sha256|"SHA256withECDSA"»)»;
+        «init:verify ecdsa-p256-sha256#$js.Signature.initVerify|verifier.initVerify(keyPair.getPublic())»;
+        verifier.update(MESSAGE);
+        emit("S18", "ECDSA P-256", "verify=" + «op:verify ecdsa-p256-sha256#$js.Signature.verify|verifier.verify(signature)»);
+    }
+
+    // S19: Ed25519 from a fixed seed (RFC 8032)
+    static void s19Ed25519() {
+        var privateKey = «ctor ed25519#$bc.crypto.params.Ed25519PrivateKeyParameters.<init>!seed-ctor|new Ed25519PrivateKeyParameters(ED25519_SEED, 0)»;
+        var publicKey = «op:keygen ed25519>m.ed25519-public-key#$bc.crypto.params.Ed25519PrivateKeyParameters.generatePublicKey|privateKey.generatePublicKey()»;
+        var signer = «ctor ed25519#$bc.crypto.signers.Ed25519Signer.<init>|new Ed25519Signer()»;
+        «init:sign ed25519#$bc.crypto.signers.Ed25519Signer.init|signer.init(true, privateKey)»;
+        signer.update(MESSAGE, 0, MESSAGE.length);
+        var signature = «op:sign ed25519#$bc.crypto.signers.Ed25519Signer.generateSignature|signer.generateSignature()»;
+        var verifier = «ctor ed25519#$bc.crypto.signers.Ed25519Signer.<init>|new Ed25519Signer()»;
+        «init:verify ed25519#$bc.crypto.signers.Ed25519Signer.init|verifier.init(false, publicKey)»;
+        verifier.update(MESSAGE, 0, MESSAGE.length);
+        var ok = «op:verify ed25519#$bc.crypto.signers.Ed25519Signer.verifySignature|verifier.verifySignature(signature)»;
+        emit("S19", "Ed25519", "pk=" + toHex(publicKey.getEncoded()) + " sig=" + toHex(signature) + " verify=" + ok);
+    }
+
+    static byte[] agree(String algorithm, PrivateKey privateKey, PublicKey peerKey) throws Exception {
+        var agreement = «ctor x25519#$jc.KeyAgreement.getInstance!polymorphic-site|«ctor ecdh-p256#$jc.KeyAgreement.getInstance!polymorphic-site|KeyAgreement.getInstance(algorithm)»»;
+        «init x25519#$jc.KeyAgreement.init|«init ecdh-p256#$jc.KeyAgreement.init|agreement.init(privateKey)»»;
+        agreement.doPhase(peerKey, true);
+        return «op:agree x25519>m.x25519-shared-secret#$jc.KeyAgreement.generateSecret!polymorphic-site|«op:agree ecdh-p256>m.ecdh-shared-secret#$jc.KeyAgreement.generateSecret!polymorphic-site|agreement.generateSecret()»»;
+    }
+
+    static byte[] deriveSessionKey(byte[] sharedSecret) throws Exception {
+        var hkdf = «ctor hkdf-sha256#$jc.KDF.getInstance|KDF.getInstance(«alg hkdf-sha256|"HKDF-SHA256"»)»;
+        var params = «spec hkdf-sha256#$jc.spec.HKDFParameterSpec.ofExtract|HKDFParameterSpec.ofExtract().addIKM(sharedSecret).thenExpand(SESSION_INFO, «prm:output-length-bytes hkdf-sha256|32»)»;
+        return «op:keyderive hkdf-sha256>m.session-key#$jc.KDF.deriveData|hkdf.deriveData(params)»;
+    }
+
+    // S20: X25519 + ECDH P-256 key agreement, HKDF session key
+    static void s20KeyAgreement() throws Exception {
+        var x25519 = «ctor x25519#$js.KeyPairGenerator.getInstance|KeyPairGenerator.getInstance(«alg x25519|"X25519"»)»;
+        var alice = «op:keygen x25519>m.x25519-private-key-a#$js.KeyPairGenerator.generateKeyPair|x25519.generateKeyPair()»;
+        var bob = «op:keygen x25519>m.x25519-private-key-b#$js.KeyPairGenerator.generateKeyPair|x25519.generateKeyPair()»;
+        var xAlice = agree(«alg x25519!interprocedural|"X25519"», alice.getPrivate(), bob.getPublic());
+        var xBob = agree(«alg x25519!interprocedural|"X25519"», bob.getPrivate(), alice.getPublic());
+        emit("S20", "X25519", "agree=" + Arrays.equals(xAlice, xBob));
+
+        var ec = «ctor ecdh-p256#$js.KeyPairGenerator.getInstance|KeyPairGenerator.getInstance(«alg ecdh-p256!ec-keygen-label|"EC"»)»;
+        «init ecdh-p256#$js.KeyPairGenerator.initialize|ec.initialize(«spec ecdh-p256#$js.spec.ECGenParameterSpec.<init>|new ECGenParameterSpec(«alg ecdh-p256!curve-alias|"secp256r1"»)»)»;
+        var aliceEc = «op:keygen ecdh-p256>m.ecdh-private-key-a#$js.KeyPairGenerator.generateKeyPair|ec.generateKeyPair()»;
+        var bobEc = «op:keygen ecdh-p256>m.ecdh-private-key-b#$js.KeyPairGenerator.generateKeyPair|ec.generateKeyPair()»;
+        var zAlice = agree(«alg ecdh-p256!interprocedural|"ECDH"», aliceEc.getPrivate(), bobEc.getPublic());
+        var zBob = agree(«alg ecdh-p256!interprocedural|"ECDH"», bobEc.getPrivate(), aliceEc.getPublic());
+        emit("S20", "ECDH P-256", "agree=" + Arrays.equals(zAlice, zBob));
+
+        var kAlice = deriveSessionKey(concat(xAlice, zAlice));
+        var kBob = deriveSessionKey(concat(xBob, zBob));
+        emit("S20", "HKDF session key", "match=" + Arrays.equals(kAlice, kBob));
+    }
+
+    // S21: ML-KEM-768 (FIPS 203) through the JDK KEM API
+    static void s21MlKem768() throws Exception {
+        var generator = «ctor ml-kem-768#$js.KeyPairGenerator.getInstance|KeyPairGenerator.getInstance(«alg ml-kem-768|"ML-KEM-768"»)»;
+        var keyPair = «op:keygen ml-kem-768>m.mlkem-decapsulation-key,m.mlkem-encapsulation-key#$js.KeyPairGenerator.generateKeyPair|generator.generateKeyPair()»;
+        var kem = «ctor ml-kem-768#$jc.KEM.getInstance|KEM.getInstance(«alg ml-kem-768!kem-family-name|"ML-KEM"»)»;
+        var encapsulated = «op:encapsulate ml-kem-768>m.mlkem-shared-secret#$jc.KEM.Encapsulator.encapsulate|«ctor ml-kem-768#$jc.KEM.newEncapsulator|kem.newEncapsulator(keyPair.getPublic())».encapsulate()»;
+        var sharedSecret = encapsulated.key().getEncoded();
+        var ciphertext = encapsulated.encapsulation();
+        var recovered = «op:decapsulate ml-kem-768>m.mlkem-shared-secret#$jc.KEM.Decapsulator.decapsulate|«ctor ml-kem-768#$jc.KEM.newDecapsulator|kem.newDecapsulator(keyPair.getPrivate())».decapsulate(ciphertext)».getEncoded();
+        emit("S21", "ML-KEM-768", "agree=" + Arrays.equals(sharedSecret, recovered)
+                + " ct=" + ciphertext.length + " ss=" + sharedSecret.length);
+    }
+
+    // S22: ML-DSA-65 (FIPS 204)
+    static void s22MlDsa65() throws Exception {
+        var generator = «ctor ml-dsa-65#$js.KeyPairGenerator.getInstance|KeyPairGenerator.getInstance(«alg ml-dsa-65|"ML-DSA-65"»)»;
+        var keyPair = «op:keygen ml-dsa-65>m.mldsa-private-key,m.mldsa-public-key#$js.KeyPairGenerator.generateKeyPair|generator.generateKeyPair()»;
+        var signer = «ctor ml-dsa-65#$js.Signature.getInstance|Signature.getInstance(«alg ml-dsa-65|"ML-DSA-65"»)»;
+        «init:sign ml-dsa-65#$js.Signature.initSign|signer.initSign(keyPair.getPrivate())»;
+        signer.update(MESSAGE);
+        var signature = «op:sign ml-dsa-65#$js.Signature.sign|signer.sign()»;
+        var verifier = «ctor ml-dsa-65#$js.Signature.getInstance|Signature.getInstance(«alg ml-dsa-65|"ML-DSA-65"»)»;
+        «init:verify ml-dsa-65#$js.Signature.initVerify|verifier.initVerify(keyPair.getPublic())»;
+        verifier.update(MESSAGE);
+        var ok = «op:verify ml-dsa-65#$js.Signature.verify|verifier.verify(signature)»;
+        emit("S22", "ML-DSA-65", "verify=" + ok + " sig=" + signature.length);
+    }
+
+    // S23: self-signed X.509 certificate (Bouncy Castle builder, JDK signer and verifier)
+    static void s23X509SelfSigned() throws Exception {
+        var generator = «ctor ecdsa-p256-sha256#$js.KeyPairGenerator.getInstance|KeyPairGenerator.getInstance(«alg ecdsa-p256-sha256!ec-keygen-label|"EC"»)»;
+        «init ecdsa-p256-sha256#$js.KeyPairGenerator.initialize|generator.initialize(«spec ecdsa-p256-sha256#$js.spec.ECGenParameterSpec.<init>|new ECGenParameterSpec(«alg ecdsa-p256-sha256!curve-alias|"secp256r1"»)»)»;
+        var keyPair = «op:keygen ecdsa-p256-sha256>m.cert-private-key,m.cert-public-key#$js.KeyPairGenerator.generateKeyPair|generator.generateKeyPair()»;
+        var name = new X500Name("CN=" + TLS_SERVER_NAME);
+        var now = Instant.now();
+        var builder = «ctor cert.self-signed#$bc.cert.jcajce.JcaX509v3CertificateBuilder.<init>|new JcaX509v3CertificateBuilder(
+                name,
+                «op:generate csprng#java.math.BigInteger.<init>!serial|new BigInteger(64, RNG)»,
+                Date.from(now.minus(Duration.ofMinutes(1))),
+                Date.from(now.plus(Duration.ofDays(«prm:validity-days cert.self-signed|365»))),
+                name,
+                keyPair.getPublic())»;
+        var contentSigner = «ctor ecdsa-p256-sha256#$bc.operator.jcajce.JcaContentSignerBuilder.build|new JcaContentSignerBuilder(«alg ecdsa-p256-sha256|"SHA256withECDSA"»).build(keyPair.getPrivate())»;
+        var certificate = «op:encode cert.self-signed#$bc.cert.jcajce.JcaX509CertificateConverter.getCertificate|new JcaX509CertificateConverter().getCertificate(«op:sign cert.self-signed#$bc.cert.X509v3CertificateBuilder.build|builder.build(contentSigner)»)»;
+        boolean ok;
+        try {
+            «op:verify ecdsa-p256-sha256#java.security.cert.X509Certificate.verify|certificate.verify(certificate.getPublicKey())»;
+            ok = true;
+        } catch (java.security.GeneralSecurityException e) {
+            ok = false;
+        }
+        emit("S23", "X.509 self-signed", "verify=" + ok);
+    }
+
+    // S24: TLS 1.3-only client configuration (no connection is made)
+    static void s24Tls13Client() throws Exception {
+        var context = «ctor tls13-client#$ssl.SSLContext.getInstance|SSLContext.getInstance(«alg tls13-client!tls-context-name|"TLSv1.3"»)»;
+        «init tls13-client#$ssl.SSLContext.init!default-managers|context.init(null, null, null)»;
+        var parameters = new SSLParameters();
+        «cfg:versions tls13-client#$ssl.SSLParameters.setProtocols|parameters.setProtocols(new String[] {"TLSv1.3"})»;
+        «cfg:cipher-suites tls13-client#$ssl.SSLParameters.setCipherSuites|parameters.setCipherSuites(new String[] {
+            "TLS_AES_128_GCM_SHA256", "TLS_AES_256_GCM_SHA384", "TLS_CHACHA20_POLY1305_SHA256"})»;
+        var engine = «ctor tls13-client#$ssl.SSLContext.createSSLEngine|context.createSSLEngine(TLS_SERVER_NAME, 443)»;
+        «cfg:client-mode tls13-client#$ssl.SSLEngine.setUseClientMode|engine.setUseClientMode(true)»;
+        «cfg:apply tls13-client#$ssl.SSLEngine.setSSLParameters|engine.setSSLParameters(parameters)»;
+        emit("S24", "TLS 1.3 client", "configured=true");
+    }
+
+    public static void main(String[] args) throws Exception {
+        s01Sha256();
+        s02Sha2Sha3Blake2();
+        s03LegacyHashes();
+        s04Shake128();
+        s05HmacSha256();
+        s06HkdfSha256();
+        s07Pbkdf2();
+        s08Scrypt();
+        s09Argon2id();
+        s10Bcrypt();
+        s11Aes256Gcm();
+        s12ChaCha20Poly1305();
+        s13Aes256Cbc();
+        s14Aes128Ecb();
+        s15Aes256Ctr();
+        s16TdeaCbc();
+        s17Rsa3072();
+        s18EcdsaP256();
+        s19Ed25519();
+        s20KeyAgreement();
+        s21MlKem768();
+        s22MlDsa65();
+        s23X509SelfSigned();
+        s24Tls13Client();
+    }
+}
