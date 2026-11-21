@@ -202,6 +202,47 @@ _alg("bc-digest-drbg", "BC DigestRandomGenerator (SHA-256)", "drbg", "Hash-based
      nist="Not a SP 800-90A DRBG", cnsa="n/a", quantum="Not applicable",
      deps=["sha-256"], note="BC C# 'new SecureRandom()' = SHA-256 DigestRandomGenerator auto-seeded from the OS RNG.")
 
+# Algorithm assets that occur only in the Artifacts case (certificate, key, keystore and configuration
+# files; see artifacts.py).  Key algorithms are named after the subjectPublicKeyInfo algorithm and its
+# size or curve, signature algorithms after the X.509 AlgorithmIdentifier.
+_alg("rsa-1024", "RSA-1024 key pair", "pke", "RSA", "1024", cls=80, q=0,
+     oid="1.2.840.113549.1.1.1", std=["FIPS 186-5", "RFC 8017"],
+     nist="Disallowed (below 112 bits of security; SP 800-131A r2)", cnsa="Not CNSA 2.0", quantum=SHOR)
+_alg("rsa-2048", "RSA-2048 key pair", "pke", "RSA", "2048", cls=112, q=0,
+     oid="1.2.840.113549.1.1.1", std=["FIPS 186-5", "RFC 8017"],
+     nist="Acceptable (112 bits); quantum-vulnerable - deprecated after 2030, disallowed after 2035 (NIST IR 8547)",
+     cnsa="Not CNSA (CNSA 1.0 requires >= 3072 bits)", quantum=SHOR)
+_alg("rsa-4096", "RSA-4096 key pair", "pke", "RSA", "4096", cls=128, q=0,
+     oid="1.2.840.113549.1.1.1", std=["FIPS 186-5", "RFC 8017"],
+     nist="Acceptable; quantum-vulnerable - disallowed after 2035 (NIST IR 8547)",
+     cnsa="CNSA 1.0 only; not CNSA 2.0", quantum=SHOR,
+     note="SP 800-57 Pt 1 r5 places 4096-bit RSA in the 128-bit category (3072 <= k < 7680).")
+_alg("ecdsa-p256", "ECDSA P-256 key pair", "signature", "ECDSA", "P-256", curve="secp256r1",
+     cls=128, q=0, oid="1.2.840.10045.2.1", std=["FIPS 186-5", "SP 800-186", "RFC 5480"],
+     nist="Approved; quantum-vulnerable (IR 8547)", cnsa="Not CNSA (P-384 required)", quantum=SHOR,
+     note="subjectPublicKeyInfo algorithm id-ecPublicKey with namedCurve prime256v1 (1.2.840.10045.3.1.7).")
+_alg("ecdsa-p384", "ECDSA P-384 key pair", "signature", "ECDSA", "P-384", curve="secp384r1",
+     cls=192, q=0, oid="1.2.840.10045.2.1", std=["FIPS 186-5", "SP 800-186", "RFC 5480"],
+     nist="Approved; quantum-vulnerable (IR 8547)", cnsa="CNSA 1.0 (P-384); not CNSA 2.0", quantum=SHOR,
+     note="subjectPublicKeyInfo algorithm id-ecPublicKey with namedCurve secp384r1 (1.3.132.0.34).")
+_alg("sha256-with-rsa", "sha256WithRSAEncryption (RSASSA-PKCS1-v1_5 with SHA-256)", "signature", "RSA",
+     padding="pkcs1v15", oid="1.2.840.113549.1.1.11", std=["RFC 8017", "RFC 4055", "FIPS 186-5"],
+     nist="Approved; quantum-vulnerable (IR 8547)", cnsa="Not CNSA 2.0", quantum=SHOR, deps=["sha-256"],
+     note="X.509 signature algorithm; its strength is that of the signer's RSA key.")
+_alg("sha1-with-rsa", "sha1WithRSAEncryption (RSASSA-PKCS1-v1_5 with SHA-1)", "signature", "RSA",
+     padding="pkcs1v15", cls=63, q=0, oid="1.2.840.113549.1.1.5", std=["RFC 8017", "RFC 3279"],
+     nist="Disallowed for signature generation (SP 800-131A r2)", cnsa="Not CNSA 2.0",
+     quantum="Already broken classically (SHA-1 chosen-prefix collisions)", deps=["sha-1"])
+_alg("ecdsa-with-sha384", "ecdsa-with-SHA384", "signature", "ECDSA", oid="1.2.840.10045.4.3.3",
+     std=["FIPS 186-5", "RFC 5758"], nist="Approved; quantum-vulnerable (IR 8547)",
+     cnsa="CNSA 1.0 with P-384; not CNSA 2.0", quantum=SHOR, deps=["sha-384"],
+     note="X.509 signature algorithm; the curve is that of the signer's key.")
+_alg("x25519mlkem768", "X25519MLKEM768 hybrid key exchange", "kem", "ML-KEM", "768", curve="curve25519",
+     cls=192, q=3, std=["draft-ietf-tls-ecdhe-mlkem", "FIPS 203", "RFC 7748"],
+     nist="ML-KEM-768 Approved (FIPS 203); the X25519 component is not NIST-approved",
+     cnsa="Not CNSA 2.0 (ML-KEM-1024 required)", quantum="Resists a CRQC as long as ML-KEM-768 does (hybrid)",
+     deps=["ml-kem-768", "x25519"], note="TLS NamedGroup 0x11EC: the ML-KEM-768 and X25519 shared secrets are concatenated.")
+
 # --------------------------------------------------------------------------
 # Related crypto material (CycloneDX relatedCryptoMaterialProperties.type)
 #   prov: hardcoded | csprng | keygen | derived | agreed

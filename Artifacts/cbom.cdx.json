@@ -1,0 +1,4511 @@
+{
+  "$schema": "http://cyclonedx.org/schema/bom-1.6.schema.json",
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.6",
+  "serialNumber": "urn:uuid:06de8c45-2e47-58b8-9f0a-8c18b745f822",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2026-11-21T04:13:12Z",
+    "tools": {
+      "components": [
+        {
+          "type": "application",
+          "name": "cbom-corpus ground-truth generator (_tooling/artifacts.py)",
+          "version": "1.0.0"
+        }
+      ]
+    },
+    "component": {
+      "type": "application",
+      "bom-ref": "application/cbom-corpus-artifacts",
+      "name": "cbom-corpus-artifacts",
+      "version": "1.0.0",
+      "description": "Ground-truth CBOM for the artifact files of the CBOM corpus; every occurrence was found by parsing the files, not by a scanner."
+    }
+  },
+  "components": [
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/algorithm/sha-256",
+      "name": "SHA-256",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "hash",
+          "parameterSetIdentifier": "256",
+          "executionEnvironment": "software-plain-ram",
+          "implementationPlatform": "generic",
+          "certificationLevel": [
+            "none"
+          ],
+          "classicalSecurityLevel": 128,
+          "nistQuantumSecurityLevel": 2
+        },
+        "oid": "2.16.840.1.101.3.4.2.1"
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "pki/root-ca.crt",
+            "line": 1,
+            "offset": 0,
+            "symbol": "1.2.840.113549.1.1.11",
+            "additionalContext": "id=AR-005; relation=direct; role=alg:signatureAlgorithm; scenario=A01; scope=PEM block 1 (CERTIFICATE) > signatureAlgorithm; encoding=PEM; encrypted=false; end=31:26; charRange=0-1902; byteRange=0-1902"
+          },
+          {
+            "location": "pki/issuing-ca.crt",
+            "line": 1,
+            "offset": 0,
+            "symbol": "1.2.840.113549.1.1.11",
+            "additionalContext": "id=AR-010; relation=direct; role=alg:signatureAlgorithm; scenario=A01; scope=PEM block 1 (CERTIFICATE) > signatureAlgorithm; encoding=PEM; encrypted=false; end=23:26; charRange=0-1374; byteRange=0-1374"
+          },
+          {
+            "location": "pki/ca-chain.pem",
+            "line": 3,
+            "offset": 0,
+            "symbol": "1.2.840.113549.1.1.11",
+            "additionalContext": "id=AR-018; relation=direct; role=alg:signatureAlgorithm; scenario=A01; scope=PEM block 1 (CERTIFICATE) > signatureAlgorithm; encoding=PEM; encrypted=false; end=25:26; charRange=122-1496; byteRange=122-1496"
+          },
+          {
+            "location": "pki/ca-chain.pem",
+            "line": 28,
+            "offset": 0,
+            "symbol": "1.2.840.113549.1.1.11",
+            "additionalContext": "id=AR-023; relation=direct; role=alg:signatureAlgorithm; scenario=A01; scope=PEM block 2 (CERTIFICATE) > signatureAlgorithm; encoding=PEM; encrypted=false; end=58:26; charRange=1616-3518; byteRange=1616-3518"
+          },
+          {
+            "location": "pki/server.csr",
+            "line": 1,
+            "offset": 0,
+            "symbol": "1.2.840.113549.1.1.11",
+            "additionalContext": "id=AR-036; relation=direct; role=alg:signatureAlgorithm; scenario=A02; scope=PEM block 1 (CERTIFICATE REQUEST) > signatureAlgorithm; encoding=PEM; encrypted=false; end=17:34; charRange=0-1044; byteRange=0-1044"
+          },
+          {
+            "location": "pki/fullchain.p7b",
+            "symbol": "1.2.840.113549.1.1.11",
+            "additionalContext": "id=AR-046; relation=direct; role=alg:signatureAlgorithm; scenario=A02; scope=PKCS#7 certificate 2 > signatureAlgorithm; encoding=PKCS#7 DER; encrypted=false; byteRange=836-1809"
+          },
+          {
+            "location": "pki/fullchain.p7b",
+            "symbol": "1.2.840.113549.1.1.11",
+            "additionalContext": "id=AR-051; relation=direct; role=alg:signatureAlgorithm; scenario=A02; scope=PKCS#7 certificate 3 > signatureAlgorithm; encoding=PKCS#7 DER; encrypted=false; byteRange=1809-3172"
+          },
+          {
+            "location": "keys/backup-rsa3072.enc.pem",
+            "line": 1,
+            "offset": 0,
+            "symbol": "1.2.840.113549.2.9",
+            "additionalContext": "id=AR-080; relation=direct; role=alg:pbkdf2.prf; scenario=A07; scope=PEM block 1 (ENCRYPTED PRIVATE KEY) > PBKDF2 prf; encoding=PEM; encrypted=false; end=42:36; charRange=0-2665; byteRange=0-2665"
+          },
+          {
+            "location": "keystores/client.p12",
+            "symbol": "1.2.840.113549.2.9",
+            "additionalContext": "id=AR-090; relation=direct; role=alg:pbkdf2.prf; scenario=A09; scope=PKCS#12 encryptedData safe > PBKDF2 prf; encoding=PKCS#12; encrypted=false; byteRange=127-141"
+          },
+          {
+            "location": "keystores/client.p12",
+            "symbol": "1.2.840.113549.1.1.11",
+            "additionalContext": "id=AR-101; relation=direct; role=alg:signatureAlgorithm; scenario=A09; scope=PKCS#12 encryptedData safe > certBag 2 > signatureAlgorithm; encoding=PKCS#12; encrypted=true; byteRange=172-1888"
+          },
+          {
+            "location": "keystores/client.p12",
+            "symbol": "1.2.840.113549.2.9",
+            "additionalContext": "id=AR-104; relation=direct; role=alg:pbkdf2.prf; scenario=A09; scope=PKCS#12 pkcs8ShroudedKeyBag > PBKDF2 prf; encoding=PKCS#12; encrypted=false; byteRange=1990-2004"
+          },
+          {
+            "location": "keystores/client.p12",
+            "symbol": "2.16.840.1.101.3.4.2.1",
+            "additionalContext": "id=AR-110; relation=direct; role=alg:mac; scenario=A09; scope=PKCS#12 MacData > digestAlgorithm; encoding=PKCS#12; encrypted=false; byteRange=2268-2283"
+          },
+          {
+            "location": "keystores/truststore.jks",
+            "symbol": "1.2.840.113549.1.1.11",
+            "additionalContext": "id=AR-115; relation=direct; role=alg:signatureAlgorithm; scenario=A10; scope=JKS trustedCertEntry 'cbomfuse-test-root-ca' > signatureAlgorithm; encoding=JKS; encrypted=false; byteRange=58-1421"
+          },
+          {
+            "location": "keystores/truststore.jks",
+            "symbol": "1.2.840.113549.1.1.11",
+            "additionalContext": "id=AR-120; relation=direct; role=alg:signatureAlgorithm; scenario=A10; scope=JKS trustedCertEntry 'cbomfuse-partner-root-ca' > signatureAlgorithm; encoding=JKS; encrypted=false; byteRange=1470-2325"
+          },
+          {
+            "location": "secrets/app.env",
+            "line": 4,
+            "offset": 14,
+            "symbol": "HS256",
+            "additionalContext": "id=AR-123; relation=direct; role=cfg:JWT_ALGORITHM; scenario=A11; scope=JWT_ALGORITHM; encoding=dotenv; encrypted=false; end=4:20; charRange=184-189; byteRange=184-189"
+          },
+          {
+            "location": "tls/openssl.cnf",
+            "line": 15,
+            "offset": 38,
+            "symbol": "TLS_CHACHA20_POLY1305_SHA256",
+            "additionalContext": "id=AR-136; relation=direct; role=alg:cipher-suite; scenario=A13; scope=[system_default_sect] Ciphersuites > TLS_CHACHA20_POLY1305_SHA256; encoding=text; encrypted=false; end=15:67; charRange=459-487; byteRange=459-487"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "sha-256"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "16"
+        },
+        {
+          "name": "cbom-corpus:family",
+          "value": "SHA-2"
+        },
+        {
+          "name": "cbom-corpus:standards",
+          "value": "FIPS 180-4"
+        },
+        {
+          "name": "cbom-corpus:nist-status",
+          "value": "Approved"
+        },
+        {
+          "name": "cbom-corpus:cnsa-2.0",
+          "value": "Not CNSA 2.0 (requires SHA-384/SHA-512)"
+        },
+        {
+          "name": "cbom-corpus:quantum",
+          "value": "Generic quantum speed-up only (Grover/BHT)"
+        },
+        {
+          "name": "cbom-corpus:note",
+          "value": "Collision resistance 128 bits; reference point of NIST PQ category 2."
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/algorithm/sha-384",
+      "name": "SHA-384",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "hash",
+          "parameterSetIdentifier": "384",
+          "executionEnvironment": "software-plain-ram",
+          "implementationPlatform": "generic",
+          "certificationLevel": [
+            "none"
+          ],
+          "classicalSecurityLevel": 192,
+          "nistQuantumSecurityLevel": 4
+        },
+        "oid": "2.16.840.1.101.3.4.2.2"
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "pki/server.crt",
+            "line": 1,
+            "offset": 0,
+            "symbol": "1.2.840.10045.4.3.3",
+            "additionalContext": "id=AR-028; relation=direct; role=alg:signatureAlgorithm; scenario=A02; scope=PEM block 1 (CERTIFICATE) > signatureAlgorithm; encoding=PEM; encrypted=false; end=19:26; charRange=0-1126; byteRange=0-1126"
+          },
+          {
+            "location": "pki/fullchain.p7b",
+            "symbol": "1.2.840.10045.4.3.3",
+            "additionalContext": "id=AR-041; relation=direct; role=alg:signatureAlgorithm; scenario=A02; scope=PKCS#7 certificate 1 > signatureAlgorithm; encoding=PKCS#7 DER; encrypted=false; byteRange=45-836"
+          },
+          {
+            "location": "pki/api.der",
+            "symbol": "1.2.840.10045.4.3.3",
+            "additionalContext": "id=AR-056; relation=direct; role=alg:signatureAlgorithm; scenario=A03; scope=DER file > signatureAlgorithm; encoding=DER; encrypted=false; byteRange=0-583"
+          },
+          {
+            "location": "pki/issuing-ca.crl",
+            "line": 1,
+            "offset": 0,
+            "symbol": "1.2.840.10045.4.3.3",
+            "additionalContext": "id=AR-062; relation=direct; role=alg:signatureAlgorithm; scenario=A04; scope=PEM block 1 (X509 CRL) > signatureAlgorithm; encoding=PEM; encrypted=false; end=9:23; charRange=0-502; byteRange=0-502"
+          },
+          {
+            "location": "keystores/client.p12",
+            "symbol": "1.2.840.10045.4.3.3",
+            "additionalContext": "id=AR-100; relation=direct; role=alg:signatureAlgorithm; scenario=A09; scope=PKCS#12 encryptedData safe > certBag 1 > signatureAlgorithm; encoding=PKCS#12; encrypted=true; byteRange=172-1888"
+          },
+          {
+            "location": "tls/openssl.cnf",
+            "line": 15,
+            "offset": 15,
+            "symbol": "TLS_AES_256_GCM_SHA384",
+            "additionalContext": "id=AR-134; relation=direct; role=alg:cipher-suite; scenario=A13; scope=[system_default_sect] Ciphersuites > TLS_AES_256_GCM_SHA384; encoding=text; encrypted=false; end=15:38; charRange=436-458; byteRange=436-458"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "sha-384"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "6"
+        },
+        {
+          "name": "cbom-corpus:family",
+          "value": "SHA-2"
+        },
+        {
+          "name": "cbom-corpus:standards",
+          "value": "FIPS 180-4"
+        },
+        {
+          "name": "cbom-corpus:nist-status",
+          "value": "Approved"
+        },
+        {
+          "name": "cbom-corpus:cnsa-2.0",
+          "value": "CNSA 2.0 compliant"
+        },
+        {
+          "name": "cbom-corpus:quantum",
+          "value": "Generic quantum speed-up only (Grover/BHT)"
+        },
+        {
+          "name": "cbom-corpus:note",
+          "value": "Hash of ecdsa-with-SHA384 and of the TLS_AES_256_GCM_SHA384 cipher suite."
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/algorithm/sha-512",
+      "name": "SHA-512",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "hash",
+          "parameterSetIdentifier": "512",
+          "executionEnvironment": "software-plain-ram",
+          "implementationPlatform": "generic",
+          "certificationLevel": [
+            "none"
+          ],
+          "classicalSecurityLevel": 256,
+          "nistQuantumSecurityLevel": 4
+        },
+        "oid": "2.16.840.1.101.3.4.2.3"
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "sha-512"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "true"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "0"
+        },
+        {
+          "name": "cbom-corpus:family",
+          "value": "SHA-2"
+        },
+        {
+          "name": "cbom-corpus:standards",
+          "value": "FIPS 180-4"
+        },
+        {
+          "name": "cbom-corpus:nist-status",
+          "value": "Approved"
+        },
+        {
+          "name": "cbom-corpus:cnsa-2.0",
+          "value": "CNSA 2.0 compliant"
+        },
+        {
+          "name": "cbom-corpus:quantum",
+          "value": "Generic quantum speed-up only (Grover/BHT)"
+        },
+        {
+          "name": "cbom-corpus:note",
+          "value": "Category >= 4 (SHA-384 collision is the highest hash-based NIST reference point)."
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/algorithm/sha3-256",
+      "name": "SHA3-256",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "hash",
+          "parameterSetIdentifier": "256",
+          "executionEnvironment": "software-plain-ram",
+          "implementationPlatform": "generic",
+          "certificationLevel": [
+            "none"
+          ],
+          "classicalSecurityLevel": 128,
+          "nistQuantumSecurityLevel": 2
+        },
+        "oid": "2.16.840.1.101.3.4.2.8"
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "sha3-256"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "true"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "0"
+        },
+        {
+          "name": "cbom-corpus:family",
+          "value": "SHA-3"
+        },
+        {
+          "name": "cbom-corpus:standards",
+          "value": "FIPS 202"
+        },
+        {
+          "name": "cbom-corpus:nist-status",
+          "value": "Approved"
+        },
+        {
+          "name": "cbom-corpus:cnsa-2.0",
+          "value": "Not CNSA 2.0"
+        },
+        {
+          "name": "cbom-corpus:quantum",
+          "value": "Generic quantum speed-up only (Grover/BHT)"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/algorithm/sha-1",
+      "name": "SHA-1",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "hash",
+          "parameterSetIdentifier": "160",
+          "executionEnvironment": "software-plain-ram",
+          "implementationPlatform": "generic",
+          "certificationLevel": [
+            "none"
+          ],
+          "classicalSecurityLevel": 63,
+          "nistQuantumSecurityLevel": 0
+        },
+        "oid": "1.3.14.3.2.26"
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "pki/legacy-sha1.cer",
+            "symbol": "1.2.840.113549.1.1.5",
+            "additionalContext": "id=AR-067; relation=direct; role=alg:signatureAlgorithm; scenario=A05; scope=DER file > signatureAlgorithm; encoding=DER; encrypted=false; byteRange=0-598"
+          },
+          {
+            "location": "keystores/truststore.jks",
+            "symbol": "SHA-1(password || 'Mighty Aphrodite' || entries)",
+            "additionalContext": "id=AR-121; relation=direct; role=alg:integrity; scenario=A10; scope=JKS keystore digest; encoding=JKS; encrypted=false; byteRange=2325-2345"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "sha-1"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "2"
+        },
+        {
+          "name": "cbom-corpus:family",
+          "value": "SHA-1"
+        },
+        {
+          "name": "cbom-corpus:standards",
+          "value": "FIPS 180-4; RFC 3174"
+        },
+        {
+          "name": "cbom-corpus:nist-status",
+          "value": "Disallowed for signature generation (SP 800-131A r2); NIST retires SHA-1 by 2030-12-31"
+        },
+        {
+          "name": "cbom-corpus:cnsa-2.0",
+          "value": "Not CNSA 2.0"
+        },
+        {
+          "name": "cbom-corpus:quantum",
+          "value": "Already broken classically (chosen-prefix collision ~2^63)"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/algorithm/shake128",
+      "name": "SHAKE128",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "xof",
+          "parameterSetIdentifier": "128",
+          "executionEnvironment": "software-plain-ram",
+          "implementationPlatform": "generic",
+          "certificationLevel": [
+            "none"
+          ],
+          "classicalSecurityLevel": 128,
+          "nistQuantumSecurityLevel": 2
+        },
+        "oid": "2.16.840.1.101.3.4.2.11"
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "shake128"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "true"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "0"
+        },
+        {
+          "name": "cbom-corpus:family",
+          "value": "SHA-3"
+        },
+        {
+          "name": "cbom-corpus:standards",
+          "value": "FIPS 202"
+        },
+        {
+          "name": "cbom-corpus:nist-status",
+          "value": "Approved"
+        },
+        {
+          "name": "cbom-corpus:cnsa-2.0",
+          "value": "Not CNSA 2.0"
+        },
+        {
+          "name": "cbom-corpus:quantum",
+          "value": "Generic quantum speed-up only (Grover/BHT)"
+        },
+        {
+          "name": "cbom-corpus:note",
+          "value": "Used with a 256-bit output (min(d/2,128) = 128-bit collision resistance)."
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/algorithm/hmac-sha256",
+      "name": "HMAC-SHA256",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "mac",
+          "parameterSetIdentifier": "256",
+          "executionEnvironment": "software-plain-ram",
+          "implementationPlatform": "generic",
+          "certificationLevel": [
+            "none"
+          ],
+          "classicalSecurityLevel": 256,
+          "nistQuantumSecurityLevel": 5
+        },
+        "oid": "1.2.840.113549.2.9"
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "keys/backup-rsa3072.enc.pem",
+            "line": 1,
+            "offset": 0,
+            "symbol": "1.2.840.113549.2.9",
+            "additionalContext": "id=AR-079; relation=direct; role=alg:pbkdf2.prf; scenario=A07; scope=PEM block 1 (ENCRYPTED PRIVATE KEY) > PBKDF2 prf; encoding=PEM; encrypted=false; end=42:36; charRange=0-2665; byteRange=0-2665"
+          },
+          {
+            "location": "keys/backup-rsa3072.enc.pem",
+            "line": 1,
+            "offset": 0,
+            "symbol": "1.2.840.113549.2.9",
+            "additionalContext": "id=AR-080; relation=parameter:sha-256; role=alg:pbkdf2.prf; scenario=A07; scope=PEM block 1 (ENCRYPTED PRIVATE KEY) > PBKDF2 prf; encoding=PEM; encrypted=false; end=42:36; charRange=0-2665; byteRange=0-2665"
+          },
+          {
+            "location": "keystores/client.p12",
+            "symbol": "1.2.840.113549.2.9",
+            "additionalContext": "id=AR-089; relation=direct; role=alg:pbkdf2.prf; scenario=A09; scope=PKCS#12 encryptedData safe > PBKDF2 prf; encoding=PKCS#12; encrypted=false; byteRange=127-141"
+          },
+          {
+            "location": "keystores/client.p12",
+            "symbol": "1.2.840.113549.2.9",
+            "additionalContext": "id=AR-090; relation=parameter:sha-256; role=alg:pbkdf2.prf; scenario=A09; scope=PKCS#12 encryptedData safe > PBKDF2 prf; encoding=PKCS#12; encrypted=false; byteRange=127-141"
+          },
+          {
+            "location": "keystores/client.p12",
+            "symbol": "1.2.840.113549.2.9",
+            "additionalContext": "id=AR-103; relation=direct; role=alg:pbkdf2.prf; scenario=A09; scope=PKCS#12 pkcs8ShroudedKeyBag > PBKDF2 prf; encoding=PKCS#12; encrypted=false; byteRange=1990-2004"
+          },
+          {
+            "location": "keystores/client.p12",
+            "symbol": "1.2.840.113549.2.9",
+            "additionalContext": "id=AR-104; relation=parameter:sha-256; role=alg:pbkdf2.prf; scenario=A09; scope=PKCS#12 pkcs8ShroudedKeyBag > PBKDF2 prf; encoding=PKCS#12; encrypted=false; byteRange=1990-2004"
+          },
+          {
+            "location": "keystores/client.p12",
+            "symbol": "2.16.840.1.101.3.4.2.1",
+            "additionalContext": "id=AR-109; relation=direct; role=alg:mac; scenario=A09; scope=PKCS#12 MacData; encoding=PKCS#12; encrypted=false; byteRange=2264-2331"
+          },
+          {
+            "location": "keystores/client.p12",
+            "symbol": "2.16.840.1.101.3.4.2.1",
+            "additionalContext": "id=AR-110; relation=parameter:sha-256; role=alg:mac; scenario=A09; scope=PKCS#12 MacData > digestAlgorithm; encoding=PKCS#12; encrypted=false; byteRange=2268-2283"
+          },
+          {
+            "location": "secrets/app.env",
+            "line": 4,
+            "offset": 14,
+            "symbol": "HS256",
+            "additionalContext": "id=AR-122; relation=direct; role=cfg:JWT_ALGORITHM; scenario=A11; scope=JWT_ALGORITHM; encoding=dotenv; encrypted=false; end=4:20; charRange=184-189; byteRange=184-189"
+          },
+          {
+            "location": "secrets/app.env",
+            "line": 4,
+            "offset": 14,
+            "symbol": "HS256",
+            "additionalContext": "id=AR-123; relation=parameter:sha-256; role=cfg:JWT_ALGORITHM; scenario=A11; scope=JWT_ALGORITHM; encoding=dotenv; encrypted=false; end=4:20; charRange=184-189; byteRange=184-189"
+          },
+          {
+            "location": "secrets/app.env",
+            "line": 6,
+            "offset": 14,
+            "symbol": "HS256",
+            "additionalContext": "id=AR-126; relation=direct; role=alg:jwt.alg; scenario=A11; scope=SERVICE_TOKEN > JOSE header; encoding=base64url; encrypted=false; end=6:51; charRange=264-300; byteRange=264-300"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "hmac-sha256"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "11"
+        },
+        {
+          "name": "cbom-corpus:family",
+          "value": "HMAC"
+        },
+        {
+          "name": "cbom-corpus:standards",
+          "value": "FIPS 198-1; RFC 2104"
+        },
+        {
+          "name": "cbom-corpus:nist-status",
+          "value": "Approved (FIPS 198-1)"
+        },
+        {
+          "name": "cbom-corpus:cnsa-2.0",
+          "value": "Not CNSA 2.0 (SHA-384+ required)"
+        },
+        {
+          "name": "cbom-corpus:quantum",
+          "value": "Generic quantum speed-up only (Grover/BHT)"
+        },
+        {
+          "name": "cbom-corpus:note",
+          "value": "HS256 for the JWT (RFC 7518) and the PKCS#12 integrity MAC (key from the PKCS#12 KDF of RFC 7292 appendix B.2)."
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/algorithm/pbkdf2-hmac-sha256",
+      "name": "PBKDF2-HMAC-SHA256",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "kdf",
+          "parameterSetIdentifier": "SHA-256",
+          "executionEnvironment": "software-plain-ram",
+          "implementationPlatform": "generic",
+          "certificationLevel": [
+            "none"
+          ]
+        },
+        "oid": "1.2.840.113549.1.5.12"
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "keys/backup-rsa3072.enc.pem",
+            "line": 1,
+            "offset": 0,
+            "symbol": "1.2.840.113549.1.5.12",
+            "additionalContext": "id=AR-077; relation=direct; role=alg:pbes2.kdf; scenario=A07; scope=PEM block 1 (ENCRYPTED PRIVATE KEY) > PBES2 keyDerivationFunc; encoding=PEM; encrypted=false; end=42:36; charRange=0-2665; byteRange=0-2665"
+          },
+          {
+            "location": "keys/backup-rsa3072.enc.pem",
+            "line": 1,
+            "offset": 0,
+            "symbol": "1.2.840.113549.2.9",
+            "additionalContext": "id=AR-079; relation=parameter:hmac-sha256; role=alg:pbkdf2.prf; scenario=A07; scope=PEM block 1 (ENCRYPTED PRIVATE KEY) > PBKDF2 prf; encoding=PEM; encrypted=false; end=42:36; charRange=0-2665; byteRange=0-2665"
+          },
+          {
+            "location": "keystores/client.p12",
+            "symbol": "1.2.840.113549.1.5.12",
+            "additionalContext": "id=AR-088; relation=direct; role=alg:pbes2.kdf; scenario=A09; scope=PKCS#12 encryptedData safe > PBES2 keyDerivationFunc; encoding=PKCS#12; encrypted=false; byteRange=90-141"
+          },
+          {
+            "location": "keystores/client.p12",
+            "symbol": "1.2.840.113549.2.9",
+            "additionalContext": "id=AR-089; relation=parameter:hmac-sha256; role=alg:pbkdf2.prf; scenario=A09; scope=PKCS#12 encryptedData safe > PBKDF2 prf; encoding=PKCS#12; encrypted=false; byteRange=127-141"
+          },
+          {
+            "location": "keystores/client.p12",
+            "symbol": "1.2.840.113549.1.5.12",
+            "additionalContext": "id=AR-102; relation=direct; role=alg:pbes2.kdf; scenario=A09; scope=PKCS#12 pkcs8ShroudedKeyBag > PBES2 keyDerivationFunc; encoding=PKCS#12; encrypted=false; byteRange=1953-2004"
+          },
+          {
+            "location": "keystores/client.p12",
+            "symbol": "1.2.840.113549.2.9",
+            "additionalContext": "id=AR-103; relation=parameter:hmac-sha256; role=alg:pbkdf2.prf; scenario=A09; scope=PKCS#12 pkcs8ShroudedKeyBag > PBKDF2 prf; encoding=PKCS#12; encrypted=false; byteRange=1990-2004"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "pbkdf2-hmac-sha256"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "6"
+        },
+        {
+          "name": "cbom-corpus:family",
+          "value": "PBKDF2"
+        },
+        {
+          "name": "cbom-corpus:standards",
+          "value": "SP 800-132; RFC 8018"
+        },
+        {
+          "name": "cbom-corpus:nist-status",
+          "value": "Approved (SP 800-132); the iteration counts used here (2,048 and 20,000) are below the OWASP 2023 figure of 600,000"
+        },
+        {
+          "name": "cbom-corpus:cnsa-2.0",
+          "value": "Not CNSA 2.0"
+        },
+        {
+          "name": "cbom-corpus:quantum",
+          "value": "Generic quantum speed-up only (Grover/BHT)"
+        },
+        {
+          "name": "cbom-corpus:note",
+          "value": "PBES2 key derivation (RFC 8018) in the encrypted PKCS#8 key and the PKCS#12 keystore; PRF hmacWithSHA256."
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/algorithm/aes-256-gcm",
+      "name": "AES-256-GCM",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "ae",
+          "parameterSetIdentifier": "256",
+          "executionEnvironment": "software-plain-ram",
+          "implementationPlatform": "generic",
+          "certificationLevel": [
+            "none"
+          ],
+          "mode": "gcm",
+          "classicalSecurityLevel": 256,
+          "nistQuantumSecurityLevel": 5
+        },
+        "oid": "2.16.840.1.101.3.4.1.46"
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "tls/openssl.cnf",
+            "line": 15,
+            "offset": 15,
+            "symbol": "TLS_AES_256_GCM_SHA384",
+            "additionalContext": "id=AR-133; relation=direct; role=alg:cipher-suite; scenario=A13; scope=[system_default_sect] Ciphersuites > TLS_AES_256_GCM_SHA384; encoding=text; encrypted=false; end=15:38; charRange=436-458; byteRange=436-458"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "aes-256-gcm"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "1"
+        },
+        {
+          "name": "cbom-corpus:family",
+          "value": "AES"
+        },
+        {
+          "name": "cbom-corpus:standards",
+          "value": "FIPS 197; SP 800-38D"
+        },
+        {
+          "name": "cbom-corpus:nist-status",
+          "value": "Approved"
+        },
+        {
+          "name": "cbom-corpus:cnsa-2.0",
+          "value": "CNSA 2.0 compliant (AES-256)"
+        },
+        {
+          "name": "cbom-corpus:quantum",
+          "value": "Generic quantum speed-up only (Grover/BHT)"
+        },
+        {
+          "name": "cbom-corpus:note",
+          "value": "Record protection of TLS_AES_256_GCM_SHA384."
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/algorithm/chacha20-poly1305",
+      "name": "ChaCha20-Poly1305",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "ae",
+          "parameterSetIdentifier": "256",
+          "executionEnvironment": "software-plain-ram",
+          "implementationPlatform": "generic",
+          "certificationLevel": [
+            "none"
+          ],
+          "mode": "other",
+          "classicalSecurityLevel": 256,
+          "nistQuantumSecurityLevel": 5
+        },
+        "oid": "1.2.840.113549.1.9.16.3.18"
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "tls/openssl.cnf",
+            "line": 15,
+            "offset": 38,
+            "symbol": "TLS_CHACHA20_POLY1305_SHA256",
+            "additionalContext": "id=AR-135; relation=direct; role=alg:cipher-suite; scenario=A13; scope=[system_default_sect] Ciphersuites > TLS_CHACHA20_POLY1305_SHA256; encoding=text; encrypted=false; end=15:67; charRange=459-487; byteRange=459-487"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "chacha20-poly1305"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "1"
+        },
+        {
+          "name": "cbom-corpus:family",
+          "value": "ChaCha20"
+        },
+        {
+          "name": "cbom-corpus:standards",
+          "value": "RFC 8439"
+        },
+        {
+          "name": "cbom-corpus:nist-status",
+          "value": "Not NIST-approved"
+        },
+        {
+          "name": "cbom-corpus:cnsa-2.0",
+          "value": "Not CNSA 2.0"
+        },
+        {
+          "name": "cbom-corpus:quantum",
+          "value": "Generic quantum speed-up only (Grover/BHT)"
+        },
+        {
+          "name": "cbom-corpus:note",
+          "value": "Stream-cipher AEAD; mode reported as 'other'."
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/algorithm/aes-256-cbc",
+      "name": "AES-256-CBC-PKCS7",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "block-cipher",
+          "parameterSetIdentifier": "256",
+          "executionEnvironment": "software-plain-ram",
+          "implementationPlatform": "generic",
+          "certificationLevel": [
+            "none"
+          ],
+          "mode": "cbc",
+          "padding": "pkcs7",
+          "classicalSecurityLevel": 256,
+          "nistQuantumSecurityLevel": 5
+        },
+        "oid": "2.16.840.1.101.3.4.1.42"
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "keys/backup-rsa3072.enc.pem",
+            "line": 1,
+            "offset": 0,
+            "symbol": "2.16.840.1.101.3.4.1.42",
+            "additionalContext": "id=AR-078; relation=direct; role=alg:pbes2.enc; scenario=A07; scope=PEM block 1 (ENCRYPTED PRIVATE KEY) > PBES2 encryptionScheme; encoding=PEM; encrypted=false; end=42:36; charRange=0-2665; byteRange=0-2665"
+          },
+          {
+            "location": "keystores/client.p12",
+            "symbol": "2.16.840.1.101.3.4.1.42",
+            "additionalContext": "id=AR-091; relation=direct; role=alg:pbes2.enc; scenario=A09; scope=PKCS#12 encryptedData safe > PBES2 encryptionScheme; encoding=PKCS#12; encrypted=false; byteRange=141-172"
+          },
+          {
+            "location": "keystores/client.p12",
+            "symbol": "2.16.840.1.101.3.4.1.42",
+            "additionalContext": "id=AR-105; relation=direct; role=alg:pbes2.enc; scenario=A09; scope=PKCS#12 pkcs8ShroudedKeyBag > PBES2 encryptionScheme; encoding=PKCS#12; encrypted=false; byteRange=2004-2035"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "aes-256-cbc"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "3"
+        },
+        {
+          "name": "cbom-corpus:family",
+          "value": "AES"
+        },
+        {
+          "name": "cbom-corpus:standards",
+          "value": "FIPS 197; SP 800-38A"
+        },
+        {
+          "name": "cbom-corpus:nist-status",
+          "value": "Approved mode; unauthenticated (padding-oracle risk without a MAC)"
+        },
+        {
+          "name": "cbom-corpus:cnsa-2.0",
+          "value": "AES-256 meets CNSA 2.0 key size"
+        },
+        {
+          "name": "cbom-corpus:quantum",
+          "value": "Generic quantum speed-up only (Grover/BHT)"
+        },
+        {
+          "name": "cbom-corpus:note",
+          "value": "PBES2 encryption scheme aes256-CBC-PAD (RFC 8018)."
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/algorithm/rsa-3072",
+      "name": "RSA-3072 key pair",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "pke",
+          "parameterSetIdentifier": "3072",
+          "executionEnvironment": "software-plain-ram",
+          "implementationPlatform": "generic",
+          "certificationLevel": [
+            "none"
+          ],
+          "classicalSecurityLevel": 128,
+          "nistQuantumSecurityLevel": 0
+        },
+        "oid": "1.2.840.113549.1.1.1"
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "keys/backup-rsa3072.enc.pem",
+            "line": 1,
+            "offset": 0,
+            "symbol": "1.2.840.113549.1.1.1",
+            "additionalContext": "id=AR-075; relation=direct; role=alg:privateKeyAlgorithm; scenario=A07; scope=PEM block 1 (ENCRYPTED PRIVATE KEY) > algorithm; encoding=PEM; encrypted=true; end=42:36; charRange=0-2665; byteRange=0-2665"
+          },
+          {
+            "location": "keys/backup-rsa3072.pub.pem",
+            "line": 1,
+            "offset": 0,
+            "symbol": "1.2.840.113549.1.1.1",
+            "additionalContext": "id=AR-082; relation=direct; role=alg:subjectPublicKeyInfo; scenario=A07; scope=PEM block 1 (PUBLIC KEY) > algorithm; encoding=PEM; encrypted=false; end=11:25; charRange=0-624; byteRange=0-624"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "rsa-3072"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "2"
+        },
+        {
+          "name": "cbom-corpus:family",
+          "value": "RSA"
+        },
+        {
+          "name": "cbom-corpus:standards",
+          "value": "FIPS 186-5; RFC 8017"
+        },
+        {
+          "name": "cbom-corpus:nist-status",
+          "value": "Acceptable; quantum-vulnerable - disallowed after 2035 (NIST IR 8547)"
+        },
+        {
+          "name": "cbom-corpus:cnsa-2.0",
+          "value": "CNSA 1.0 only (>=3072); not CNSA 2.0"
+        },
+        {
+          "name": "cbom-corpus:quantum",
+          "value": "Broken by Shor's algorithm on a CRQC"
+        },
+        {
+          "name": "cbom-corpus:note",
+          "value": "Backup key; stored only as encrypted PKCS#8 and as an SPKI public key."
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/algorithm/x25519",
+      "name": "X25519",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "key-agree",
+          "parameterSetIdentifier": "Curve25519",
+          "curve": "curve25519",
+          "executionEnvironment": "software-plain-ram",
+          "implementationPlatform": "generic",
+          "certificationLevel": [
+            "none"
+          ],
+          "classicalSecurityLevel": 128,
+          "nistQuantumSecurityLevel": 0
+        },
+        "oid": "1.3.101.110"
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "tls/openssl.cnf",
+            "line": 16,
+            "offset": 9,
+            "symbol": "X25519MLKEM768",
+            "additionalContext": "id=AR-140; relation=direct; role=alg:group; scenario=A13; scope=[system_default_sect] Groups > X25519MLKEM768; encoding=text; encrypted=false; end=16:24; charRange=497-511; byteRange=497-511"
+          },
+          {
+            "location": "tls/openssl.cnf",
+            "line": 16,
+            "offset": 24,
+            "symbol": "X25519",
+            "additionalContext": "id=AR-141; relation=direct; role=alg:group; scenario=A13; scope=[system_default_sect] Groups > X25519; encoding=text; encrypted=false; end=16:31; charRange=512-518; byteRange=512-518"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "x25519"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "2"
+        },
+        {
+          "name": "cbom-corpus:family",
+          "value": "ECDH"
+        },
+        {
+          "name": "cbom-corpus:standards",
+          "value": "RFC 7748"
+        },
+        {
+          "name": "cbom-corpus:nist-status",
+          "value": "Not listed in SP 800-56A r3"
+        },
+        {
+          "name": "cbom-corpus:cnsa-2.0",
+          "value": "Not CNSA"
+        },
+        {
+          "name": "cbom-corpus:quantum",
+          "value": "Broken by Shor's algorithm on a CRQC"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/algorithm/ed25519",
+      "name": "Ed25519",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "signature",
+          "parameterSetIdentifier": "Ed25519",
+          "curve": "edwards25519",
+          "executionEnvironment": "software-plain-ram",
+          "implementationPlatform": "generic",
+          "certificationLevel": [
+            "none"
+          ],
+          "classicalSecurityLevel": 128,
+          "nistQuantumSecurityLevel": 0
+        },
+        "oid": "1.3.101.112"
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "pki/device-ed25519.crt",
+            "line": 1,
+            "offset": 0,
+            "symbol": "1.3.101.112",
+            "additionalContext": "id=AR-069; relation=direct; role=alg:signatureAlgorithm; scenario=A06; scope=PEM block 1 (CERTIFICATE) > signatureAlgorithm; encoding=PEM; encrypted=false; end=12:26; charRange=0-659; byteRange=0-659"
+          },
+          {
+            "location": "pki/device-ed25519.crt",
+            "line": 1,
+            "offset": 0,
+            "symbol": "1.3.101.112",
+            "additionalContext": "id=AR-070; relation=direct; role=alg:subjectPublicKeyInfo; scenario=A06; scope=PEM block 1 (CERTIFICATE) > subjectPublicKeyInfo; encoding=PEM; encrypted=false; end=12:26; charRange=0-659; byteRange=0-659"
+          },
+          {
+            "location": "keys/device-ed25519.pem",
+            "line": 1,
+            "offset": 0,
+            "symbol": "1.3.101.112",
+            "additionalContext": "id=AR-073; relation=direct; role=alg:privateKeyAlgorithm; scenario=A06; scope=PEM block 1 (PRIVATE KEY) > algorithm; encoding=PEM; encrypted=false; end=3:26; charRange=0-118; byteRange=0-118"
+          },
+          {
+            "location": "keys/deploy_ed25519",
+            "line": 1,
+            "offset": 0,
+            "symbol": "ssh-ed25519",
+            "additionalContext": "id=AR-084; relation=direct; role=alg:privateKeyAlgorithm; scenario=A08; scope=PEM block 1 (OPENSSH PRIVATE KEY) > algorithm; encoding=PEM; encrypted=false; end=7:34; charRange=0-386; byteRange=0-386"
+          },
+          {
+            "location": "keys/deploy_ed25519.pub",
+            "line": 1,
+            "offset": 0,
+            "symbol": "ssh-ed25519",
+            "additionalContext": "id=AR-087; relation=direct; role=alg:key-type; scenario=A08; scope=OpenSSH public key line > key type; encoding=OpenSSH; encrypted=false; end=1:12; charRange=0-11; byteRange=0-11"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "ed25519"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "5"
+        },
+        {
+          "name": "cbom-corpus:family",
+          "value": "EdDSA"
+        },
+        {
+          "name": "cbom-corpus:standards",
+          "value": "RFC 8032; FIPS 186-5"
+        },
+        {
+          "name": "cbom-corpus:nist-status",
+          "value": "Approved (FIPS 186-5); quantum-vulnerable (IR 8547)"
+        },
+        {
+          "name": "cbom-corpus:cnsa-2.0",
+          "value": "Not CNSA"
+        },
+        {
+          "name": "cbom-corpus:quantum",
+          "value": "Broken by Shor's algorithm on a CRQC"
+        },
+        {
+          "name": "cbom-corpus:note",
+          "value": "SHA-512 is used internally (implicit)."
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/algorithm/ml-kem-768",
+      "name": "ML-KEM-768",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "kem",
+          "parameterSetIdentifier": "768",
+          "executionEnvironment": "software-plain-ram",
+          "implementationPlatform": "generic",
+          "certificationLevel": [
+            "none"
+          ],
+          "classicalSecurityLevel": 192,
+          "nistQuantumSecurityLevel": 3
+        },
+        "oid": "2.16.840.1.101.3.4.4.2"
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "tls/openssl.cnf",
+            "line": 16,
+            "offset": 9,
+            "symbol": "X25519MLKEM768",
+            "additionalContext": "id=AR-139; relation=direct; role=alg:group; scenario=A13; scope=[system_default_sect] Groups > X25519MLKEM768; encoding=text; encrypted=false; end=16:24; charRange=497-511; byteRange=497-511"
+          },
+          {
+            "location": "pqc/kem-endpoint.crt",
+            "line": 1,
+            "offset": 0,
+            "symbol": "2.16.840.1.101.3.4.4.2",
+            "additionalContext": "id=AR-150; relation=direct; role=alg:subjectPublicKeyInfo; scenario=A14; scope=PEM block 1 (CERTIFICATE) > subjectPublicKeyInfo; encoding=PEM; encrypted=false; end=104:26; charRange=0-6671; byteRange=0-6671"
+          },
+          {
+            "location": "pqc/kem-endpoint.key",
+            "line": 1,
+            "offset": 0,
+            "symbol": "2.16.840.1.101.3.4.4.2",
+            "additionalContext": "id=AR-153; relation=direct; role=alg:privateKeyAlgorithm; scenario=A14; scope=PEM block 1 (PRIVATE KEY) > algorithm; encoding=PEM; encrypted=false; end=4:26; charRange=0-171; byteRange=0-171"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "ml-kem-768"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "3"
+        },
+        {
+          "name": "cbom-corpus:family",
+          "value": "ML-KEM"
+        },
+        {
+          "name": "cbom-corpus:standards",
+          "value": "FIPS 203"
+        },
+        {
+          "name": "cbom-corpus:nist-status",
+          "value": "Approved"
+        },
+        {
+          "name": "cbom-corpus:cnsa-2.0",
+          "value": "Not CNSA 2.0 (ML-KEM-1024 required)"
+        },
+        {
+          "name": "cbom-corpus:quantum",
+          "value": "Designed to resist CRQC"
+        },
+        {
+          "name": "cbom-corpus:note",
+          "value": "Uses SHA3/SHAKE internally (implicit)."
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/algorithm/ml-dsa-65",
+      "name": "ML-DSA-65",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "signature",
+          "parameterSetIdentifier": "65",
+          "executionEnvironment": "software-plain-ram",
+          "implementationPlatform": "generic",
+          "certificationLevel": [
+            "none"
+          ],
+          "classicalSecurityLevel": 192,
+          "nistQuantumSecurityLevel": 3
+        },
+        "oid": "2.16.840.1.101.3.4.3.18"
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "pqc/pq-root-ca.crt",
+            "line": 1,
+            "offset": 0,
+            "symbol": "2.16.840.1.101.3.4.3.18",
+            "additionalContext": "id=AR-143; relation=direct; role=alg:signatureAlgorithm; scenario=A14; scope=PEM block 1 (CERTIFICATE) > signatureAlgorithm; encoding=PEM; encrypted=false; end=119:26; charRange=0-7622; byteRange=0-7622"
+          },
+          {
+            "location": "pqc/pq-root-ca.crt",
+            "line": 1,
+            "offset": 0,
+            "symbol": "2.16.840.1.101.3.4.3.18",
+            "additionalContext": "id=AR-144; relation=direct; role=alg:subjectPublicKeyInfo; scenario=A14; scope=PEM block 1 (CERTIFICATE) > subjectPublicKeyInfo; encoding=PEM; encrypted=false; end=119:26; charRange=0-7622; byteRange=0-7622"
+          },
+          {
+            "location": "pqc/pq-root-ca.key",
+            "line": 1,
+            "offset": 0,
+            "symbol": "2.16.840.1.101.3.4.3.18",
+            "additionalContext": "id=AR-147; relation=direct; role=alg:privateKeyAlgorithm; scenario=A14; scope=PEM block 1 (PRIVATE KEY) > algorithm; encoding=PEM; encrypted=false; end=4:26; charRange=0-127; byteRange=0-127"
+          },
+          {
+            "location": "pqc/kem-endpoint.crt",
+            "line": 1,
+            "offset": 0,
+            "symbol": "2.16.840.1.101.3.4.3.18",
+            "additionalContext": "id=AR-149; relation=direct; role=alg:signatureAlgorithm; scenario=A14; scope=PEM block 1 (CERTIFICATE) > signatureAlgorithm; encoding=PEM; encrypted=false; end=104:26; charRange=0-6671; byteRange=0-6671"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "ml-dsa-65"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "4"
+        },
+        {
+          "name": "cbom-corpus:family",
+          "value": "ML-DSA"
+        },
+        {
+          "name": "cbom-corpus:standards",
+          "value": "FIPS 204"
+        },
+        {
+          "name": "cbom-corpus:nist-status",
+          "value": "Approved"
+        },
+        {
+          "name": "cbom-corpus:cnsa-2.0",
+          "value": "Not CNSA 2.0 (ML-DSA-87 required)"
+        },
+        {
+          "name": "cbom-corpus:quantum",
+          "value": "Designed to resist CRQC"
+        },
+        {
+          "name": "cbom-corpus:note",
+          "value": "One OID names both the subjectPublicKeyInfo algorithm and the signature algorithm."
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/algorithm/rsa-1024",
+      "name": "RSA-1024 key pair",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "pke",
+          "parameterSetIdentifier": "1024",
+          "executionEnvironment": "software-plain-ram",
+          "implementationPlatform": "generic",
+          "certificationLevel": [
+            "none"
+          ],
+          "classicalSecurityLevel": 80,
+          "nistQuantumSecurityLevel": 0
+        },
+        "oid": "1.2.840.113549.1.1.1"
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "pki/legacy-sha1.cer",
+            "symbol": "1.2.840.113549.1.1.1",
+            "additionalContext": "id=AR-065; relation=direct; role=alg:subjectPublicKeyInfo; scenario=A05; scope=DER file > subjectPublicKeyInfo; encoding=DER; encrypted=false; byteRange=0-598"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "rsa-1024"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "1"
+        },
+        {
+          "name": "cbom-corpus:family",
+          "value": "RSA"
+        },
+        {
+          "name": "cbom-corpus:standards",
+          "value": "FIPS 186-5; RFC 8017"
+        },
+        {
+          "name": "cbom-corpus:nist-status",
+          "value": "Disallowed (below 112 bits of security; SP 800-131A r2)"
+        },
+        {
+          "name": "cbom-corpus:cnsa-2.0",
+          "value": "Not CNSA 2.0"
+        },
+        {
+          "name": "cbom-corpus:quantum",
+          "value": "Broken by Shor's algorithm on a CRQC"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/algorithm/rsa-2048",
+      "name": "RSA-2048 key pair",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "pke",
+          "parameterSetIdentifier": "2048",
+          "executionEnvironment": "software-plain-ram",
+          "implementationPlatform": "generic",
+          "certificationLevel": [
+            "none"
+          ],
+          "classicalSecurityLevel": 112,
+          "nistQuantumSecurityLevel": 0
+        },
+        "oid": "1.2.840.113549.1.1.1"
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "pki/server.crt",
+            "line": 1,
+            "offset": 0,
+            "symbol": "1.2.840.113549.1.1.1",
+            "additionalContext": "id=AR-026; relation=direct; role=alg:subjectPublicKeyInfo; scenario=A02; scope=PEM block 1 (CERTIFICATE) > subjectPublicKeyInfo; encoding=PEM; encrypted=false; end=19:26; charRange=0-1126; byteRange=0-1126"
+          },
+          {
+            "location": "pki/server.key",
+            "line": 1,
+            "offset": 0,
+            "symbol": "RSA PRIVATE KEY",
+            "additionalContext": "id=AR-030; relation=direct; role=alg:privateKeyAlgorithm; scenario=A02; scope=PEM block 1 (RSA PRIVATE KEY) > algorithm; encoding=PEM; encrypted=false; end=27:30; charRange=0-1674; byteRange=0-1674"
+          },
+          {
+            "location": "pki/server.csr",
+            "line": 1,
+            "offset": 0,
+            "symbol": "1.2.840.113549.1.1.1",
+            "additionalContext": "id=AR-034; relation=direct; role=alg:subjectPublicKeyInfo; scenario=A02; scope=PEM block 1 (CERTIFICATE REQUEST) > subjectPublicKeyInfo; encoding=PEM; encrypted=false; end=17:34; charRange=0-1044; byteRange=0-1044"
+          },
+          {
+            "location": "pki/fullchain.p7b",
+            "symbol": "1.2.840.113549.1.1.1",
+            "additionalContext": "id=AR-039; relation=direct; role=alg:subjectPublicKeyInfo; scenario=A02; scope=PKCS#7 certificate 1 > subjectPublicKeyInfo; encoding=PKCS#7 DER; encrypted=false; byteRange=45-836"
+          },
+          {
+            "location": "keystores/truststore.jks",
+            "symbol": "1.2.840.113549.1.1.1",
+            "additionalContext": "id=AR-118; relation=direct; role=alg:subjectPublicKeyInfo; scenario=A10; scope=JKS trustedCertEntry 'cbomfuse-partner-root-ca' > subjectPublicKeyInfo; encoding=JKS; encrypted=false; byteRange=1470-2325"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "rsa-2048"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "5"
+        },
+        {
+          "name": "cbom-corpus:family",
+          "value": "RSA"
+        },
+        {
+          "name": "cbom-corpus:standards",
+          "value": "FIPS 186-5; RFC 8017"
+        },
+        {
+          "name": "cbom-corpus:nist-status",
+          "value": "Acceptable (112 bits); quantum-vulnerable - deprecated after 2030, disallowed after 2035 (NIST IR 8547)"
+        },
+        {
+          "name": "cbom-corpus:cnsa-2.0",
+          "value": "Not CNSA (CNSA 1.0 requires >= 3072 bits)"
+        },
+        {
+          "name": "cbom-corpus:quantum",
+          "value": "Broken by Shor's algorithm on a CRQC"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/algorithm/rsa-4096",
+      "name": "RSA-4096 key pair",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "pke",
+          "parameterSetIdentifier": "4096",
+          "executionEnvironment": "software-plain-ram",
+          "implementationPlatform": "generic",
+          "certificationLevel": [
+            "none"
+          ],
+          "classicalSecurityLevel": 128,
+          "nistQuantumSecurityLevel": 0
+        },
+        "oid": "1.2.840.113549.1.1.1"
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "pki/root-ca.crt",
+            "line": 1,
+            "offset": 0,
+            "symbol": "1.2.840.113549.1.1.1",
+            "additionalContext": "id=AR-003; relation=direct; role=alg:subjectPublicKeyInfo; scenario=A01; scope=PEM block 1 (CERTIFICATE) > subjectPublicKeyInfo; encoding=PEM; encrypted=false; end=31:26; charRange=0-1902; byteRange=0-1902"
+          },
+          {
+            "location": "pki/ca-chain.pem",
+            "line": 28,
+            "offset": 0,
+            "symbol": "1.2.840.113549.1.1.1",
+            "additionalContext": "id=AR-021; relation=direct; role=alg:subjectPublicKeyInfo; scenario=A01; scope=PEM block 2 (CERTIFICATE) > subjectPublicKeyInfo; encoding=PEM; encrypted=false; end=58:26; charRange=1616-3518; byteRange=1616-3518"
+          },
+          {
+            "location": "pki/fullchain.p7b",
+            "symbol": "1.2.840.113549.1.1.1",
+            "additionalContext": "id=AR-049; relation=direct; role=alg:subjectPublicKeyInfo; scenario=A02; scope=PKCS#7 certificate 3 > subjectPublicKeyInfo; encoding=PKCS#7 DER; encrypted=false; byteRange=1809-3172"
+          },
+          {
+            "location": "keystores/truststore.jks",
+            "symbol": "1.2.840.113549.1.1.1",
+            "additionalContext": "id=AR-113; relation=direct; role=alg:subjectPublicKeyInfo; scenario=A10; scope=JKS trustedCertEntry 'cbomfuse-test-root-ca' > subjectPublicKeyInfo; encoding=JKS; encrypted=false; byteRange=58-1421"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "rsa-4096"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "4"
+        },
+        {
+          "name": "cbom-corpus:family",
+          "value": "RSA"
+        },
+        {
+          "name": "cbom-corpus:standards",
+          "value": "FIPS 186-5; RFC 8017"
+        },
+        {
+          "name": "cbom-corpus:nist-status",
+          "value": "Acceptable; quantum-vulnerable - disallowed after 2035 (NIST IR 8547)"
+        },
+        {
+          "name": "cbom-corpus:cnsa-2.0",
+          "value": "CNSA 1.0 only; not CNSA 2.0"
+        },
+        {
+          "name": "cbom-corpus:quantum",
+          "value": "Broken by Shor's algorithm on a CRQC"
+        },
+        {
+          "name": "cbom-corpus:note",
+          "value": "SP 800-57 Pt 1 r5 places 4096-bit RSA in the 128-bit category (3072 <= k < 7680)."
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/algorithm/ecdsa-p256",
+      "name": "ECDSA P-256 key pair",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "signature",
+          "parameterSetIdentifier": "P-256",
+          "curve": "secp256r1",
+          "executionEnvironment": "software-plain-ram",
+          "implementationPlatform": "generic",
+          "certificationLevel": [
+            "none"
+          ],
+          "classicalSecurityLevel": 128,
+          "nistQuantumSecurityLevel": 0
+        },
+        "oid": "1.2.840.10045.2.1"
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "pki/api.der",
+            "symbol": "1.2.840.10045.2.1",
+            "additionalContext": "id=AR-054; relation=direct; role=alg:subjectPublicKeyInfo; scenario=A03; scope=DER file > subjectPublicKeyInfo; encoding=DER; encrypted=false; byteRange=0-583"
+          },
+          {
+            "location": "pki/api.key",
+            "line": 1,
+            "offset": 0,
+            "symbol": "1.2.840.10045.2.1",
+            "additionalContext": "id=AR-058; relation=direct; role=alg:privateKeyAlgorithm; scenario=A03; scope=PEM block 1 (PRIVATE KEY) > algorithm; encoding=PEM; encrypted=false; end=5:26; charRange=0-240; byteRange=0-240"
+          },
+          {
+            "location": "keystores/client.p12",
+            "symbol": "1.2.840.10045.2.1",
+            "additionalContext": "id=AR-095; relation=direct; role=alg:subjectPublicKeyInfo; scenario=A09; scope=PKCS#12 encryptedData safe > certBag 1 > subjectPublicKeyInfo; encoding=PKCS#12; encrypted=true; byteRange=172-1888"
+          },
+          {
+            "location": "keystores/client.p12",
+            "symbol": "1.2.840.10045.2.1",
+            "additionalContext": "id=AR-107; relation=direct; role=alg:privateKeyAlgorithm; scenario=A09; scope=PKCS#12 pkcs8ShroudedKeyBag > algorithm; encoding=PKCS#12; encrypted=true; byteRange=2035-2182"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "ecdsa-p256"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "4"
+        },
+        {
+          "name": "cbom-corpus:family",
+          "value": "ECDSA"
+        },
+        {
+          "name": "cbom-corpus:standards",
+          "value": "FIPS 186-5; SP 800-186; RFC 5480"
+        },
+        {
+          "name": "cbom-corpus:nist-status",
+          "value": "Approved; quantum-vulnerable (IR 8547)"
+        },
+        {
+          "name": "cbom-corpus:cnsa-2.0",
+          "value": "Not CNSA (P-384 required)"
+        },
+        {
+          "name": "cbom-corpus:quantum",
+          "value": "Broken by Shor's algorithm on a CRQC"
+        },
+        {
+          "name": "cbom-corpus:note",
+          "value": "subjectPublicKeyInfo algorithm id-ecPublicKey with namedCurve prime256v1 (1.2.840.10045.3.1.7)."
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/algorithm/ecdsa-p384",
+      "name": "ECDSA P-384 key pair",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "signature",
+          "parameterSetIdentifier": "P-384",
+          "curve": "secp384r1",
+          "executionEnvironment": "software-plain-ram",
+          "implementationPlatform": "generic",
+          "certificationLevel": [
+            "none"
+          ],
+          "classicalSecurityLevel": 192,
+          "nistQuantumSecurityLevel": 0
+        },
+        "oid": "1.2.840.10045.2.1"
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "pki/issuing-ca.crt",
+            "line": 1,
+            "offset": 0,
+            "symbol": "1.2.840.10045.2.1",
+            "additionalContext": "id=AR-008; relation=direct; role=alg:subjectPublicKeyInfo; scenario=A01; scope=PEM block 1 (CERTIFICATE) > subjectPublicKeyInfo; encoding=PEM; encrypted=false; end=23:26; charRange=0-1374; byteRange=0-1374"
+          },
+          {
+            "location": "pki/issuing-ca.key",
+            "line": 1,
+            "offset": 0,
+            "symbol": "1.3.132.0.34",
+            "additionalContext": "id=AR-012; relation=direct; role=alg:privateKeyAlgorithm; scenario=A01; scope=PEM block 1 (EC PRIVATE KEY) > algorithm; encoding=PEM; encrypted=false; end=6:29; charRange=0-287; byteRange=0-287"
+          },
+          {
+            "location": "pki/ca-chain.pem",
+            "line": 3,
+            "offset": 0,
+            "symbol": "1.2.840.10045.2.1",
+            "additionalContext": "id=AR-016; relation=direct; role=alg:subjectPublicKeyInfo; scenario=A01; scope=PEM block 1 (CERTIFICATE) > subjectPublicKeyInfo; encoding=PEM; encrypted=false; end=25:26; charRange=122-1496; byteRange=122-1496"
+          },
+          {
+            "location": "pki/fullchain.p7b",
+            "symbol": "1.2.840.10045.2.1",
+            "additionalContext": "id=AR-044; relation=direct; role=alg:subjectPublicKeyInfo; scenario=A02; scope=PKCS#7 certificate 2 > subjectPublicKeyInfo; encoding=PKCS#7 DER; encrypted=false; byteRange=836-1809"
+          },
+          {
+            "location": "keystores/client.p12",
+            "symbol": "1.2.840.10045.2.1",
+            "additionalContext": "id=AR-098; relation=direct; role=alg:subjectPublicKeyInfo; scenario=A09; scope=PKCS#12 encryptedData safe > certBag 2 > subjectPublicKeyInfo; encoding=PKCS#12; encrypted=true; byteRange=172-1888"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "ecdsa-p384"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "5"
+        },
+        {
+          "name": "cbom-corpus:family",
+          "value": "ECDSA"
+        },
+        {
+          "name": "cbom-corpus:standards",
+          "value": "FIPS 186-5; SP 800-186; RFC 5480"
+        },
+        {
+          "name": "cbom-corpus:nist-status",
+          "value": "Approved; quantum-vulnerable (IR 8547)"
+        },
+        {
+          "name": "cbom-corpus:cnsa-2.0",
+          "value": "CNSA 1.0 (P-384); not CNSA 2.0"
+        },
+        {
+          "name": "cbom-corpus:quantum",
+          "value": "Broken by Shor's algorithm on a CRQC"
+        },
+        {
+          "name": "cbom-corpus:note",
+          "value": "subjectPublicKeyInfo algorithm id-ecPublicKey with namedCurve secp384r1 (1.3.132.0.34)."
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/algorithm/sha256-with-rsa",
+      "name": "sha256WithRSAEncryption (RSASSA-PKCS1-v1_5 with SHA-256)",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "signature",
+          "executionEnvironment": "software-plain-ram",
+          "implementationPlatform": "generic",
+          "certificationLevel": [
+            "none"
+          ],
+          "padding": "pkcs1v15"
+        },
+        "oid": "1.2.840.113549.1.1.11"
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "pki/root-ca.crt",
+            "line": 1,
+            "offset": 0,
+            "symbol": "1.2.840.113549.1.1.11",
+            "additionalContext": "id=AR-002; relation=direct; role=alg:signatureAlgorithm; scenario=A01; scope=PEM block 1 (CERTIFICATE) > signatureAlgorithm; encoding=PEM; encrypted=false; end=31:26; charRange=0-1902; byteRange=0-1902"
+          },
+          {
+            "location": "pki/root-ca.crt",
+            "line": 1,
+            "offset": 0,
+            "symbol": "1.2.840.113549.1.1.11",
+            "additionalContext": "id=AR-005; relation=parameter:sha-256; role=alg:signatureAlgorithm; scenario=A01; scope=PEM block 1 (CERTIFICATE) > signatureAlgorithm; encoding=PEM; encrypted=false; end=31:26; charRange=0-1902; byteRange=0-1902"
+          },
+          {
+            "location": "pki/issuing-ca.crt",
+            "line": 1,
+            "offset": 0,
+            "symbol": "1.2.840.113549.1.1.11",
+            "additionalContext": "id=AR-007; relation=direct; role=alg:signatureAlgorithm; scenario=A01; scope=PEM block 1 (CERTIFICATE) > signatureAlgorithm; encoding=PEM; encrypted=false; end=23:26; charRange=0-1374; byteRange=0-1374"
+          },
+          {
+            "location": "pki/issuing-ca.crt",
+            "line": 1,
+            "offset": 0,
+            "symbol": "1.2.840.113549.1.1.11",
+            "additionalContext": "id=AR-010; relation=parameter:sha-256; role=alg:signatureAlgorithm; scenario=A01; scope=PEM block 1 (CERTIFICATE) > signatureAlgorithm; encoding=PEM; encrypted=false; end=23:26; charRange=0-1374; byteRange=0-1374"
+          },
+          {
+            "location": "pki/ca-chain.pem",
+            "line": 3,
+            "offset": 0,
+            "symbol": "1.2.840.113549.1.1.11",
+            "additionalContext": "id=AR-015; relation=direct; role=alg:signatureAlgorithm; scenario=A01; scope=PEM block 1 (CERTIFICATE) > signatureAlgorithm; encoding=PEM; encrypted=false; end=25:26; charRange=122-1496; byteRange=122-1496"
+          },
+          {
+            "location": "pki/ca-chain.pem",
+            "line": 3,
+            "offset": 0,
+            "symbol": "1.2.840.113549.1.1.11",
+            "additionalContext": "id=AR-018; relation=parameter:sha-256; role=alg:signatureAlgorithm; scenario=A01; scope=PEM block 1 (CERTIFICATE) > signatureAlgorithm; encoding=PEM; encrypted=false; end=25:26; charRange=122-1496; byteRange=122-1496"
+          },
+          {
+            "location": "pki/ca-chain.pem",
+            "line": 28,
+            "offset": 0,
+            "symbol": "1.2.840.113549.1.1.11",
+            "additionalContext": "id=AR-020; relation=direct; role=alg:signatureAlgorithm; scenario=A01; scope=PEM block 2 (CERTIFICATE) > signatureAlgorithm; encoding=PEM; encrypted=false; end=58:26; charRange=1616-3518; byteRange=1616-3518"
+          },
+          {
+            "location": "pki/ca-chain.pem",
+            "line": 28,
+            "offset": 0,
+            "symbol": "1.2.840.113549.1.1.11",
+            "additionalContext": "id=AR-023; relation=parameter:sha-256; role=alg:signatureAlgorithm; scenario=A01; scope=PEM block 2 (CERTIFICATE) > signatureAlgorithm; encoding=PEM; encrypted=false; end=58:26; charRange=1616-3518; byteRange=1616-3518"
+          },
+          {
+            "location": "pki/server.csr",
+            "line": 1,
+            "offset": 0,
+            "symbol": "1.2.840.113549.1.1.11",
+            "additionalContext": "id=AR-033; relation=direct; role=alg:signatureAlgorithm; scenario=A02; scope=PEM block 1 (CERTIFICATE REQUEST) > signatureAlgorithm; encoding=PEM; encrypted=false; end=17:34; charRange=0-1044; byteRange=0-1044"
+          },
+          {
+            "location": "pki/server.csr",
+            "line": 1,
+            "offset": 0,
+            "symbol": "1.2.840.113549.1.1.11",
+            "additionalContext": "id=AR-036; relation=parameter:sha-256; role=alg:signatureAlgorithm; scenario=A02; scope=PEM block 1 (CERTIFICATE REQUEST) > signatureAlgorithm; encoding=PEM; encrypted=false; end=17:34; charRange=0-1044; byteRange=0-1044"
+          },
+          {
+            "location": "pki/fullchain.p7b",
+            "symbol": "1.2.840.113549.1.1.11",
+            "additionalContext": "id=AR-043; relation=direct; role=alg:signatureAlgorithm; scenario=A02; scope=PKCS#7 certificate 2 > signatureAlgorithm; encoding=PKCS#7 DER; encrypted=false; byteRange=836-1809"
+          },
+          {
+            "location": "pki/fullchain.p7b",
+            "symbol": "1.2.840.113549.1.1.11",
+            "additionalContext": "id=AR-046; relation=parameter:sha-256; role=alg:signatureAlgorithm; scenario=A02; scope=PKCS#7 certificate 2 > signatureAlgorithm; encoding=PKCS#7 DER; encrypted=false; byteRange=836-1809"
+          },
+          {
+            "location": "pki/fullchain.p7b",
+            "symbol": "1.2.840.113549.1.1.11",
+            "additionalContext": "id=AR-048; relation=direct; role=alg:signatureAlgorithm; scenario=A02; scope=PKCS#7 certificate 3 > signatureAlgorithm; encoding=PKCS#7 DER; encrypted=false; byteRange=1809-3172"
+          },
+          {
+            "location": "pki/fullchain.p7b",
+            "symbol": "1.2.840.113549.1.1.11",
+            "additionalContext": "id=AR-051; relation=parameter:sha-256; role=alg:signatureAlgorithm; scenario=A02; scope=PKCS#7 certificate 3 > signatureAlgorithm; encoding=PKCS#7 DER; encrypted=false; byteRange=1809-3172"
+          },
+          {
+            "location": "keystores/client.p12",
+            "symbol": "1.2.840.113549.1.1.11",
+            "additionalContext": "id=AR-097; relation=direct; role=alg:signatureAlgorithm; scenario=A09; scope=PKCS#12 encryptedData safe > certBag 2 > signatureAlgorithm; encoding=PKCS#12; encrypted=true; byteRange=172-1888"
+          },
+          {
+            "location": "keystores/client.p12",
+            "symbol": "1.2.840.113549.1.1.11",
+            "additionalContext": "id=AR-101; relation=parameter:sha-256; role=alg:signatureAlgorithm; scenario=A09; scope=PKCS#12 encryptedData safe > certBag 2 > signatureAlgorithm; encoding=PKCS#12; encrypted=true; byteRange=172-1888"
+          },
+          {
+            "location": "keystores/truststore.jks",
+            "symbol": "1.2.840.113549.1.1.11",
+            "additionalContext": "id=AR-112; relation=direct; role=alg:signatureAlgorithm; scenario=A10; scope=JKS trustedCertEntry 'cbomfuse-test-root-ca' > signatureAlgorithm; encoding=JKS; encrypted=false; byteRange=58-1421"
+          },
+          {
+            "location": "keystores/truststore.jks",
+            "symbol": "1.2.840.113549.1.1.11",
+            "additionalContext": "id=AR-115; relation=parameter:sha-256; role=alg:signatureAlgorithm; scenario=A10; scope=JKS trustedCertEntry 'cbomfuse-test-root-ca' > signatureAlgorithm; encoding=JKS; encrypted=false; byteRange=58-1421"
+          },
+          {
+            "location": "keystores/truststore.jks",
+            "symbol": "1.2.840.113549.1.1.11",
+            "additionalContext": "id=AR-117; relation=direct; role=alg:signatureAlgorithm; scenario=A10; scope=JKS trustedCertEntry 'cbomfuse-partner-root-ca' > signatureAlgorithm; encoding=JKS; encrypted=false; byteRange=1470-2325"
+          },
+          {
+            "location": "keystores/truststore.jks",
+            "symbol": "1.2.840.113549.1.1.11",
+            "additionalContext": "id=AR-120; relation=parameter:sha-256; role=alg:signatureAlgorithm; scenario=A10; scope=JKS trustedCertEntry 'cbomfuse-partner-root-ca' > signatureAlgorithm; encoding=JKS; encrypted=false; byteRange=1470-2325"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "sha256-with-rsa"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "20"
+        },
+        {
+          "name": "cbom-corpus:family",
+          "value": "RSA"
+        },
+        {
+          "name": "cbom-corpus:standards",
+          "value": "RFC 8017; RFC 4055; FIPS 186-5"
+        },
+        {
+          "name": "cbom-corpus:nist-status",
+          "value": "Approved; quantum-vulnerable (IR 8547)"
+        },
+        {
+          "name": "cbom-corpus:cnsa-2.0",
+          "value": "Not CNSA 2.0"
+        },
+        {
+          "name": "cbom-corpus:quantum",
+          "value": "Broken by Shor's algorithm on a CRQC"
+        },
+        {
+          "name": "cbom-corpus:note",
+          "value": "X.509 signature algorithm; its strength is that of the signer's RSA key."
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/algorithm/sha1-with-rsa",
+      "name": "sha1WithRSAEncryption (RSASSA-PKCS1-v1_5 with SHA-1)",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "signature",
+          "executionEnvironment": "software-plain-ram",
+          "implementationPlatform": "generic",
+          "certificationLevel": [
+            "none"
+          ],
+          "padding": "pkcs1v15",
+          "classicalSecurityLevel": 63,
+          "nistQuantumSecurityLevel": 0
+        },
+        "oid": "1.2.840.113549.1.1.5"
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "pki/legacy-sha1.cer",
+            "symbol": "1.2.840.113549.1.1.5",
+            "additionalContext": "id=AR-064; relation=direct; role=alg:signatureAlgorithm; scenario=A05; scope=DER file > signatureAlgorithm; encoding=DER; encrypted=false; byteRange=0-598"
+          },
+          {
+            "location": "pki/legacy-sha1.cer",
+            "symbol": "1.2.840.113549.1.1.5",
+            "additionalContext": "id=AR-067; relation=parameter:sha-1; role=alg:signatureAlgorithm; scenario=A05; scope=DER file > signatureAlgorithm; encoding=DER; encrypted=false; byteRange=0-598"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "sha1-with-rsa"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "2"
+        },
+        {
+          "name": "cbom-corpus:family",
+          "value": "RSA"
+        },
+        {
+          "name": "cbom-corpus:standards",
+          "value": "RFC 8017; RFC 3279"
+        },
+        {
+          "name": "cbom-corpus:nist-status",
+          "value": "Disallowed for signature generation (SP 800-131A r2)"
+        },
+        {
+          "name": "cbom-corpus:cnsa-2.0",
+          "value": "Not CNSA 2.0"
+        },
+        {
+          "name": "cbom-corpus:quantum",
+          "value": "Already broken classically (SHA-1 chosen-prefix collisions)"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/algorithm/ecdsa-with-sha384",
+      "name": "ecdsa-with-SHA384",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "signature",
+          "executionEnvironment": "software-plain-ram",
+          "implementationPlatform": "generic",
+          "certificationLevel": [
+            "none"
+          ]
+        },
+        "oid": "1.2.840.10045.4.3.3"
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "pki/server.crt",
+            "line": 1,
+            "offset": 0,
+            "symbol": "1.2.840.10045.4.3.3",
+            "additionalContext": "id=AR-025; relation=direct; role=alg:signatureAlgorithm; scenario=A02; scope=PEM block 1 (CERTIFICATE) > signatureAlgorithm; encoding=PEM; encrypted=false; end=19:26; charRange=0-1126; byteRange=0-1126"
+          },
+          {
+            "location": "pki/server.crt",
+            "line": 1,
+            "offset": 0,
+            "symbol": "1.2.840.10045.4.3.3",
+            "additionalContext": "id=AR-028; relation=parameter:sha-384; role=alg:signatureAlgorithm; scenario=A02; scope=PEM block 1 (CERTIFICATE) > signatureAlgorithm; encoding=PEM; encrypted=false; end=19:26; charRange=0-1126; byteRange=0-1126"
+          },
+          {
+            "location": "pki/fullchain.p7b",
+            "symbol": "1.2.840.10045.4.3.3",
+            "additionalContext": "id=AR-038; relation=direct; role=alg:signatureAlgorithm; scenario=A02; scope=PKCS#7 certificate 1 > signatureAlgorithm; encoding=PKCS#7 DER; encrypted=false; byteRange=45-836"
+          },
+          {
+            "location": "pki/fullchain.p7b",
+            "symbol": "1.2.840.10045.4.3.3",
+            "additionalContext": "id=AR-041; relation=parameter:sha-384; role=alg:signatureAlgorithm; scenario=A02; scope=PKCS#7 certificate 1 > signatureAlgorithm; encoding=PKCS#7 DER; encrypted=false; byteRange=45-836"
+          },
+          {
+            "location": "pki/api.der",
+            "symbol": "1.2.840.10045.4.3.3",
+            "additionalContext": "id=AR-053; relation=direct; role=alg:signatureAlgorithm; scenario=A03; scope=DER file > signatureAlgorithm; encoding=DER; encrypted=false; byteRange=0-583"
+          },
+          {
+            "location": "pki/api.der",
+            "symbol": "1.2.840.10045.4.3.3",
+            "additionalContext": "id=AR-056; relation=parameter:sha-384; role=alg:signatureAlgorithm; scenario=A03; scope=DER file > signatureAlgorithm; encoding=DER; encrypted=false; byteRange=0-583"
+          },
+          {
+            "location": "pki/issuing-ca.crl",
+            "line": 1,
+            "offset": 0,
+            "symbol": "1.2.840.10045.4.3.3",
+            "additionalContext": "id=AR-061; relation=direct; role=alg:signatureAlgorithm; scenario=A04; scope=PEM block 1 (X509 CRL) > signatureAlgorithm; encoding=PEM; encrypted=false; end=9:23; charRange=0-502; byteRange=0-502"
+          },
+          {
+            "location": "pki/issuing-ca.crl",
+            "line": 1,
+            "offset": 0,
+            "symbol": "1.2.840.10045.4.3.3",
+            "additionalContext": "id=AR-062; relation=parameter:sha-384; role=alg:signatureAlgorithm; scenario=A04; scope=PEM block 1 (X509 CRL) > signatureAlgorithm; encoding=PEM; encrypted=false; end=9:23; charRange=0-502; byteRange=0-502"
+          },
+          {
+            "location": "keystores/client.p12",
+            "symbol": "1.2.840.10045.4.3.3",
+            "additionalContext": "id=AR-094; relation=direct; role=alg:signatureAlgorithm; scenario=A09; scope=PKCS#12 encryptedData safe > certBag 1 > signatureAlgorithm; encoding=PKCS#12; encrypted=true; byteRange=172-1888"
+          },
+          {
+            "location": "keystores/client.p12",
+            "symbol": "1.2.840.10045.4.3.3",
+            "additionalContext": "id=AR-100; relation=parameter:sha-384; role=alg:signatureAlgorithm; scenario=A09; scope=PKCS#12 encryptedData safe > certBag 1 > signatureAlgorithm; encoding=PKCS#12; encrypted=true; byteRange=172-1888"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "ecdsa-with-sha384"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "10"
+        },
+        {
+          "name": "cbom-corpus:family",
+          "value": "ECDSA"
+        },
+        {
+          "name": "cbom-corpus:standards",
+          "value": "FIPS 186-5; RFC 5758"
+        },
+        {
+          "name": "cbom-corpus:nist-status",
+          "value": "Approved; quantum-vulnerable (IR 8547)"
+        },
+        {
+          "name": "cbom-corpus:cnsa-2.0",
+          "value": "CNSA 1.0 with P-384; not CNSA 2.0"
+        },
+        {
+          "name": "cbom-corpus:quantum",
+          "value": "Broken by Shor's algorithm on a CRQC"
+        },
+        {
+          "name": "cbom-corpus:note",
+          "value": "X.509 signature algorithm; the curve is that of the signer's key."
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/algorithm/x25519mlkem768",
+      "name": "X25519MLKEM768 hybrid key exchange",
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "kem",
+          "parameterSetIdentifier": "768",
+          "curve": "curve25519",
+          "executionEnvironment": "software-plain-ram",
+          "implementationPlatform": "generic",
+          "certificationLevel": [
+            "none"
+          ],
+          "classicalSecurityLevel": 192,
+          "nistQuantumSecurityLevel": 3
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "tls/openssl.cnf",
+            "line": 16,
+            "offset": 9,
+            "symbol": "X25519MLKEM768",
+            "additionalContext": "id=AR-138; relation=direct; role=alg:group; scenario=A13; scope=[system_default_sect] Groups > X25519MLKEM768; encoding=text; encrypted=false; end=16:24; charRange=497-511; byteRange=497-511"
+          },
+          {
+            "location": "tls/openssl.cnf",
+            "line": 16,
+            "offset": 9,
+            "symbol": "X25519MLKEM768",
+            "additionalContext": "id=AR-139; relation=parameter:ml-kem-768; role=alg:group; scenario=A13; scope=[system_default_sect] Groups > X25519MLKEM768; encoding=text; encrypted=false; end=16:24; charRange=497-511; byteRange=497-511"
+          },
+          {
+            "location": "tls/openssl.cnf",
+            "line": 16,
+            "offset": 9,
+            "symbol": "X25519MLKEM768",
+            "additionalContext": "id=AR-140; relation=parameter:x25519; role=alg:group; scenario=A13; scope=[system_default_sect] Groups > X25519MLKEM768; encoding=text; encrypted=false; end=16:24; charRange=497-511; byteRange=497-511"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "x25519mlkem768"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "3"
+        },
+        {
+          "name": "cbom-corpus:family",
+          "value": "ML-KEM"
+        },
+        {
+          "name": "cbom-corpus:standards",
+          "value": "draft-ietf-tls-ecdhe-mlkem; FIPS 203; RFC 7748"
+        },
+        {
+          "name": "cbom-corpus:nist-status",
+          "value": "ML-KEM-768 Approved (FIPS 203); the X25519 component is not NIST-approved"
+        },
+        {
+          "name": "cbom-corpus:cnsa-2.0",
+          "value": "Not CNSA 2.0 (ML-KEM-1024 required)"
+        },
+        {
+          "name": "cbom-corpus:quantum",
+          "value": "Resists a CRQC as long as ML-KEM-768 does (hybrid)"
+        },
+        {
+          "name": "cbom-corpus:note",
+          "value": "TLS NamedGroup 0x11EC: the ML-KEM-768 and X25519 shared secrets are concatenated."
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/certificate/root-ca",
+      "name": "CBOMFuse Test Root CA",
+      "cryptoProperties": {
+        "assetType": "certificate",
+        "certificateProperties": {
+          "subjectName": "CN=CBOMFuse Test Root CA,O=CBOMFuse Baseline,C=CA",
+          "issuerName": "CN=CBOMFuse Test Root CA,O=CBOMFuse Baseline,C=CA",
+          "notValidBefore": "2026-01-01T00:00:00Z",
+          "notValidAfter": "2046-01-01T00:00:00Z",
+          "signatureAlgorithmRef": "crypto/algorithm/sha256-with-rsa",
+          "subjectPublicKeyRef": "crypto/related-crypto-material/root-ca-public-key",
+          "certificateFormat": "X.509"
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "pki/root-ca.crt",
+            "line": 1,
+            "offset": 0,
+            "symbol": "CERTIFICATE",
+            "additionalContext": "id=AR-001; relation=direct; role=obj:x509; scenario=A01; scope=PEM block 1 (CERTIFICATE); encoding=PEM; encrypted=false; end=31:26; charRange=0-1902; byteRange=0-1902"
+          },
+          {
+            "location": "pki/ca-chain.pem",
+            "line": 28,
+            "offset": 0,
+            "symbol": "CERTIFICATE",
+            "additionalContext": "id=AR-019; relation=direct; role=obj:x509; scenario=A01; scope=PEM block 2 (CERTIFICATE); encoding=PEM; encrypted=false; end=58:26; charRange=1616-3518; byteRange=1616-3518"
+          },
+          {
+            "location": "pki/fullchain.p7b",
+            "symbol": "certificates",
+            "additionalContext": "id=AR-047; relation=direct; role=obj:x509; scenario=A02; scope=PKCS#7 certificate 3; encoding=PKCS#7 DER; encrypted=false; byteRange=1809-3172"
+          },
+          {
+            "location": "keystores/truststore.jks",
+            "symbol": "cbomfuse-test-root-ca",
+            "additionalContext": "id=AR-111; relation=direct; role=obj:x509; scenario=A10; scope=JKS trustedCertEntry 'cbomfuse-test-root-ca'; encoding=JKS; encrypted=false; byteRange=58-1421"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "cert.root-ca"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "4"
+        },
+        {
+          "name": "cbom-corpus:serial",
+          "value": "0x1"
+        },
+        {
+          "name": "cbom-corpus:fingerprint-sha256",
+          "value": "1db0a2221276b4cf5eddb65285f13234ffb44f081b188936d0503cf9604b2938"
+        },
+        {
+          "name": "cbom-corpus:issuer",
+          "value": "crypto/certificate/root-ca"
+        },
+        {
+          "name": "cbom-corpus:extensions",
+          "value": "basicConstraints (critical); keyUsage (critical); subjectKeyIdentifier"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/certificate/issuing-ca",
+      "name": "CBOMFuse Test Issuing CA",
+      "cryptoProperties": {
+        "assetType": "certificate",
+        "certificateProperties": {
+          "subjectName": "CN=CBOMFuse Test Issuing CA,O=CBOMFuse Baseline,C=CA",
+          "issuerName": "CN=CBOMFuse Test Root CA,O=CBOMFuse Baseline,C=CA",
+          "notValidBefore": "2026-01-01T00:00:00Z",
+          "notValidAfter": "2036-01-01T00:00:00Z",
+          "signatureAlgorithmRef": "crypto/algorithm/sha256-with-rsa",
+          "subjectPublicKeyRef": "crypto/related-crypto-material/issuing-ca-public-key",
+          "certificateFormat": "X.509"
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "pki/issuing-ca.crt",
+            "line": 1,
+            "offset": 0,
+            "symbol": "CERTIFICATE",
+            "additionalContext": "id=AR-006; relation=direct; role=obj:x509; scenario=A01; scope=PEM block 1 (CERTIFICATE); encoding=PEM; encrypted=false; end=23:26; charRange=0-1374; byteRange=0-1374"
+          },
+          {
+            "location": "pki/ca-chain.pem",
+            "line": 3,
+            "offset": 0,
+            "symbol": "CERTIFICATE",
+            "additionalContext": "id=AR-014; relation=direct; role=obj:x509; scenario=A01; scope=PEM block 1 (CERTIFICATE); encoding=PEM; encrypted=false; end=25:26; charRange=122-1496; byteRange=122-1496"
+          },
+          {
+            "location": "pki/fullchain.p7b",
+            "symbol": "certificates",
+            "additionalContext": "id=AR-042; relation=direct; role=obj:x509; scenario=A02; scope=PKCS#7 certificate 2; encoding=PKCS#7 DER; encrypted=false; byteRange=836-1809"
+          },
+          {
+            "location": "keystores/client.p12",
+            "symbol": "certBag",
+            "additionalContext": "id=AR-093; relation=direct; role=obj:x509; scenario=A09; scope=PKCS#12 encryptedData safe > certBag 2; encoding=PKCS#12; encrypted=true; byteRange=172-1888"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "cert.issuing-ca"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "4"
+        },
+        {
+          "name": "cbom-corpus:serial",
+          "value": "0x1000"
+        },
+        {
+          "name": "cbom-corpus:fingerprint-sha256",
+          "value": "3ed6a695fc0b52ee4d68e4330b2228015d5f0c2df6f8e66f2b9473851770598c"
+        },
+        {
+          "name": "cbom-corpus:issuer",
+          "value": "crypto/certificate/root-ca"
+        },
+        {
+          "name": "cbom-corpus:extensions",
+          "value": "basicConstraints (critical); keyUsage (critical); subjectKeyIdentifier; authorityKeyIdentifier"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/certificate/server",
+      "name": "server.cbom-corpus.example",
+      "cryptoProperties": {
+        "assetType": "certificate",
+        "certificateProperties": {
+          "subjectName": "CN=server.cbom-corpus.example,O=CBOMFuse Baseline,C=CA",
+          "issuerName": "CN=CBOMFuse Test Issuing CA,O=CBOMFuse Baseline,C=CA",
+          "notValidBefore": "2026-01-01T00:00:00Z",
+          "notValidAfter": "2028-01-01T00:00:00Z",
+          "signatureAlgorithmRef": "crypto/algorithm/ecdsa-with-sha384",
+          "subjectPublicKeyRef": "crypto/related-crypto-material/server-public-key",
+          "certificateFormat": "X.509"
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "pki/server.crt",
+            "line": 1,
+            "offset": 0,
+            "symbol": "CERTIFICATE",
+            "additionalContext": "id=AR-024; relation=direct; role=obj:x509; scenario=A02; scope=PEM block 1 (CERTIFICATE); encoding=PEM; encrypted=false; end=19:26; charRange=0-1126; byteRange=0-1126"
+          },
+          {
+            "location": "pki/fullchain.p7b",
+            "symbol": "certificates",
+            "additionalContext": "id=AR-037; relation=direct; role=obj:x509; scenario=A02; scope=PKCS#7 certificate 1; encoding=PKCS#7 DER; encrypted=false; byteRange=45-836"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "cert.server"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "2"
+        },
+        {
+          "name": "cbom-corpus:serial",
+          "value": "0x2001"
+        },
+        {
+          "name": "cbom-corpus:fingerprint-sha256",
+          "value": "2066b075bb3abd7f81f1bfb0ae56204ec813e2d43daa40778462bdea2bf04ea0"
+        },
+        {
+          "name": "cbom-corpus:issuer",
+          "value": "crypto/certificate/issuing-ca"
+        },
+        {
+          "name": "cbom-corpus:extensions",
+          "value": "basicConstraints (critical); keyUsage (critical); subjectKeyIdentifier; authorityKeyIdentifier; extendedKeyUsage; subjectAltName"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/certificate/api",
+      "name": "api.cbom-corpus.example",
+      "cryptoProperties": {
+        "assetType": "certificate",
+        "certificateProperties": {
+          "subjectName": "CN=api.cbom-corpus.example,O=CBOMFuse Baseline,C=CA",
+          "issuerName": "CN=CBOMFuse Test Issuing CA,O=CBOMFuse Baseline,C=CA",
+          "notValidBefore": "2026-01-01T00:00:00Z",
+          "notValidAfter": "2028-01-01T00:00:00Z",
+          "signatureAlgorithmRef": "crypto/algorithm/ecdsa-with-sha384",
+          "subjectPublicKeyRef": "crypto/related-crypto-material/api-public-key",
+          "certificateFormat": "X.509"
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "pki/api.der",
+            "symbol": "Certificate",
+            "additionalContext": "id=AR-052; relation=direct; role=obj:x509; scenario=A03; scope=DER file; encoding=DER; encrypted=false; byteRange=0-583"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "cert.api"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "1"
+        },
+        {
+          "name": "cbom-corpus:serial",
+          "value": "0x2002"
+        },
+        {
+          "name": "cbom-corpus:fingerprint-sha256",
+          "value": "4829f6a35164c9ba47494a7c3646c580dd64627dd451ed4ea4c52acd544d2fc9"
+        },
+        {
+          "name": "cbom-corpus:issuer",
+          "value": "crypto/certificate/issuing-ca"
+        },
+        {
+          "name": "cbom-corpus:extensions",
+          "value": "basicConstraints (critical); keyUsage (critical); subjectKeyIdentifier; authorityKeyIdentifier; extendedKeyUsage; subjectAltName"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/certificate/client",
+      "name": "svc-reporting",
+      "cryptoProperties": {
+        "assetType": "certificate",
+        "certificateProperties": {
+          "subjectName": "CN=svc-reporting,OU=Service Accounts,O=CBOMFuse Baseline,C=CA",
+          "issuerName": "CN=CBOMFuse Test Issuing CA,O=CBOMFuse Baseline,C=CA",
+          "notValidBefore": "2026-01-01T00:00:00Z",
+          "notValidAfter": "2028-01-01T00:00:00Z",
+          "signatureAlgorithmRef": "crypto/algorithm/ecdsa-with-sha384",
+          "subjectPublicKeyRef": "crypto/related-crypto-material/client-public-key",
+          "certificateFormat": "X.509"
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "keystores/client.p12",
+            "symbol": "certBag",
+            "additionalContext": "id=AR-092; relation=direct; role=obj:x509; scenario=A09; scope=PKCS#12 encryptedData safe > certBag 1; encoding=PKCS#12; encrypted=true; byteRange=172-1888"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "cert.client"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "1"
+        },
+        {
+          "name": "cbom-corpus:serial",
+          "value": "0x2003"
+        },
+        {
+          "name": "cbom-corpus:fingerprint-sha256",
+          "value": "7e6bf9af004ae33e1ca6df20f40bd6640198af976f1863ca19fdf423a26e8323"
+        },
+        {
+          "name": "cbom-corpus:issuer",
+          "value": "crypto/certificate/issuing-ca"
+        },
+        {
+          "name": "cbom-corpus:extensions",
+          "value": "basicConstraints (critical); keyUsage (critical); subjectKeyIdentifier; authorityKeyIdentifier; extendedKeyUsage"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/certificate/device",
+      "name": "device-42.cbom-corpus.example",
+      "cryptoProperties": {
+        "assetType": "certificate",
+        "certificateProperties": {
+          "subjectName": "CN=device-42.cbom-corpus.example,O=CBOMFuse Baseline,C=CA",
+          "issuerName": "CN=device-42.cbom-corpus.example,O=CBOMFuse Baseline,C=CA",
+          "notValidBefore": "2026-01-01T00:00:00Z",
+          "notValidAfter": "2031-01-01T00:00:00Z",
+          "signatureAlgorithmRef": "crypto/algorithm/ed25519",
+          "subjectPublicKeyRef": "crypto/related-crypto-material/device-public-key",
+          "certificateFormat": "X.509"
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "pki/device-ed25519.crt",
+            "line": 1,
+            "offset": 0,
+            "symbol": "CERTIFICATE",
+            "additionalContext": "id=AR-068; relation=direct; role=obj:x509; scenario=A06; scope=PEM block 1 (CERTIFICATE); encoding=PEM; encrypted=false; end=12:26; charRange=0-659; byteRange=0-659"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "cert.device"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "1"
+        },
+        {
+          "name": "cbom-corpus:serial",
+          "value": "0x3001"
+        },
+        {
+          "name": "cbom-corpus:fingerprint-sha256",
+          "value": "1c10c70220a903a5121b5963ce67eeb08457748f932dff0da498ba9142c14c41"
+        },
+        {
+          "name": "cbom-corpus:issuer",
+          "value": "crypto/certificate/device"
+        },
+        {
+          "name": "cbom-corpus:extensions",
+          "value": "basicConstraints (critical); keyUsage (critical); subjectKeyIdentifier; subjectAltName"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/certificate/legacy",
+      "name": "legacy.cbom-corpus.example",
+      "cryptoProperties": {
+        "assetType": "certificate",
+        "certificateProperties": {
+          "subjectName": "CN=legacy.cbom-corpus.example,O=CBOMFuse Baseline,C=CA",
+          "issuerName": "CN=legacy.cbom-corpus.example,O=CBOMFuse Baseline,C=CA",
+          "notValidBefore": "2016-01-01T00:00:00Z",
+          "notValidAfter": "2036-01-01T00:00:00Z",
+          "signatureAlgorithmRef": "crypto/algorithm/sha1-with-rsa",
+          "subjectPublicKeyRef": "crypto/related-crypto-material/legacy-public-key",
+          "certificateFormat": "X.509"
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "pki/legacy-sha1.cer",
+            "symbol": "Certificate",
+            "additionalContext": "id=AR-063; relation=direct; role=obj:x509; scenario=A05; scope=DER file; encoding=DER; encrypted=false; byteRange=0-598"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "cert.legacy"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "1"
+        },
+        {
+          "name": "cbom-corpus:serial",
+          "value": "0x1999"
+        },
+        {
+          "name": "cbom-corpus:fingerprint-sha256",
+          "value": "e0e6c46367192026c03648bb525728730360e0200654892b927151b10d4fa7e8"
+        },
+        {
+          "name": "cbom-corpus:issuer",
+          "value": "crypto/certificate/legacy"
+        },
+        {
+          "name": "cbom-corpus:extensions",
+          "value": "basicConstraints (critical); keyUsage (critical); subjectKeyIdentifier"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/certificate/partner-ca",
+      "name": "CBOMFuse Partner Root CA",
+      "cryptoProperties": {
+        "assetType": "certificate",
+        "certificateProperties": {
+          "subjectName": "CN=CBOMFuse Partner Root CA,O=CBOMFuse Partner,C=CA",
+          "issuerName": "CN=CBOMFuse Partner Root CA,O=CBOMFuse Partner,C=CA",
+          "notValidBefore": "2026-01-01T00:00:00Z",
+          "notValidAfter": "2041-01-01T00:00:00Z",
+          "signatureAlgorithmRef": "crypto/algorithm/sha256-with-rsa",
+          "subjectPublicKeyRef": "crypto/related-crypto-material/partner-ca-public-key",
+          "certificateFormat": "X.509"
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "keystores/truststore.jks",
+            "symbol": "cbomfuse-partner-root-ca",
+            "additionalContext": "id=AR-116; relation=direct; role=obj:x509; scenario=A10; scope=JKS trustedCertEntry 'cbomfuse-partner-root-ca'; encoding=JKS; encrypted=false; byteRange=1470-2325"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "cert.partner-ca"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "1"
+        },
+        {
+          "name": "cbom-corpus:serial",
+          "value": "0x50"
+        },
+        {
+          "name": "cbom-corpus:fingerprint-sha256",
+          "value": "9e35c02326726178891f4b4ea6ea93f0fc8fb1024193646caa55dd672bc38745"
+        },
+        {
+          "name": "cbom-corpus:issuer",
+          "value": "crypto/certificate/partner-ca"
+        },
+        {
+          "name": "cbom-corpus:extensions",
+          "value": "basicConstraints (critical); keyUsage (critical); subjectKeyIdentifier"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/certificate/pq-root-ca",
+      "name": "CBOMFuse PQC Test Root CA",
+      "cryptoProperties": {
+        "assetType": "certificate",
+        "certificateProperties": {
+          "subjectName": "CN=CBOMFuse PQC Test Root CA,O=CBOMFuse Baseline,C=CA",
+          "issuerName": "CN=CBOMFuse PQC Test Root CA,O=CBOMFuse Baseline,C=CA",
+          "notValidBefore": "2026-01-01T00:00:00Z",
+          "notValidAfter": "2041-01-01T00:00:00Z",
+          "signatureAlgorithmRef": "crypto/algorithm/ml-dsa-65",
+          "subjectPublicKeyRef": "crypto/related-crypto-material/pq-root-public-key",
+          "certificateFormat": "X.509"
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "pqc/pq-root-ca.crt",
+            "line": 1,
+            "offset": 0,
+            "symbol": "CERTIFICATE",
+            "additionalContext": "id=AR-142; relation=direct; role=obj:x509; scenario=A14; scope=PEM block 1 (CERTIFICATE); encoding=PEM; encrypted=false; end=119:26; charRange=0-7622; byteRange=0-7622"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "cert.pq-root-ca"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "1"
+        },
+        {
+          "name": "cbom-corpus:serial",
+          "value": "0x7001"
+        },
+        {
+          "name": "cbom-corpus:fingerprint-sha256",
+          "value": "11c12cdc794b1bacb82e17af76d5b8d16c6bf5203ecbe951f865118c3c7e7b49"
+        },
+        {
+          "name": "cbom-corpus:issuer",
+          "value": "crypto/certificate/pq-root-ca"
+        },
+        {
+          "name": "cbom-corpus:extensions",
+          "value": "basicConstraints (critical); keyUsage (critical); subjectKeyIdentifier"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/certificate/kem-endpoint",
+      "name": "kem.cbom-corpus.example",
+      "cryptoProperties": {
+        "assetType": "certificate",
+        "certificateProperties": {
+          "subjectName": "CN=kem.cbom-corpus.example,O=CBOMFuse Baseline,C=CA",
+          "issuerName": "CN=CBOMFuse PQC Test Root CA,O=CBOMFuse Baseline,C=CA",
+          "notValidBefore": "2026-01-01T00:00:00Z",
+          "notValidAfter": "2028-01-01T00:00:00Z",
+          "signatureAlgorithmRef": "crypto/algorithm/ml-dsa-65",
+          "subjectPublicKeyRef": "crypto/related-crypto-material/kem-endpoint-public-key",
+          "certificateFormat": "X.509"
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "pqc/kem-endpoint.crt",
+            "line": 1,
+            "offset": 0,
+            "symbol": "CERTIFICATE",
+            "additionalContext": "id=AR-148; relation=direct; role=obj:x509; scenario=A14; scope=PEM block 1 (CERTIFICATE); encoding=PEM; encrypted=false; end=104:26; charRange=0-6671; byteRange=0-6671"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "cert.kem-endpoint"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "1"
+        },
+        {
+          "name": "cbom-corpus:serial",
+          "value": "0x7002"
+        },
+        {
+          "name": "cbom-corpus:fingerprint-sha256",
+          "value": "ef21269eb3a546b754971cbbe33699ef2ffde95d9dc404ef5ea79f4e6c5f0e71"
+        },
+        {
+          "name": "cbom-corpus:issuer",
+          "value": "crypto/certificate/pq-root-ca"
+        },
+        {
+          "name": "cbom-corpus:extensions",
+          "value": "basicConstraints (critical); keyUsage (critical); subjectKeyIdentifier; authorityKeyIdentifier; subjectAltName"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/protocol/tls13-openssl",
+      "name": "TLS 1.3 system defaults (OpenSSL configuration)",
+      "cryptoProperties": {
+        "assetType": "protocol",
+        "protocolProperties": {
+          "type": "tls",
+          "version": "1.3",
+          "cipherSuites": [
+            {
+              "name": "TLS_AES_256_GCM_SHA384",
+              "algorithms": [
+                "crypto/algorithm/aes-256-gcm",
+                "crypto/algorithm/sha-384"
+              ],
+              "identifiers": [
+                "0x13",
+                "0x02"
+              ]
+            },
+            {
+              "name": "TLS_CHACHA20_POLY1305_SHA256",
+              "algorithms": [
+                "crypto/algorithm/chacha20-poly1305",
+                "crypto/algorithm/sha-256"
+              ],
+              "identifiers": [
+                "0x13",
+                "0x03"
+              ]
+            }
+          ],
+          "cryptoRefArray": [
+            "crypto/algorithm/x25519mlkem768",
+            "crypto/algorithm/x25519"
+          ]
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "tls/openssl.cnf",
+            "line": 13,
+            "offset": 14,
+            "symbol": "MinProtocol",
+            "additionalContext": "id=AR-130; relation=direct; role=cfg:MinProtocol; scenario=A13; scope=[system_default_sect] MinProtocol; encoding=text; encrypted=false; end=13:22; charRange=391-398; byteRange=391-398"
+          },
+          {
+            "location": "tls/openssl.cnf",
+            "line": 14,
+            "offset": 14,
+            "symbol": "MaxProtocol",
+            "additionalContext": "id=AR-131; relation=direct; role=cfg:MaxProtocol; scenario=A13; scope=[system_default_sect] MaxProtocol; encoding=text; encrypted=false; end=14:22; charRange=413-420; byteRange=413-420"
+          },
+          {
+            "location": "tls/openssl.cnf",
+            "line": 15,
+            "offset": 15,
+            "symbol": "Ciphersuites",
+            "additionalContext": "id=AR-132; relation=direct; role=cfg:Ciphersuites; scenario=A13; scope=[system_default_sect] Ciphersuites; encoding=text; encrypted=false; end=15:67; charRange=436-487; byteRange=436-487"
+          },
+          {
+            "location": "tls/openssl.cnf",
+            "line": 15,
+            "offset": 15,
+            "symbol": "TLS_AES_256_GCM_SHA384",
+            "additionalContext": "id=AR-133; relation=parameter:aes-256-gcm; role=alg:cipher-suite; scenario=A13; scope=[system_default_sect] Ciphersuites > TLS_AES_256_GCM_SHA384; encoding=text; encrypted=false; end=15:38; charRange=436-458; byteRange=436-458"
+          },
+          {
+            "location": "tls/openssl.cnf",
+            "line": 15,
+            "offset": 15,
+            "symbol": "TLS_AES_256_GCM_SHA384",
+            "additionalContext": "id=AR-134; relation=parameter:sha-384; role=alg:cipher-suite; scenario=A13; scope=[system_default_sect] Ciphersuites > TLS_AES_256_GCM_SHA384; encoding=text; encrypted=false; end=15:38; charRange=436-458; byteRange=436-458"
+          },
+          {
+            "location": "tls/openssl.cnf",
+            "line": 15,
+            "offset": 38,
+            "symbol": "TLS_CHACHA20_POLY1305_SHA256",
+            "additionalContext": "id=AR-135; relation=parameter:chacha20-poly1305; role=alg:cipher-suite; scenario=A13; scope=[system_default_sect] Ciphersuites > TLS_CHACHA20_POLY1305_SHA256; encoding=text; encrypted=false; end=15:67; charRange=459-487; byteRange=459-487"
+          },
+          {
+            "location": "tls/openssl.cnf",
+            "line": 15,
+            "offset": 38,
+            "symbol": "TLS_CHACHA20_POLY1305_SHA256",
+            "additionalContext": "id=AR-136; relation=parameter:sha-256; role=alg:cipher-suite; scenario=A13; scope=[system_default_sect] Ciphersuites > TLS_CHACHA20_POLY1305_SHA256; encoding=text; encrypted=false; end=15:67; charRange=459-487; byteRange=459-487"
+          },
+          {
+            "location": "tls/openssl.cnf",
+            "line": 16,
+            "offset": 9,
+            "symbol": "Groups",
+            "additionalContext": "id=AR-137; relation=direct; role=cfg:Groups; scenario=A13; scope=[system_default_sect] Groups; encoding=text; encrypted=false; end=16:31; charRange=497-518; byteRange=497-518"
+          },
+          {
+            "location": "tls/openssl.cnf",
+            "line": 16,
+            "offset": 9,
+            "symbol": "X25519MLKEM768",
+            "additionalContext": "id=AR-138; relation=parameter:x25519mlkem768; role=alg:group; scenario=A13; scope=[system_default_sect] Groups > X25519MLKEM768; encoding=text; encrypted=false; end=16:24; charRange=497-511; byteRange=497-511"
+          },
+          {
+            "location": "tls/openssl.cnf",
+            "line": 16,
+            "offset": 24,
+            "symbol": "X25519",
+            "additionalContext": "id=AR-141; relation=parameter:x25519; role=alg:group; scenario=A13; scope=[system_default_sect] Groups > X25519; encoding=text; encrypted=false; end=16:31; charRange=512-518; byteRange=512-518"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "tls13-openssl"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "10"
+        },
+        {
+          "name": "cbom-corpus:note",
+          "value": "MinProtocol = MaxProtocol = TLSv1.3. Groups lists the hybrid X25519MLKEM768 first, then X25519; signature algorithms are left at the OpenSSL defaults and are not recorded."
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/related-crypto-material/root-ca-public-key",
+      "name": "Root CA public key (RSA-4096)",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "public-key",
+          "id": "m.root-ca-public-key",
+          "state": "active",
+          "algorithmRef": "crypto/algorithm/rsa-4096",
+          "size": 4096
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "pki/root-ca.crt",
+            "line": 1,
+            "offset": 0,
+            "symbol": "subjectPublicKeyInfo",
+            "additionalContext": "id=AR-004; relation=direct; role=obj:spki; scenario=A01; scope=PEM block 1 (CERTIFICATE) > subjectPublicKeyInfo; encoding=PEM; encrypted=false; end=31:26; charRange=0-1902; byteRange=0-1902"
+          },
+          {
+            "location": "pki/ca-chain.pem",
+            "line": 28,
+            "offset": 0,
+            "symbol": "subjectPublicKeyInfo",
+            "additionalContext": "id=AR-022; relation=direct; role=obj:spki; scenario=A01; scope=PEM block 2 (CERTIFICATE) > subjectPublicKeyInfo; encoding=PEM; encrypted=false; end=58:26; charRange=1616-3518; byteRange=1616-3518"
+          },
+          {
+            "location": "pki/fullchain.p7b",
+            "symbol": "subjectPublicKeyInfo",
+            "additionalContext": "id=AR-050; relation=direct; role=obj:spki; scenario=A02; scope=PKCS#7 certificate 3 > subjectPublicKeyInfo; encoding=PKCS#7 DER; encrypted=false; byteRange=1809-3172"
+          },
+          {
+            "location": "keystores/truststore.jks",
+            "symbol": "subjectPublicKeyInfo",
+            "additionalContext": "id=AR-114; relation=direct; role=obj:spki; scenario=A10; scope=JKS trustedCertEntry 'cbomfuse-test-root-ca' > subjectPublicKeyInfo; encoding=JKS; encrypted=false; byteRange=58-1421"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "m.root-ca-public-key"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "4"
+        },
+        {
+          "name": "cbom-corpus:provenance",
+          "value": "keygen"
+        },
+        {
+          "name": "cbom-corpus:spki-sha256",
+          "value": "fb80921aef56ab91c6ec1f8df44ce5fbca6615345d8b1a680d346cc32858b490"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/related-crypto-material/issuing-ca-private-key",
+      "name": "Issuing CA private key (ECDSA P-384)",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "private-key",
+          "id": "m.issuing-ca-private-key",
+          "state": "active",
+          "algorithmRef": "crypto/algorithm/ecdsa-p384",
+          "size": 384
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "pki/issuing-ca.key",
+            "line": 1,
+            "offset": 0,
+            "symbol": "EC PRIVATE KEY",
+            "additionalContext": "id=AR-011; relation=direct; role=obj:sec1; scenario=A01; scope=PEM block 1 (EC PRIVATE KEY); encoding=PEM; encrypted=false; end=6:29; charRange=0-287; byteRange=0-287"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "m.issuing-ca-private-key"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "1"
+        },
+        {
+          "name": "cbom-corpus:provenance",
+          "value": "keygen"
+        },
+        {
+          "name": "cbom-corpus:public-key-spki-sha256",
+          "value": "2bda3611ce03ec8cd11955456889cb2e89d3ca412180356764fe053c2fc0e324"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/related-crypto-material/issuing-ca-public-key",
+      "name": "Issuing CA public key (ECDSA P-384)",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "public-key",
+          "id": "m.issuing-ca-public-key",
+          "state": "active",
+          "algorithmRef": "crypto/algorithm/ecdsa-p384",
+          "size": 384
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "pki/issuing-ca.crt",
+            "line": 1,
+            "offset": 0,
+            "symbol": "subjectPublicKeyInfo",
+            "additionalContext": "id=AR-009; relation=direct; role=obj:spki; scenario=A01; scope=PEM block 1 (CERTIFICATE) > subjectPublicKeyInfo; encoding=PEM; encrypted=false; end=23:26; charRange=0-1374; byteRange=0-1374"
+          },
+          {
+            "location": "pki/issuing-ca.key",
+            "line": 1,
+            "offset": 0,
+            "symbol": "publicKey",
+            "additionalContext": "id=AR-013; relation=direct; role=obj:public-key; scenario=A01; scope=PEM block 1 (EC PRIVATE KEY) > public key; encoding=PEM; encrypted=false; end=6:29; charRange=0-287; byteRange=0-287"
+          },
+          {
+            "location": "pki/ca-chain.pem",
+            "line": 3,
+            "offset": 0,
+            "symbol": "subjectPublicKeyInfo",
+            "additionalContext": "id=AR-017; relation=direct; role=obj:spki; scenario=A01; scope=PEM block 1 (CERTIFICATE) > subjectPublicKeyInfo; encoding=PEM; encrypted=false; end=25:26; charRange=122-1496; byteRange=122-1496"
+          },
+          {
+            "location": "pki/fullchain.p7b",
+            "symbol": "subjectPublicKeyInfo",
+            "additionalContext": "id=AR-045; relation=direct; role=obj:spki; scenario=A02; scope=PKCS#7 certificate 2 > subjectPublicKeyInfo; encoding=PKCS#7 DER; encrypted=false; byteRange=836-1809"
+          },
+          {
+            "location": "keystores/client.p12",
+            "symbol": "subjectPublicKeyInfo",
+            "additionalContext": "id=AR-099; relation=direct; role=obj:spki; scenario=A09; scope=PKCS#12 encryptedData safe > certBag 2 > subjectPublicKeyInfo; encoding=PKCS#12; encrypted=true; byteRange=172-1888"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "m.issuing-ca-public-key"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "5"
+        },
+        {
+          "name": "cbom-corpus:provenance",
+          "value": "keygen"
+        },
+        {
+          "name": "cbom-corpus:spki-sha256",
+          "value": "2bda3611ce03ec8cd11955456889cb2e89d3ca412180356764fe053c2fc0e324"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/related-crypto-material/server-private-key",
+      "name": "TLS server private key (RSA-2048)",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "private-key",
+          "id": "m.server-private-key",
+          "state": "active",
+          "algorithmRef": "crypto/algorithm/rsa-2048",
+          "size": 2048
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "pki/server.key",
+            "line": 1,
+            "offset": 0,
+            "symbol": "RSA PRIVATE KEY",
+            "additionalContext": "id=AR-029; relation=direct; role=obj:pkcs1; scenario=A02; scope=PEM block 1 (RSA PRIVATE KEY); encoding=PEM; encrypted=false; end=27:30; charRange=0-1674; byteRange=0-1674"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "m.server-private-key"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "1"
+        },
+        {
+          "name": "cbom-corpus:provenance",
+          "value": "keygen"
+        },
+        {
+          "name": "cbom-corpus:public-key-spki-sha256",
+          "value": "05b92d9a8501d7a282e95def928fd2c03a768f593d001bc903775facf2ed7d3d"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/related-crypto-material/server-public-key",
+      "name": "TLS server public key (RSA-2048)",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "public-key",
+          "id": "m.server-public-key",
+          "state": "active",
+          "algorithmRef": "crypto/algorithm/rsa-2048",
+          "size": 2048
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "pki/server.crt",
+            "line": 1,
+            "offset": 0,
+            "symbol": "subjectPublicKeyInfo",
+            "additionalContext": "id=AR-027; relation=direct; role=obj:spki; scenario=A02; scope=PEM block 1 (CERTIFICATE) > subjectPublicKeyInfo; encoding=PEM; encrypted=false; end=19:26; charRange=0-1126; byteRange=0-1126"
+          },
+          {
+            "location": "pki/server.key",
+            "line": 1,
+            "offset": 0,
+            "symbol": "publicKey",
+            "additionalContext": "id=AR-031; relation=direct; role=obj:public-key; scenario=A02; scope=PEM block 1 (RSA PRIVATE KEY) > public key; encoding=PEM; encrypted=false; end=27:30; charRange=0-1674; byteRange=0-1674"
+          },
+          {
+            "location": "pki/server.csr",
+            "line": 1,
+            "offset": 0,
+            "symbol": "subjectPublicKeyInfo",
+            "additionalContext": "id=AR-035; relation=direct; role=obj:spki; scenario=A02; scope=PEM block 1 (CERTIFICATE REQUEST) > subjectPublicKeyInfo; encoding=PEM; encrypted=false; end=17:34; charRange=0-1044; byteRange=0-1044"
+          },
+          {
+            "location": "pki/fullchain.p7b",
+            "symbol": "subjectPublicKeyInfo",
+            "additionalContext": "id=AR-040; relation=direct; role=obj:spki; scenario=A02; scope=PKCS#7 certificate 1 > subjectPublicKeyInfo; encoding=PKCS#7 DER; encrypted=false; byteRange=45-836"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "m.server-public-key"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "4"
+        },
+        {
+          "name": "cbom-corpus:provenance",
+          "value": "keygen"
+        },
+        {
+          "name": "cbom-corpus:spki-sha256",
+          "value": "05b92d9a8501d7a282e95def928fd2c03a768f593d001bc903775facf2ed7d3d"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/related-crypto-material/api-private-key",
+      "name": "API endpoint private key (ECDSA P-256)",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "private-key",
+          "id": "m.api-private-key",
+          "state": "active",
+          "algorithmRef": "crypto/algorithm/ecdsa-p256",
+          "size": 256
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "pki/api.key",
+            "line": 1,
+            "offset": 0,
+            "symbol": "PRIVATE KEY",
+            "additionalContext": "id=AR-057; relation=direct; role=obj:pkcs8; scenario=A03; scope=PEM block 1 (PRIVATE KEY); encoding=PEM; encrypted=false; end=5:26; charRange=0-240; byteRange=0-240"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "m.api-private-key"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "1"
+        },
+        {
+          "name": "cbom-corpus:provenance",
+          "value": "keygen"
+        },
+        {
+          "name": "cbom-corpus:public-key-spki-sha256",
+          "value": "b5e141c02e4f369fb88645c06ae7b2c0e163dc4240b466e6e739166b8c7ff1d3"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/related-crypto-material/api-public-key",
+      "name": "API endpoint public key (ECDSA P-256)",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "public-key",
+          "id": "m.api-public-key",
+          "state": "active",
+          "algorithmRef": "crypto/algorithm/ecdsa-p256",
+          "size": 256
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "pki/api.der",
+            "symbol": "subjectPublicKeyInfo",
+            "additionalContext": "id=AR-055; relation=direct; role=obj:spki; scenario=A03; scope=DER file > subjectPublicKeyInfo; encoding=DER; encrypted=false; byteRange=0-583"
+          },
+          {
+            "location": "pki/api.key",
+            "line": 1,
+            "offset": 0,
+            "symbol": "publicKey",
+            "additionalContext": "id=AR-059; relation=direct; role=obj:public-key; scenario=A03; scope=PEM block 1 (PRIVATE KEY) > public key; encoding=PEM; encrypted=false; end=5:26; charRange=0-240; byteRange=0-240"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "m.api-public-key"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "2"
+        },
+        {
+          "name": "cbom-corpus:provenance",
+          "value": "keygen"
+        },
+        {
+          "name": "cbom-corpus:spki-sha256",
+          "value": "b5e141c02e4f369fb88645c06ae7b2c0e163dc4240b466e6e739166b8c7ff1d3"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/related-crypto-material/client-private-key",
+      "name": "client svc-reporting private key (ECDSA P-256)",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "private-key",
+          "id": "m.client-private-key",
+          "state": "active",
+          "algorithmRef": "crypto/algorithm/ecdsa-p256",
+          "size": 256,
+          "securedBy": {
+            "mechanism": "PKCS#12 shrouded key bag, PBES2 (PBKDF2-HMAC-SHA256, 20000 iterations; AES-256-CBC)",
+            "algorithmRef": "crypto/algorithm/aes-256-cbc"
+          }
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "keystores/client.p12",
+            "symbol": "pkcs8ShroudedKeyBag",
+            "additionalContext": "id=AR-106; relation=direct; role=obj:pkcs8-shrouded; scenario=A09; scope=PKCS#12 pkcs8ShroudedKeyBag; encoding=PKCS#12; encrypted=true; byteRange=2035-2182"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "m.client-private-key"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "1"
+        },
+        {
+          "name": "cbom-corpus:provenance",
+          "value": "keygen"
+        },
+        {
+          "name": "cbom-corpus:public-key-spki-sha256",
+          "value": "f4216232dc39ffa933625ab86f610b713f4db8a052709d97d356243fa3d47723"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/related-crypto-material/client-public-key",
+      "name": "client svc-reporting public key (ECDSA P-256)",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "public-key",
+          "id": "m.client-public-key",
+          "state": "active",
+          "algorithmRef": "crypto/algorithm/ecdsa-p256",
+          "size": 256
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "keystores/client.p12",
+            "symbol": "subjectPublicKeyInfo",
+            "additionalContext": "id=AR-096; relation=direct; role=obj:spki; scenario=A09; scope=PKCS#12 encryptedData safe > certBag 1 > subjectPublicKeyInfo; encoding=PKCS#12; encrypted=true; byteRange=172-1888"
+          },
+          {
+            "location": "keystores/client.p12",
+            "symbol": "publicKey",
+            "additionalContext": "id=AR-108; relation=direct; role=obj:public-key; scenario=A09; scope=PKCS#12 pkcs8ShroudedKeyBag > public key; encoding=PKCS#12; encrypted=true; byteRange=2035-2182"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "m.client-public-key"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "2"
+        },
+        {
+          "name": "cbom-corpus:provenance",
+          "value": "keygen"
+        },
+        {
+          "name": "cbom-corpus:spki-sha256",
+          "value": "f4216232dc39ffa933625ab86f610b713f4db8a052709d97d356243fa3d47723"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/related-crypto-material/device-private-key",
+      "name": "device-42 private key (Ed25519)",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "private-key",
+          "id": "m.device-private-key",
+          "state": "active",
+          "algorithmRef": "crypto/algorithm/ed25519",
+          "size": 256
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "keys/device-ed25519.pem",
+            "line": 1,
+            "offset": 0,
+            "symbol": "PRIVATE KEY",
+            "additionalContext": "id=AR-072; relation=direct; role=obj:pkcs8; scenario=A06; scope=PEM block 1 (PRIVATE KEY); encoding=PEM; encrypted=false; end=3:26; charRange=0-118; byteRange=0-118"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "m.device-private-key"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "1"
+        },
+        {
+          "name": "cbom-corpus:provenance",
+          "value": "keygen"
+        },
+        {
+          "name": "cbom-corpus:public-key-spki-sha256",
+          "value": "a9c77ffabb87b87cc3afe1cc77207e9ae06fae6ab7e87cceb1b151d796a08705"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/related-crypto-material/device-public-key",
+      "name": "device-42 public key (Ed25519)",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "public-key",
+          "id": "m.device-public-key",
+          "state": "active",
+          "algorithmRef": "crypto/algorithm/ed25519",
+          "size": 256
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "pki/device-ed25519.crt",
+            "line": 1,
+            "offset": 0,
+            "symbol": "subjectPublicKeyInfo",
+            "additionalContext": "id=AR-071; relation=direct; role=obj:spki; scenario=A06; scope=PEM block 1 (CERTIFICATE) > subjectPublicKeyInfo; encoding=PEM; encrypted=false; end=12:26; charRange=0-659; byteRange=0-659"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "m.device-public-key"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "1"
+        },
+        {
+          "name": "cbom-corpus:provenance",
+          "value": "keygen"
+        },
+        {
+          "name": "cbom-corpus:spki-sha256",
+          "value": "a9c77ffabb87b87cc3afe1cc77207e9ae06fae6ab7e87cceb1b151d796a08705"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/related-crypto-material/legacy-public-key",
+      "name": "legacy service public key (RSA-1024)",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "public-key",
+          "id": "m.legacy-public-key",
+          "state": "active",
+          "algorithmRef": "crypto/algorithm/rsa-1024",
+          "size": 1024
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "pki/legacy-sha1.cer",
+            "symbol": "subjectPublicKeyInfo",
+            "additionalContext": "id=AR-066; relation=direct; role=obj:spki; scenario=A05; scope=DER file > subjectPublicKeyInfo; encoding=DER; encrypted=false; byteRange=0-598"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "m.legacy-public-key"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "1"
+        },
+        {
+          "name": "cbom-corpus:provenance",
+          "value": "keygen"
+        },
+        {
+          "name": "cbom-corpus:spki-sha256",
+          "value": "3d0ba9fef475c72b586bd517a8ef1938b8c09c1ade742a6d84dbb3891a6ae066"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/related-crypto-material/partner-ca-public-key",
+      "name": "partner root CA public key (RSA-2048)",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "public-key",
+          "id": "m.partner-ca-public-key",
+          "state": "active",
+          "algorithmRef": "crypto/algorithm/rsa-2048",
+          "size": 2048
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "keystores/truststore.jks",
+            "symbol": "subjectPublicKeyInfo",
+            "additionalContext": "id=AR-119; relation=direct; role=obj:spki; scenario=A10; scope=JKS trustedCertEntry 'cbomfuse-partner-root-ca' > subjectPublicKeyInfo; encoding=JKS; encrypted=false; byteRange=1470-2325"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "m.partner-ca-public-key"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "1"
+        },
+        {
+          "name": "cbom-corpus:provenance",
+          "value": "keygen"
+        },
+        {
+          "name": "cbom-corpus:spki-sha256",
+          "value": "25e1f49176a3e881b4c50c0b4644d3db93fb9794540f43784169e481b72ffc84"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/related-crypto-material/backup-private-key",
+      "name": "backup private key (RSA-3072)",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "private-key",
+          "id": "m.backup-private-key",
+          "state": "active",
+          "algorithmRef": "crypto/algorithm/rsa-3072",
+          "size": 3072,
+          "securedBy": {
+            "mechanism": "PBES2 (PBKDF2-HMAC-SHA256, 2048 iterations; AES-256-CBC)",
+            "algorithmRef": "crypto/algorithm/aes-256-cbc"
+          }
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "keys/backup-rsa3072.enc.pem",
+            "line": 1,
+            "offset": 0,
+            "symbol": "ENCRYPTED PRIVATE KEY",
+            "additionalContext": "id=AR-074; relation=direct; role=obj:pkcs8-encrypted; scenario=A07; scope=PEM block 1 (ENCRYPTED PRIVATE KEY); encoding=PEM; encrypted=true; end=42:36; charRange=0-2665; byteRange=0-2665"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "m.backup-private-key"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "1"
+        },
+        {
+          "name": "cbom-corpus:provenance",
+          "value": "keygen"
+        },
+        {
+          "name": "cbom-corpus:public-key-spki-sha256",
+          "value": "7bdcb18ecb7dffd62196eed77b619577f428da23d94e741ee8558d02c637cec6"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/related-crypto-material/backup-public-key",
+      "name": "backup public key (RSA-3072)",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "public-key",
+          "id": "m.backup-public-key",
+          "state": "active",
+          "algorithmRef": "crypto/algorithm/rsa-3072",
+          "size": 3072
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "keys/backup-rsa3072.enc.pem",
+            "line": 1,
+            "offset": 0,
+            "symbol": "publicKey",
+            "additionalContext": "id=AR-076; relation=direct; role=obj:public-key; scenario=A07; scope=PEM block 1 (ENCRYPTED PRIVATE KEY) > public key; encoding=PEM; encrypted=true; end=42:36; charRange=0-2665; byteRange=0-2665"
+          },
+          {
+            "location": "keys/backup-rsa3072.pub.pem",
+            "line": 1,
+            "offset": 0,
+            "symbol": "PUBLIC KEY",
+            "additionalContext": "id=AR-081; relation=direct; role=obj:spki; scenario=A07; scope=PEM block 1 (PUBLIC KEY); encoding=PEM; encrypted=false; end=11:25; charRange=0-624; byteRange=0-624"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "m.backup-public-key"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "2"
+        },
+        {
+          "name": "cbom-corpus:provenance",
+          "value": "keygen"
+        },
+        {
+          "name": "cbom-corpus:spki-sha256",
+          "value": "7bdcb18ecb7dffd62196eed77b619577f428da23d94e741ee8558d02c637cec6"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/related-crypto-material/deploy-private-key",
+      "name": "OpenSSH deploy key private key (Ed25519)",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "private-key",
+          "id": "m.deploy-private-key",
+          "state": "active",
+          "algorithmRef": "crypto/algorithm/ed25519",
+          "size": 256
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "keys/deploy_ed25519",
+            "line": 1,
+            "offset": 0,
+            "symbol": "OPENSSH PRIVATE KEY",
+            "additionalContext": "id=AR-083; relation=direct; role=obj:openssh; scenario=A08; scope=PEM block 1 (OPENSSH PRIVATE KEY); encoding=PEM; encrypted=false; end=7:34; charRange=0-386; byteRange=0-386"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "m.deploy-private-key"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "1"
+        },
+        {
+          "name": "cbom-corpus:provenance",
+          "value": "keygen"
+        },
+        {
+          "name": "cbom-corpus:public-key-spki-sha256",
+          "value": "2ed1909e611c53b53b2ab94f9ccce595c9e023cd025a9ae607a43af8b5ce46a4"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/related-crypto-material/deploy-public-key",
+      "name": "OpenSSH deploy key public key (Ed25519)",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "public-key",
+          "id": "m.deploy-public-key",
+          "state": "active",
+          "algorithmRef": "crypto/algorithm/ed25519",
+          "size": 256
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "keys/deploy_ed25519",
+            "line": 1,
+            "offset": 0,
+            "symbol": "publicKey",
+            "additionalContext": "id=AR-085; relation=direct; role=obj:public-key; scenario=A08; scope=PEM block 1 (OPENSSH PRIVATE KEY) > public key; encoding=PEM; encrypted=false; end=7:34; charRange=0-386; byteRange=0-386"
+          },
+          {
+            "location": "keys/deploy_ed25519.pub",
+            "line": 1,
+            "offset": 0,
+            "symbol": "ssh-ed25519",
+            "additionalContext": "id=AR-086; relation=direct; role=obj:openssh-pub; scenario=A08; scope=OpenSSH public key line; encoding=OpenSSH; encrypted=false; end=1:108; charRange=0-107; byteRange=0-107"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "m.deploy-public-key"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "2"
+        },
+        {
+          "name": "cbom-corpus:provenance",
+          "value": "keygen"
+        },
+        {
+          "name": "cbom-corpus:spki-sha256",
+          "value": "2ed1909e611c53b53b2ab94f9ccce595c9e023cd025a9ae607a43af8b5ce46a4"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/related-crypto-material/pq-root-private-key",
+      "name": "PQC root CA private key (ML-DSA-65)",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "private-key",
+          "id": "m.pq-root-private-key",
+          "state": "active",
+          "algorithmRef": "crypto/algorithm/ml-dsa-65"
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "pqc/pq-root-ca.key",
+            "line": 1,
+            "offset": 0,
+            "symbol": "PRIVATE KEY",
+            "additionalContext": "id=AR-146; relation=direct; role=obj:pkcs8; scenario=A14; scope=PEM block 1 (PRIVATE KEY); encoding=PEM; encrypted=false; end=4:26; charRange=0-127; byteRange=0-127"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "m.pq-root-private-key"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "1"
+        },
+        {
+          "name": "cbom-corpus:provenance",
+          "value": "keygen"
+        },
+        {
+          "name": "cbom-corpus:public-key-spki-sha256",
+          "value": "b8c6f49dda6097c6a4a742fa3ac9eb0ea05549cdbbac6d7d783fc14aab5123a5"
+        },
+        {
+          "name": "cbom-corpus:note",
+          "value": "Seed form (32 bytes) in PKCS#8"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/related-crypto-material/pq-root-public-key",
+      "name": "PQC root CA public key (ML-DSA-65)",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "public-key",
+          "id": "m.pq-root-public-key",
+          "state": "active",
+          "algorithmRef": "crypto/algorithm/ml-dsa-65",
+          "size": 15616
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "pqc/pq-root-ca.crt",
+            "line": 1,
+            "offset": 0,
+            "symbol": "subjectPublicKeyInfo",
+            "additionalContext": "id=AR-145; relation=direct; role=obj:spki; scenario=A14; scope=PEM block 1 (CERTIFICATE) > subjectPublicKeyInfo; encoding=PEM; encrypted=false; end=119:26; charRange=0-7622; byteRange=0-7622"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "m.pq-root-public-key"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "1"
+        },
+        {
+          "name": "cbom-corpus:provenance",
+          "value": "keygen"
+        },
+        {
+          "name": "cbom-corpus:spki-sha256",
+          "value": "b8c6f49dda6097c6a4a742fa3ac9eb0ea05549cdbbac6d7d783fc14aab5123a5"
+        },
+        {
+          "name": "cbom-corpus:note",
+          "value": "1952 bytes"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/related-crypto-material/kem-endpoint-private-key",
+      "name": "KEM endpoint private key (ML-KEM-768)",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "private-key",
+          "id": "m.kem-endpoint-private-key",
+          "state": "active",
+          "algorithmRef": "crypto/algorithm/ml-kem-768"
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "pqc/kem-endpoint.key",
+            "line": 1,
+            "offset": 0,
+            "symbol": "PRIVATE KEY",
+            "additionalContext": "id=AR-152; relation=direct; role=obj:pkcs8; scenario=A14; scope=PEM block 1 (PRIVATE KEY); encoding=PEM; encrypted=false; end=4:26; charRange=0-171; byteRange=0-171"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "m.kem-endpoint-private-key"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "1"
+        },
+        {
+          "name": "cbom-corpus:provenance",
+          "value": "keygen"
+        },
+        {
+          "name": "cbom-corpus:public-key-spki-sha256",
+          "value": "e03f68aa2c8c17569ad9da3ab3b55039ba9ae64d7565b0700ccf93125f732ced"
+        },
+        {
+          "name": "cbom-corpus:note",
+          "value": "Seed form (64 bytes) in PKCS#8"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/related-crypto-material/kem-endpoint-public-key",
+      "name": "KEM endpoint public key (ML-KEM-768)",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "public-key",
+          "id": "m.kem-endpoint-public-key",
+          "state": "active",
+          "algorithmRef": "crypto/algorithm/ml-kem-768",
+          "size": 9472
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "pqc/kem-endpoint.crt",
+            "line": 1,
+            "offset": 0,
+            "symbol": "subjectPublicKeyInfo",
+            "additionalContext": "id=AR-151; relation=direct; role=obj:spki; scenario=A14; scope=PEM block 1 (CERTIFICATE) > subjectPublicKeyInfo; encoding=PEM; encrypted=false; end=104:26; charRange=0-6671; byteRange=0-6671"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "m.kem-endpoint-public-key"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "1"
+        },
+        {
+          "name": "cbom-corpus:provenance",
+          "value": "keygen"
+        },
+        {
+          "name": "cbom-corpus:spki-sha256",
+          "value": "e03f68aa2c8c17569ad9da3ab3b55039ba9ae64d7565b0700ccf93125f732ced"
+        },
+        {
+          "name": "cbom-corpus:note",
+          "value": "Encapsulation key, 1184 bytes"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/related-crypto-material/server-csr",
+      "name": "Certificate signing request for server.cbom-corpus.example",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "other",
+          "id": "m.server-csr",
+          "state": "active",
+          "algorithmRef": "crypto/algorithm/sha256-with-rsa"
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "pki/server.csr",
+            "line": 1,
+            "offset": 0,
+            "symbol": "CERTIFICATE REQUEST",
+            "additionalContext": "id=AR-032; relation=direct; role=obj:pkcs10; scenario=A02; scope=PEM block 1 (CERTIFICATE REQUEST); encoding=PEM; encrypted=false; end=17:34; charRange=0-1044; byteRange=0-1044"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "m.server-csr"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "1"
+        },
+        {
+          "name": "cbom-corpus:provenance",
+          "value": "keygen"
+        },
+        {
+          "name": "cbom-corpus:sha256",
+          "value": "adf8b410a9beb527252900c4d119072aff1316580d21b706b884f17709f98bb8"
+        },
+        {
+          "name": "cbom-corpus:note",
+          "value": "PKCS#10; CycloneDX has no material type for a CSR, so type is 'other'"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/related-crypto-material/issuing-ca-crl",
+      "name": "CRL of the CBOMFuse Test Issuing CA",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "other",
+          "id": "m.issuing-ca-crl",
+          "state": "active",
+          "algorithmRef": "crypto/algorithm/ecdsa-with-sha384"
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "pki/issuing-ca.crl",
+            "line": 1,
+            "offset": 0,
+            "symbol": "X509 CRL",
+            "additionalContext": "id=AR-060; relation=direct; role=obj:crl; scenario=A04; scope=PEM block 1 (X509 CRL); encoding=PEM; encrypted=false; end=9:23; charRange=0-502; byteRange=0-502"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "m.issuing-ca-crl"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "1"
+        },
+        {
+          "name": "cbom-corpus:provenance",
+          "value": "keygen"
+        },
+        {
+          "name": "cbom-corpus:sha256",
+          "value": "1e2d067842d888485890ddc56d83d8676a6415662b0b3a3d33ba7385e4f6c192"
+        },
+        {
+          "name": "cbom-corpus:note",
+          "value": "CycloneDX has no material type for a CRL, so type is 'other'"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/related-crypto-material/jwt-signing-key",
+      "name": "HS256 JWT signing key",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "secret-key",
+          "id": "m.jwt-signing-key",
+          "state": "active",
+          "algorithmRef": "crypto/algorithm/hmac-sha256",
+          "size": 256
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "secrets/app.env",
+            "line": 5,
+            "offset": 16,
+            "symbol": "JWT_SIGNING_KEY",
+            "additionalContext": "id=AR-124; relation=direct; role=mat:JWT_SIGNING_KEY; scenario=A11; scope=JWT_SIGNING_KEY; encoding=dotenv; encrypted=false; end=5:60; charRange=206-249; byteRange=206-249"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "m.jwt-signing-key"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "1"
+        },
+        {
+          "name": "cbom-corpus:provenance",
+          "value": "csprng"
+        },
+        {
+          "name": "cbom-corpus:value-sha256",
+          "value": "6d085a89caf3a133475e641ca73a3b4896329d7f5497ee389f9cc0f6ea0a9d3d"
+        },
+        {
+          "name": "cbom-corpus:note",
+          "value": "base64url, 32 bytes"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/related-crypto-material/service-token",
+      "name": "Service JWT (HS256)",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "token",
+          "id": "m.service-token",
+          "state": "active",
+          "algorithmRef": "crypto/algorithm/hmac-sha256"
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "secrets/app.env",
+            "line": 6,
+            "offset": 14,
+            "symbol": "SERVICE_TOKEN",
+            "additionalContext": "id=AR-125; relation=direct; role=mat:SERVICE_TOKEN; scenario=A11; scope=SERVICE_TOKEN; encoding=dotenv; encrypted=false; end=6:284; charRange=264-533; byteRange=264-533"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "m.service-token"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "1"
+        },
+        {
+          "name": "cbom-corpus:provenance",
+          "value": "derived"
+        },
+        {
+          "name": "cbom-corpus:value-sha256",
+          "value": "d3c4f8155da3c7f605efe5fc211d05d6b8bb4a5f16b8861f123373b0a7ecf2f6"
+        },
+        {
+          "name": "cbom-corpus:note",
+          "value": "Signed with m.jwt-signing-key; expires 2027-01-01"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/related-crypto-material/keystore-password",
+      "name": "Keystore password (client.p12 and truststore.jks)",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "password",
+          "id": "m.keystore-password",
+          "state": "active",
+          "algorithmRef": "crypto/algorithm/pbkdf2-hmac-sha256",
+          "size": 64
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "secrets/app.env",
+            "line": 9,
+            "offset": 18,
+            "symbol": "KEYSTORE_PASSWORD",
+            "additionalContext": "id=AR-127; relation=direct; role=mat:KEYSTORE_PASSWORD; scenario=A11; scope=KEYSTORE_PASSWORD; encoding=dotenv; encrypted=false; end=9:27; charRange=628-636; byteRange=628-636"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "m.keystore-password"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "1"
+        },
+        {
+          "name": "cbom-corpus:provenance",
+          "value": "hardcoded"
+        },
+        {
+          "name": "cbom-corpus:test-vector-value",
+          "value": "\"changeit\""
+        },
+        {
+          "name": "cbom-corpus:value-sha256",
+          "value": "00810cf8b94d6fcb9c5de484d3bec4187620b3e2876e59aab90d852fe0f18fb6"
+        },
+        {
+          "name": "cbom-corpus:note",
+          "value": "JDK default store password"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/related-crypto-material/backup-passphrase",
+      "name": "Passphrase of the encrypted backup key",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "password",
+          "id": "m.backup-passphrase",
+          "state": "active",
+          "algorithmRef": "crypto/algorithm/pbkdf2-hmac-sha256",
+          "size": 192
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "secrets/app.env",
+            "line": 11,
+            "offset": 22,
+            "symbol": "BACKUP_KEY_PASSPHRASE",
+            "additionalContext": "id=AR-128; relation=direct; role=mat:BACKUP_KEY_PASSPHRASE; scenario=A11; scope=BACKUP_KEY_PASSPHRASE; encoding=dotenv; encrypted=false; end=11:47; charRange=703-727; byteRange=703-727"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "m.backup-passphrase"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "1"
+        },
+        {
+          "name": "cbom-corpus:provenance",
+          "value": "hardcoded"
+        },
+        {
+          "name": "cbom-corpus:value-sha256",
+          "value": "8a47debf76153148e17564f5a34ffa62e32e55908d009d81e977c87b02692c5d"
+        }
+      ]
+    },
+    {
+      "type": "cryptographic-asset",
+      "bom-ref": "crypto/related-crypto-material/db-password",
+      "name": "Reporting database password",
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "password",
+          "id": "m.db-password",
+          "state": "active",
+          "size": 128
+        }
+      },
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "secrets/main.tf",
+            "line": 7,
+            "offset": 20,
+            "symbol": "aws_db_instance.reporting.password",
+            "additionalContext": "id=AR-129; relation=direct; role=mat:password; scenario=A12; scope=resource \"aws_db_instance\" \"reporting\" > password; encoding=HCL; encrypted=false; end=7:37; charRange=295-311; byteRange=295-311"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "cbom-corpus:asset-id",
+          "value": "m.db-password"
+        },
+        {
+          "name": "cbom-corpus:implicit",
+          "value": "false"
+        },
+        {
+          "name": "cbom-corpus:occurrence-count",
+          "value": "1"
+        },
+        {
+          "name": "cbom-corpus:provenance",
+          "value": "hardcoded"
+        },
+        {
+          "name": "cbom-corpus:value-sha256",
+          "value": "a4150f4926d6361cb44ac48ba3ee3f6e52f43ca9e260229d05a62ae1abbe8d20"
+        }
+      ]
+    }
+  ],
+  "dependencies": [
+    {
+      "ref": "application/cbom-corpus-artifacts",
+      "dependsOn": []
+    },
+    {
+      "ref": "crypto/algorithm/hmac-sha256",
+      "dependsOn": [
+        "crypto/algorithm/sha-256"
+      ]
+    },
+    {
+      "ref": "crypto/algorithm/pbkdf2-hmac-sha256",
+      "dependsOn": [
+        "crypto/algorithm/hmac-sha256",
+        "crypto/algorithm/sha-256"
+      ]
+    },
+    {
+      "ref": "crypto/algorithm/ed25519",
+      "dependsOn": [
+        "crypto/algorithm/sha-512"
+      ]
+    },
+    {
+      "ref": "crypto/algorithm/ml-kem-768",
+      "dependsOn": [
+        "crypto/algorithm/sha3-256",
+        "crypto/algorithm/shake128"
+      ]
+    },
+    {
+      "ref": "crypto/algorithm/sha256-with-rsa",
+      "dependsOn": [
+        "crypto/algorithm/sha-256"
+      ]
+    },
+    {
+      "ref": "crypto/algorithm/sha1-with-rsa",
+      "dependsOn": [
+        "crypto/algorithm/sha-1"
+      ]
+    },
+    {
+      "ref": "crypto/algorithm/ecdsa-with-sha384",
+      "dependsOn": [
+        "crypto/algorithm/sha-384"
+      ]
+    },
+    {
+      "ref": "crypto/algorithm/x25519mlkem768",
+      "dependsOn": [
+        "crypto/algorithm/ml-kem-768",
+        "crypto/algorithm/x25519"
+      ]
+    }
+  ]
+}

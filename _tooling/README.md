@@ -10,6 +10,7 @@ the five programs.
 | `markers.py` | Marker parser and coordinate computation |
 | `build_sources.py` | Strips the markers from `templates/` and writes the delivered sources and build manifests |
 | `docs.py` | Writes each language's `README.md`, `cbom.cdx.json` and `ground-truth.json`, plus the corpus `README.md` |
+| `artifacts.py` | The `Artifacts/` case: `generate` creates the certificate, key, keystore, secret and configuration files once; the default command parses them, checks every object and writes the case's `README.md`, `cbom.cdx.json` and `ground-truth.json` plus the corpus `README.md` |
 | `verification.json` | Facts captured while building and running the programs (toolchains, Java provider resolution, Go TLS defaults) |
 | `templates/<language>/` | The annotated program template (`*.tmpl`) and static build files |
 
@@ -47,3 +48,24 @@ with an error. `verification.json` is not refreshed automatically; update it if 
 
 To add a scenario, register any new assets in `spec.py`, add the annotated code to all five templates, append the
 expected output line to `../expected_output.txt`, and rerun both scripts.
+
+## The Artifacts case
+
+`Artifacts/` has no template: its ground truth comes from the files themselves.
+
+```sh
+cd _tooling
+python3 artifacts.py                   # parse ../Artifacts, check it, write its README, CBOM and ledger
+python3 artifacts.py generate --force  # new keys, certificates and secrets first (fingerprints change)
+```
+
+`artifacts.py` needs the `cryptography` package with ML-DSA and ML-KEM support (tested with 50.0.1, which bundles
+OpenSSL 4.0.2); the program cases still need only the standard library. The registry at the top of the script (`FILES`,
+`KEYS`, `CERTS`, `CRL_SPEC`, `CSR_SPEC`) fixes names, serials, validity periods and algorithms; keys, signatures, salts
+and secrets are random. The default command refuses to write anything if a file does not parse, a certificate does not
+verify under its issuer, a key does not match its certificate, a password does not open its container, or a generated
+document would contain PEM armour or a secret value (the case README is copied into every tool workspace).
+Algorithms that only this case uses are registered in `spec.py` like the others.
+
+To add an artifact, add it to `FILES` (and `CERTS` or `KEYS` if it holds a new certificate or key), write it in
+`generate()`, teach the matching parser in `Analysis` about any new structure, and run `generate --force`.
