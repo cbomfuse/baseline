@@ -642,6 +642,23 @@ def short(sym):
     return ".".join(parts[-2:]) if len(parts) > 1 else s
 
 
+def _artifacts_summary():
+    """Headline numbers of the Artifacts case, read from its ground truth (None when the case is absent)."""
+    path = OUT / "Artifacts" / "ground-truth.json"
+    if not path.is_file():
+        return None
+    gt = json.loads(path.read_text(encoding="utf-8"))
+    kinds = Counter(a["kind"] for a in gt["assets"])
+    scen_family = {s["id"]: s["family"] for s in gt.get("scenarios") or []}
+    by_family = Counter(scen_family[f["scenario"]] for f in gt.get("files") or [] if f["scenario"] in scen_family)
+    return dict(files=len(gt.get("files") or []), occurrences=len(gt["occurrences"]), assets=len(gt["assets"]),
+                algorithms=kinds["algorithm"], certificates=kinds["certificate"], protocols=kinds["protocol"],
+                material=kinds["related-crypto-material"], implicit=sum(1 for a in gt["assets"] if a["implicit"]),
+                mentions=len(gt["nonAssetMentions"]),
+                scenarios=[(s["id"], s["family"], s["description"]) for s in gt.get("scenarios") or []],
+                by_family=by_family)
+
+
 def root_readme(analyses):
     L = []
     w = L.append
@@ -653,6 +670,11 @@ def root_readme(analyses):
       f"{total_libs} library components in total. Each language directory contains the program, its build manifest, and a "
       "README.md that records **every occurrence of every cryptographic asset** with exact coordinates, role, API symbol, "
       "library, scope, scenario and asset properties, plus a ground-truth CycloneDX 1.6 CBOM and a JSON ledger.\n")
+    art = _artifacts_summary()
+    if art:
+        w(f"A sixth case, **`Artifacts/`**, holds cryptography stored in files instead of code: {art['files']} "
+          f"certificate, key, keystore, secret and configuration files with {art['assets']} assets at "
+          f"{art['occurrences']} occurrences (see [the Artifacts case](#the-artifacts-case)).\n")
     w("## Layout\n")
     w("```text\n" + "\n".join([
         ".",
@@ -663,9 +685,10 @@ def root_readme(analyses):
         "├── Go/                     main.go, go.mod, ...",
         "├── TypeScript/             src/main.ts, package.json, tsconfig.json, ...",
         "├── CSharp/                 Program.cs, CryptoShowcase.csproj, ...",
-        "└── _tooling/               annotated templates and the generator that produced the ground truth",
+    ] + (["├── Artifacts/              pki/, keys/, keystores/, secrets/, tls/, pqc/, examples/ (no program)"] if art else []) + [
+        "└── _tooling/               annotated templates and the generators that produced the ground truth",
     ]) + "\n```\n")
-    w("`CSharp/` is spelled out because `#` breaks some shells, URLs and build tools. Scan the five language directories, "
+    w("`CSharp/` is spelled out because `#` breaks some shells, URLs and build tools. Scan the case directories, "
       "not the archive root: `_tooling/templates` contains annotated copies of every program (with `.tmpl` extensions) "
       "and would double-count.\n")
     w("## Verified equivalence\n")
@@ -703,6 +726,27 @@ def root_readme(analyses):
             row.append("<br>".join(f"{lib}: " + ", ".join(code(x) for x in syms) for lib, syms in seen.items()))
         rows.append(row)
     w(table(["Scenario"] + [A["lang"].title for A in analyses], rows) + "\n")
+    if art:
+        w("## The Artifacts case\n")
+        w("`Artifacts/` is a directory of files, not a program: an RSA/ECDSA test PKI in PEM, DER and PKCS#7 form with "
+          "PKCS#1, SEC 1, PKCS#8 and encrypted PKCS#8 keys, a CSR and a CRL, a legacy RSA-1024 / SHA-1 certificate, an "
+          "Ed25519 device certificate, an OpenSSH key pair, PKCS#12 and JKS keystores (password `changeit`), secrets in "
+          "a dotenv file and a Terraform resource, an OpenSSL TLS 1.3 configuration with a hybrid X25519MLKEM768 group, "
+          "and ML-DSA-65 / ML-KEM-768 certificates and keys, plus two decoys. It is aimed at file and secret scanners "
+          "(CBOMKit-Theia, CBOM-Lens) and its language is `Artifacts`. `_tooling/artifacts.py` generated the files "
+          "once and derives the ground truth by parsing them, so every fingerprint, byte range and line is exact; "
+          "its occurrences carry `fileLevel: true` because a file, not a source line, is the unit of evidence.\n")
+        fams = OrderedDict()
+        for sid, fam, desc in art["scenarios"]:
+            fams.setdefault(fam, []).append(sid)
+        rows = [(fam, ", ".join(sids), art["by_family"].get(fam, 0)) for fam, sids in fams.items()]
+        w(table(["Family", "Scenarios", "Files"], rows) + "\n")
+        w(table(["Measure", "Count"], [("Files", art["files"]), ("Occurrences", art["occurrences"]),
+                                       ("Algorithm assets (incl. implicit)", art["algorithms"]),
+                                       ("Certificates", art["certificates"]), ("Protocols", art["protocols"]),
+                                       ("Related crypto material", art["material"]),
+                                       ("Implicit assets", art["implicit"]), ("Non-asset mentions", art["mentions"])])
+          + "\n")
     w("## How the ground truth was produced\n")
     w("Each program was written once as an annotated template in which every cryptographic span is wrapped in a marker "
       "carrying its role, asset, parent asset, produced material, API symbol and a note key "
@@ -710,7 +754,11 @@ def root_readme(analyses):
       "delivered source and `_tooling/docs.py` computes positions on the stripped text, so coordinates are exact by "
       "construction rather than found by searching. Asset properties live in one shared registry (`_tooling/spec.py`), so "
       "the same asset ID means the same thing in every language. To change a program, edit its template and run "
-      "`python3 build_sources.py && python3 docs.py` inside `_tooling/`.\n")
+      "`python3 build_sources.py && python3 docs.py` inside `_tooling/`." +
+      (" The Artifacts case has its own generator: `python3 artifacts.py` rebuilds its README, CBOM and ledger from "
+       "the committed files, and `python3 artifacts.py generate --force` replaces every key, certificate and secret "
+       "first (it needs the `cryptography` package; the program cases need only the standard library)." if art else "")
+      + "\n")
     w("## Caveats\n")
     w("- The build sandbox could not reach Maven Central, NuGet or the Go module proxy. Java was compiled and run against "
       "Bouncy Castle 1.86 built from the `r1rv86` source tag (and re-run against the 1.80 jars), C# against "

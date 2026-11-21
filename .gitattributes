@@ -1,0 +1,3 @@
+# The Artifacts ground truth records byte offsets and SHA-256 hashes of these exact files:
+# never convert their line endings.
+Artifacts/** -text

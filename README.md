@@ -2,6 +2,8 @@
 
 The same program is implemented in **Python, Java, Go, TypeScript and C#**. It runs 24 scenarios covering hashing, an XOF, MAC, KDFs and password hashing, AEAD and block-cipher modes, legacy ciphers, RSA, elliptic-curve signatures and key agreement, ML-KEM and ML-DSA, an X.509 certificate and a TLS 1.3 configuration, across 23 library components in total. Each language directory contains the program, its build manifest, and a README.md that records **every occurrence of every cryptographic asset** with exact coordinates, role, API symbol, library, scope, scenario and asset properties, plus a ground-truth CycloneDX 1.6 CBOM and a JSON ledger.
 
+A sixth case, **`Artifacts/`**, holds cryptography stored in files instead of code: 29 certificate, key, keystore, secret and configuration files with 64 assets at 153 occurrences (see [the Artifacts case](#the-artifacts-case)).
+
 ## Layout
 
 ```text
@@ -13,10 +15,11 @@ The same program is implemented in **Python, Java, Go, TypeScript and C#**. It r
 ├── Go/                     main.go, go.mod, ...
 ├── TypeScript/             src/main.ts, package.json, tsconfig.json, ...
 ├── CSharp/                 Program.cs, CryptoShowcase.csproj, ...
-└── _tooling/               annotated templates and the generator that produced the ground truth
+├── Artifacts/              pki/, keys/, keystores/, secrets/, tls/, pqc/, examples/ (no program)
+└── _tooling/               annotated templates and the generators that produced the ground truth
 ```
 
-`CSharp/` is spelled out because `#` breaks some shells, URLs and build tools. Scan the five language directories, not the archive root: `_tooling/templates` contains annotated copies of every program (with `.tmpl` extensions) and would double-count.
+`CSharp/` is spelled out because `#` breaks some shells, URLs and build tools. Scan the case directories, not the archive root: `_tooling/templates` contains annotated copies of every program (with `.tmpl` extensions) and would double-count.
 
 ## Verified equivalence
 
@@ -71,9 +74,31 @@ Each cell lists the operations recorded for that scenario (library ID, then API)
 | **S23** Self-signed X.509 v3 certificate (ECDSA P-256 / SHA-256), signature verified | pyca: `ec.generate_private_key`, `CertificateBuilder.sign`, `EllipticCurvePublicKey.verify`<br>py-stdlib: `secrets.randbits` | jdk: `KeyPairGenerator.generateKeyPair`, `BigInteger.<init>`, `X509Certificate.verify`<br>bcpkix: `JcaX509CertificateConverter.getCertificate`, `X509v3CertificateBuilder.build` | go-stdlib: `ecdsa.GenerateKey`, `rand.Int`, `x509.CreateCertificate`, `x509.ParseCertificate`, `Certificate.CheckSignature` | node: `subtle.generateKey`, `crypto.randomBytes`<br>peculiar-x509: `X509CertificateGenerator.createSelfSigned`, `X509Certificate.verify` | dotnet: `ECDsa.Create`, `CertificateRequest.Create`, `RandomNumberGenerator.GetBytes`, `ECDsa.VerifyData` |
 | **S24** TLS 1.3-only client configuration (no network I/O) | py-stdlib: `ssl.create_default_context`, `SSLContext.minimum_version`, `SSLContext.maximum_version` | jdk: `SSLContext.getInstance`, `SSLParameters.setProtocols`, `SSLParameters.setCipherSuites`, `SSLContext.createSSLEngine`, `SSLEngine.setUseClientMode`, `SSLEngine.setSSLParameters` | go-stdlib: `tls.Config`, `tls.VersionTLS13` | node: `tls.createSecureContext`, `?` | dotnet: `.ctor`, `SslProtocols.Tls13` |
 
+## The Artifacts case
+
+`Artifacts/` is a directory of files, not a program: an RSA/ECDSA test PKI in PEM, DER and PKCS#7 form with PKCS#1, SEC 1, PKCS#8 and encrypted PKCS#8 keys, a CSR and a CRL, a legacy RSA-1024 / SHA-1 certificate, an Ed25519 device certificate, an OpenSSH key pair, PKCS#12 and JKS keystores (password `changeit`), secrets in a dotenv file and a Terraform resource, an OpenSSL TLS 1.3 configuration with a hybrid X25519MLKEM768 group, and ML-DSA-65 / ML-KEM-768 certificates and keys, plus two decoys. It is aimed at file and secret scanners (CBOMKit-Theia, CBOM-Lens) and its language is `Artifacts`. `_tooling/artifacts.py` generated the files once and derives the ground truth by parsing them, so every fingerprint, byte range and line is exact; its occurrences carry `fileLevel: true` because a file, not a source line, is the unit of evidence.
+
+| Family | Scenarios | Files |
+|---|---|---|
+| Certificates and keys | A01, A02, A03, A04, A05, A06, A07, A08 | 18 |
+| Keystores | A09, A10 | 2 |
+| Secrets and TLS configuration | A11, A12, A13 | 3 |
+| Post-quantum artifacts | A14 | 4 |
+
+| Measure | Count |
+|---|---|
+| Files | 29 |
+| Occurrences | 153 |
+| Algorithm assets (incl. implicit) | 25 |
+| Certificates | 10 |
+| Protocols | 1 |
+| Related crypto material | 28 |
+| Implicit assets | 3 |
+| Non-asset mentions | 9 |
+
 ## How the ground truth was produced
 
-Each program was written once as an annotated template in which every cryptographic span is wrapped in a marker carrying its role, asset, parent asset, produced material, API symbol and a note key (`«ROLE ASSET^PARENT>PRODUCED#SYMBOL!NOTE|code»`). `_tooling/build_sources.py` strips the markers to produce the delivered source and `_tooling/docs.py` computes positions on the stripped text, so coordinates are exact by construction rather than found by searching. Asset properties live in one shared registry (`_tooling/spec.py`), so the same asset ID means the same thing in every language. To change a program, edit its template and run `python3 build_sources.py && python3 docs.py` inside `_tooling/`.
+Each program was written once as an annotated template in which every cryptographic span is wrapped in a marker carrying its role, asset, parent asset, produced material, API symbol and a note key (`«ROLE ASSET^PARENT>PRODUCED#SYMBOL!NOTE|code»`). `_tooling/build_sources.py` strips the markers to produce the delivered source and `_tooling/docs.py` computes positions on the stripped text, so coordinates are exact by construction rather than found by searching. Asset properties live in one shared registry (`_tooling/spec.py`), so the same asset ID means the same thing in every language. To change a program, edit its template and run `python3 build_sources.py && python3 docs.py` inside `_tooling/`. The Artifacts case has its own generator: `python3 artifacts.py` rebuilds its README, CBOM and ledger from the committed files, and `python3 artifacts.py generate --force` replaces every key, certificate and secret first (it needs the `cryptography` package; the program cases need only the standard library).
 
 ## Caveats
 
